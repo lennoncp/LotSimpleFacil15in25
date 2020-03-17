@@ -71,7 +71,7 @@
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                        <TextField fx:id="txfC1" alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                            <font>
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
@@ -96,22 +96,22 @@
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <TextField fx:id="txfC2" alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
                         </TextField>
-                        <TextField alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                        <TextField fx:id="txfC5" alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
                         </TextField>
-                        <TextField alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                        <TextField fx:id="txfC4" alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
                         </TextField>
-                        <TextField alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                        <TextField fx:id="txfC3" alignment="CENTER" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-radius: 7;" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
