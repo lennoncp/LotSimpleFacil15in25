@@ -154,7 +154,7 @@ public class SampleController implements Initializable {
     void entrar(ActionEvent event) {
     	Stage primaryStage = new Stage();
     	try {
-			VBox root = (VBox)FXMLLoader.load(getClass().getResource("Sample.fxml"));
+			VBox root = (VBox)FXMLLoader.load(getClass().getResource("Configuracao.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
