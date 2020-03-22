@@ -307,12 +307,12 @@
             <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="200.0" spacing="2.0" style="-fx-border-radius: 7; -fx-border-width: 2;">
                <children>
                   <TextField fx:id="txfArquivoExcel" style="-fx-border-color: #862e9c; -fx-border-radius: 5;" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#carregarArquivoExcelConcursos" style="-fx-border-color: #862e9c; -fx-border-radius: 3;" text="Arquivo" textFill="#862e9c">
+                  <Button fx:id="btnArqExcelArquivos" mnemonicParsing="false" onAction="#carregarArquivoExcelConcursos" style="-fx-border-color: #862e9c; -fx-border-radius: 3;" text="Arquivo" textFill="#862e9c">
                      <font>
                         <Font name="Tahoma Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnLimpar" mnemonicParsing="false" onAction="#SalvarDBOnline" style="-fx-border-color: #862e9c; -fx-border-radius: 3;" text="Salvar" textFill="#862e9c">
+                  <Button fx:id="btnArqExcelArquivosSalvar" mnemonicParsing="false" onAction="#SalvarDBOnline" style="-fx-border-color: #862e9c; -fx-border-radius: 3;" text="Salvar" textFill="#862e9c">
                      <font>
                         <Font name="Tahoma Bold" size="12.0" />
                      </font>
