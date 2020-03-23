@@ -33,12 +33,11 @@ public class ConfiguracaoController {
 
     @FXML
     void SalvarDBOnline(ActionEvent event) {
-
+    	DBConfig.getConnection();
     }
 
     @FXML
     void carregarArquivoExcelConcursos(ActionEvent event) {
-    	ExcelReadWrite erw = new ExcelReadWrite();
     	
     	JFrame frame = new JFrame();
     	JFileChooser jfc = new JFileChooser();
@@ -50,9 +49,9 @@ public class ConfiguracaoController {
     	if (userSelection == JFileChooser.APPROVE_OPTION) {
     	    File fileToSave = jfc.getSelectedFile();
     	    URL = fileToSave.getAbsolutePath();
-    	    
-    	    concursos = erw.lerArquivoExcelConcursos(URL);
-    	    System.out.println(concursos.toString());
+    	    System.out.println(URL);
+    	    concursos = ExcelReadWrite.lerArquivoExcelConcursos(URL);
+    	    //System.out.println(concursos.toString());
     	}
     	
     	txfArquivoExcel.setText(URL);

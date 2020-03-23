@@ -3,14 +3,13 @@ package application;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,7 +62,8 @@ public class ExcelReadWrite {
 			XSSFWorkbook wb = new XSSFWorkbook(fis);
 			Sheet aba = wb.getSheet("concursos");
 			Iterator<Row> interator = aba.iterator();
-			
+			//System.out.println(interator.next().getCell(1));
+		
 			int primeiraLinha = 0;
 			
 			while (interator.hasNext()) {
@@ -77,43 +77,48 @@ public class ExcelReadWrite {
 				}
 		
 				Cell cellConcurso = row.getCell(0); //CONCURSO
-				concurso.setConcurso((int) (cellConcurso.getNumericCellValue()));
+				concurso.setConcurso((int) cellConcurso.getNumericCellValue());
+				
+				System.out.println(row.getCell(0).getNumericCellValue());
+			/*	
 				Cell cellDataConcurso = row.getCell(1); //DATA DO CONCURSO
 				concurso.setDataConcurso((cellDataConcurso.getDateCellValue()));
 				
 				Cell cellD1 = row.getCell(2); // 1º DEZENA
-				concurso.setConcurso((int) (cellD1.getNumericCellValue()));
+				concurso.setConcurso((int) cellD1.getNumericCellValue());
 				Cell cellD2 = row.getCell(3); 
-				concurso.setConcurso((int) (cellD2.getNumericCellValue()));
+				concurso.setConcurso((int) cellD2.getNumericCellValue());
 				Cell cellD3 = row.getCell(4); 
-				concurso.setConcurso((int) (cellD3.getNumericCellValue()));
+				concurso.setConcurso((int) cellD3.getNumericCellValue());
 				Cell cellD4 = row.getCell(5); 
-				concurso.setConcurso((int) (cellD4.getNumericCellValue()));
+				concurso.setConcurso((int) cellD4.getNumericCellValue());
 				Cell cellD5 = row.getCell(6); 
-				concurso.setConcurso((int) (cellD5.getNumericCellValue()));
+				concurso.setConcurso((int) cellD5.getNumericCellValue());
 				Cell cellD6 = row.getCell(7); 
-				concurso.setConcurso((int) (cellD6.getNumericCellValue()));
+				concurso.setConcurso((int) cellD6.getNumericCellValue());
 				Cell cellD7 = row.getCell(8); 
-				concurso.setConcurso((int) (cellD7.getNumericCellValue()));
+				concurso.setConcurso((int) cellD7.getNumericCellValue());
 				Cell cellD8 = row.getCell(9); 
-				concurso.setConcurso((int) (cellD8.getNumericCellValue()));
+				concurso.setConcurso((int) cellD8.getNumericCellValue());
 				Cell cellD9 = row.getCell(10); 
-				concurso.setConcurso((int) (cellD9.getNumericCellValue()));
+				concurso.setConcurso((int) cellD9.getNumericCellValue());
 				Cell cellD10 = row.getCell(11); 
-				concurso.setConcurso((int) (cellD10.getNumericCellValue()));
+				concurso.setConcurso((int) cellD10.getNumericCellValue());
 				Cell cellD11 = row.getCell(12); 
-				concurso.setConcurso((int) (cellD11.getNumericCellValue()));
+				concurso.setConcurso((int) cellD11.getNumericCellValue());
 				Cell cellD12 = row.getCell(13);
-				concurso.setConcurso((int) (cellD12.getNumericCellValue()));
+				concurso.setConcurso((int) cellD12.getNumericCellValue());
 				Cell cellD13 = row.getCell(14); 
-				concurso.setConcurso((int) (cellD13.getNumericCellValue()));
+				concurso.setConcurso((int) cellD13.getNumericCellValue());
 				Cell cellD14 = row.getCell(15); 
-				concurso.setConcurso((int) (cellD14.getNumericCellValue()));
+				concurso.setConcurso((int) cellD14.getNumericCellValue());
 				Cell cellD15 = row.getCell(16); 
-				concurso.setConcurso((int) (cellD15.getNumericCellValue()));
+				concurso.setConcurso((int) cellD15.getNumericCellValue());
 				
 				concursos.add(concurso);
+			*/
 			}
+			wb.close();
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -122,7 +127,7 @@ public class ExcelReadWrite {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+				
 		return concursos;
 	}
 	

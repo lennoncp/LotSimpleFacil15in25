@@ -35,6 +35,9 @@ public class SampleController implements Initializable {
 	private List<Integer> sorteador = new ArrayList<Integer>();
 	
 	private ObservableList<Aposta> apostas = FXCollections.observableArrayList();
+	
+	//SALVANDO NO BANCO DE DADOS
+	private ApostaDAO ad;
 
     @FXML
     private Button btnEntrar;
@@ -149,6 +152,17 @@ public class SampleController implements Initializable {
     
     @FXML
     private TextField txfQtdApostas;
+    
+    @FXML
+    private Button btnSalvar;
+    
+    @FXML
+    void salvarApostas(ActionEvent event) {
+    	ad = new ApostaDAO();
+    	for(Aposta a: apostas) {
+    		ad.salvarAposta(a);
+    	}
+    }
 
     @FXML
     void entrar(ActionEvent event) {
