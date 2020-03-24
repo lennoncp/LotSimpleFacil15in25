@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -69,6 +71,8 @@ public class ExcelReadWrite {
 			while (interator.hasNext()) {
 				
 				Concurso concurso = new Concurso(); //CRIANDO CONCURSOS
+				List<Integer> dezenas = new ArrayList<Integer>();
+				
 				Row row = (Row) interator.next();
 				
 				if(primeiraLinha == 0) {
@@ -79,44 +83,45 @@ public class ExcelReadWrite {
 				Cell cellConcurso = row.getCell(0); //CONCURSO
 				concurso.setConcurso((int) cellConcurso.getNumericCellValue());
 				
-				System.out.println(row.getCell(0).getNumericCellValue());
-			/*	
 				Cell cellDataConcurso = row.getCell(1); //DATA DO CONCURSO
 				concurso.setDataConcurso((cellDataConcurso.getDateCellValue()));
 				
 				Cell cellD1 = row.getCell(2); // 1º DEZENA
-				concurso.setConcurso((int) cellD1.getNumericCellValue());
+				dezenas.add((int) cellD1.getNumericCellValue());
 				Cell cellD2 = row.getCell(3); 
-				concurso.setConcurso((int) cellD2.getNumericCellValue());
+				dezenas.add((int) cellD2.getNumericCellValue());
 				Cell cellD3 = row.getCell(4); 
-				concurso.setConcurso((int) cellD3.getNumericCellValue());
+				dezenas.add((int) cellD3.getNumericCellValue());
 				Cell cellD4 = row.getCell(5); 
-				concurso.setConcurso((int) cellD4.getNumericCellValue());
+				dezenas.add((int) cellD4.getNumericCellValue());
 				Cell cellD5 = row.getCell(6); 
-				concurso.setConcurso((int) cellD5.getNumericCellValue());
+				dezenas.add((int) cellD5.getNumericCellValue());
 				Cell cellD6 = row.getCell(7); 
-				concurso.setConcurso((int) cellD6.getNumericCellValue());
+				dezenas.add((int) cellD6.getNumericCellValue());
 				Cell cellD7 = row.getCell(8); 
-				concurso.setConcurso((int) cellD7.getNumericCellValue());
+				dezenas.add((int) cellD7.getNumericCellValue());
 				Cell cellD8 = row.getCell(9); 
-				concurso.setConcurso((int) cellD8.getNumericCellValue());
+				dezenas.add((int) cellD8.getNumericCellValue());
 				Cell cellD9 = row.getCell(10); 
-				concurso.setConcurso((int) cellD9.getNumericCellValue());
+				dezenas.add((int) cellD9.getNumericCellValue());
 				Cell cellD10 = row.getCell(11); 
-				concurso.setConcurso((int) cellD10.getNumericCellValue());
+				dezenas.add((int) cellD10.getNumericCellValue());
 				Cell cellD11 = row.getCell(12); 
-				concurso.setConcurso((int) cellD11.getNumericCellValue());
+				dezenas.add((int) cellD11.getNumericCellValue());
 				Cell cellD12 = row.getCell(13);
-				concurso.setConcurso((int) cellD12.getNumericCellValue());
+				dezenas.add((int) cellD12.getNumericCellValue());
 				Cell cellD13 = row.getCell(14); 
-				concurso.setConcurso((int) cellD13.getNumericCellValue());
+				dezenas.add((int) cellD13.getNumericCellValue());
 				Cell cellD14 = row.getCell(15); 
-				concurso.setConcurso((int) cellD14.getNumericCellValue());
+				dezenas.add((int) cellD14.getNumericCellValue());
 				Cell cellD15 = row.getCell(16); 
-				concurso.setConcurso((int) cellD15.getNumericCellValue());
+				dezenas.add((int) cellD15.getNumericCellValue());
 				
+				concurso.setDezenas(dezenas);
+				
+				System.out.println("Concurso: "+concurso.getConcurso()+" Lido.");
 				concursos.add(concurso);
-			*/
+			
 			}
 			wb.close();
 			
