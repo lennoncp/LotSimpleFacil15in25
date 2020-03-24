@@ -158,10 +158,16 @@ public class SampleController implements Initializable {
     
     @FXML
     void salvarApostas(ActionEvent event) {
-    	ad = new ApostaDAO();
+    	/*ad = new ApostaDAO();
     	for(Aposta a: apostas) {
     		ad.salvarAposta(a);
-    	}
+    		System.out.println("Aposta " + a.getCodigo() + " salva");
+    	}*/
+    	
+    	//TODO TESTE DE CONEXAO
+    	ConcursoDAO cd = new ConcursoDAO();
+    	int max = cd.maxConcurso();
+    	System.out.println(max);
     }
 
     @FXML
