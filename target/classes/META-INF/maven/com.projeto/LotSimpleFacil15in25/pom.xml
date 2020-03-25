@@ -43,11 +43,14 @@
 		<artifactId>poi-ooxml</artifactId>
 		<version>4.1.1</version>
 		</dependency>
+<<<<<<< refs/remotes/origin/master
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.47</version>
 		</dependency>
+=======
+>>>>>>> 12 mudanças
 	</dependencies>
 </project>
