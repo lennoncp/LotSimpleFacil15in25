@@ -65,7 +65,9 @@ public class ConcursoDAO {
 		ObservableList<Concurso> concursos = FXCollections.observableArrayList();
 		
 		conn = DBConfig.getConnection();
-		String select = "SELECT concurso, data_sorteio. d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15 FROM concursos WHERE concuro = " + maxConcurso() + "";
+		String select = "SELECT concurso, data_sorteio, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15 "
+				      + "FROM concursos "
+				      + "WHERE concurso BETWEEN " +( maxConcurso() - range )+ " AND "+ maxConcurso() + " ";
 		
 		try {
 			ps = conn.prepareStatement(select);
@@ -91,6 +93,7 @@ public class ConcursoDAO {
 				Concurso c = new Concurso(rs.getInt("concurso"), rs.getDate("data_sorteio"), dezenas);
 				concursos.add(c);
 			}
+			
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -101,16 +104,16 @@ public class ConcursoDAO {
 
 	public int maxConcurso() {
 		int max = 0;
-		conn = DBConfig.getConnection();
+		Connection maxConn = DBConfig.getConnection();
 		String select = "SELECT MAX(concurso) as MAX FROM concursos ";
 		try {
-			ps = conn.prepareStatement(select);
+			ps = maxConn.prepareStatement(select);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
 				max = rs.getInt("MAX");
 			}
-			conn.close();
+			maxConn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

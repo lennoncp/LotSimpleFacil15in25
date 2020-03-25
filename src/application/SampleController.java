@@ -165,9 +165,17 @@ public class SampleController implements Initializable {
     	}*/
     	
     	//TODO TESTE DE CONEXAO
-    	ConcursoDAO cd = new ConcursoDAO();
+    	/*ConcursoDAO cd = new ConcursoDAO();
     	int max = cd.maxConcurso();
-    	System.out.println(max);
+    	System.out.println(max);*/
+    	
+    	Contagem contagem = new Contagem();
+    	ConcursoDAO cd1 = new ConcursoDAO();
+    	ObservableList<Concurso> concursos = FXCollections.observableArrayList();
+    	ObservableList<Integer> contados = FXCollections.observableArrayList();
+    	concursos = cd1.listaDeConcursos(2);
+    	contados = contagem.contagemConcursos(concursos);
+    	System.out.println(contados.toString());
     }
 
     @FXML
