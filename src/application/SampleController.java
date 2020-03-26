@@ -173,9 +173,20 @@ public class SampleController implements Initializable {
     	ConcursoDAO cd1 = new ConcursoDAO();
     	ObservableList<Concurso> concursos = FXCollections.observableArrayList();
     	ObservableList<Integer> contados = FXCollections.observableArrayList();
-    	concursos = cd1.listaDeConcursos(2);
+    	concursos = cd1.listaDeConcursos(50);
     	contados = contagem.contagemConcursos(concursos);
     	System.out.println(contados.toString());
+    	
+    	//MINIMO E MAXIMO SORTEADO POR LINHA
+    	ObservableList<Integer> porLinha = FXCollections.observableArrayList();
+    	porLinha = contagem.mediaDezSorteadasPorLinha(concursos);
+    	System.out.println(porLinha.toString());
+    	
+    	//CONTAGEM DE IMPARES POR FAIXA A,B,C,D,E
+    	ObservableList<Integer> imparPorFaixa = FXCollections.observableArrayList();
+    	imparPorFaixa = contagem.contagemDeImparesPorFaixa(concursos);
+    	System.out.println(imparPorFaixa.toString());
+    	
     }
 
     @FXML
