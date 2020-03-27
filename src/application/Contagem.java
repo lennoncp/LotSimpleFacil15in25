@@ -131,7 +131,7 @@ public class Contagem {
 		ObservableList<Integer> rangeImpares = FXCollections.observableArrayList();
 		rangeImpares.addAll(Arrays.asList(0,0,0,0,0,0,0,0,0,0));
 		int imparGeral = contagemDeImparesGeral(concursos);
-		System.out.println("Impar Geral: " + imparGeral);
+		//System.out.println("Impar Geral: " + imparGeral);
 		
 		int imparFaixaA = 0;
 		int imparFaixaB = 0;
@@ -148,12 +148,13 @@ public class Contagem {
 					contImpar++;
 			}
 			
+			//System.out.println("ContIMpar: " + contImpar);
+			
 			if(contImpar <= (imparGeral - 2)) {
 				imparFaixaA++;
-				System.out.println("Contador de impar: " + contImpar + " Na Faixa A: " + imparFaixaA + " impargeral: " + imparGeral);
 			}
 			
-			if(contImpar > (imparGeral - 2) && contImpar <= (imparGeral - 1)) {
+			if(contImpar == (imparGeral - 1)) {
 				imparFaixaB++;
 			}
 			
@@ -161,7 +162,7 @@ public class Contagem {
 				imparFaixaC++;
 			}
 			
-			if(contImpar > imparGeral && contImpar <= (imparGeral + 1)) {
+			if(contImpar == (imparGeral + 1)) {
 				imparFaixaD++;
 			}
 			
@@ -173,14 +174,44 @@ public class Contagem {
 		rangeImpares.set(0, imparGeral - 2);
 		rangeImpares.set(1, imparFaixaA);
 		rangeImpares.set(2, imparGeral - 1);
-		rangeImpares.set(1, imparFaixaB);
+		rangeImpares.set(3, imparFaixaB);
 		rangeImpares.set(4, imparGeral);
-		rangeImpares.set(1, imparFaixaC);
+		rangeImpares.set(5, imparFaixaC);
 		rangeImpares.set(6, imparGeral + 1);
-		rangeImpares.set(1, imparFaixaD);
+		rangeImpares.set(7, imparFaixaD);
 		rangeImpares.set(8, imparGeral + 2);
-		rangeImpares.set(1, imparFaixaE);
+		rangeImpares.set(9, imparFaixaE);
 		
 		return rangeImpares;
+	}
+
+	//Media Geral da soma das dezenas de um concurso
+	public int somaConcursosMediaGeral(ObservableList<Concurso> concursos) {
+		int media = 0;
+		int somaGeral = 0;
+		for(Concurso c : concursos) {
+			int somaPorConcurso = 0;
+			for(int j = 0 ; j < 15; j++) {
+				somaPorConcurso += c.getDezenas().get(j);
+			}
+			System.out.println("Soma dor Concurso: " + somaPorConcurso);
+			somaGeral += somaPorConcurso;
+		}
+		media = somaGeral / concursos.size();
+		return media;
+	}
+	
+	
+	public ObservableList<Integer> listSomaConcursos(ObservableList<Concurso> concursos) {
+		ObservableList<Integer> concursosSomados = FXCollections.observableArrayList(); 
+		for(Concurso c : concursos) {
+			int somaPorConcurso = 0;
+			for(int j = 0 ; j < 15; j++) {
+				somaPorConcurso += c.getDezenas().get(j);
+			}
+			concursosSomados.add(somaPorConcurso);
+		}
+		
+		return concursosSomados;
 	}
 }

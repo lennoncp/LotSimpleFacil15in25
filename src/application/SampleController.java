@@ -173,7 +173,7 @@ public class SampleController implements Initializable {
     	ConcursoDAO cd1 = new ConcursoDAO();
     	ObservableList<Concurso> concursos = FXCollections.observableArrayList();
     	ObservableList<Integer> contados = FXCollections.observableArrayList();
-    	concursos = cd1.listaDeConcursos(50);
+    	concursos = cd1.listaDeConcursos(99);
     	contados = contagem.contagemConcursos(concursos);
     	System.out.println(contados.toString());
     	
@@ -186,6 +186,14 @@ public class SampleController implements Initializable {
     	ObservableList<Integer> imparPorFaixa = FXCollections.observableArrayList();
     	imparPorFaixa = contagem.contagemDeImparesPorFaixa(concursos);
     	System.out.println(imparPorFaixa.toString());
+    	
+    	//MEDIA DA SOMATORIA DOS CONCURSOS GERAL
+    	int media = contagem.somaConcursosMediaGeral(concursos);
+    	System.out.println("Media soma concursos: " + media);
+    	
+    	ObservableList<Integer> somadosPorConcurso = FXCollections.observableArrayList();
+    	somadosPorConcurso = contagem.listSomaConcursos(concursos);
+    	System.out.println(somadosPorConcurso);
     	
     }
 

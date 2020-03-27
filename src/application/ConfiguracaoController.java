@@ -75,8 +75,14 @@ public class ConfiguracaoController implements Initializable {
 	@Override
 	public void initialize(java.net.URL location, ResourceBundle resources) {
 		concursos = FXCollections.observableArrayList();
+		LS.txfMediaImpar = txfMediaImpar;
+		
+		txfMediaImpar.setText("8");
+		System.out.println(LS.txfMediaImpar.getText());
 		
 	}
+	
+	
 
 }
 
