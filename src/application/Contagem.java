@@ -184,6 +184,19 @@ public class Contagem {
 		
 		return rangeImpares;
 	}
+	
+	public int getMaiorFaixaImpar(ObservableList<Integer> faixaDeImpares) {
+		int maior = 0;
+		int media = 0;
+		for(int i = 9; i >= 0; i-=2) {
+			if(faixaDeImpares.get(i) > maior) {
+				maior = faixaDeImpares.get(i);
+				media = faixaDeImpares.get(i-1);
+			}
+			System.out.println("faixa: " + faixaDeImpares.get(i) + " maior: " + maior);
+		}
+		return media;
+	}
 
 	//Media Geral da soma das dezenas de um concurso
 	public int somaConcursosMediaGeral(ObservableList<Concurso> concursos) {

@@ -35,6 +35,9 @@ public class ConfiguracaoController implements Initializable {
 
     @FXML
     private Button btnArqExcelArquivosSalvar;
+    
+    @FXML
+    private TextField txfRangeConcursos;
 
     @FXML
     void carregarArquivoExcelConcursos(ActionEvent event) {

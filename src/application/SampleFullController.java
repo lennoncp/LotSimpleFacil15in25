@@ -1,7 +1,6 @@
 package application;
 
 import java.net.URL;
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,37 +12,39 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
-public class SampleController implements Initializable {
+public class SampleFullController implements Initializable {
 	
 	private Random rad = new Random(LocalTime.now().toNanoOfDay());
 	private Integer[] dezenas;
 	private List<Integer> sorteador = new ArrayList<Integer>();
 	
-	private ObservableList<Aposta> apostas = FXCollections.observableArrayList();
-	
-	//SALVANDO NO BANCO DE DADOS
-	private ApostaDAO ad;
-	
-	//carregando listas de concursos
-	private ConcursoDAO cd = new ConcursoDAO();
+	private ObservableList<ApostaConcurso> apostaConcursos = FXCollections.observableArrayList();
 
     @FXML
     private Button btnEntrar;
+
+    @FXML
+    private TextField txfC1;
+
+    @FXML
+    private TextField txfC2;
+
+    @FXML
+    private TextField txfC5;
+
+    @FXML
+    private TextField txfC4;
+
+    @FXML
+    private TextField txfC3;
 
     @FXML
     private Button btn01;
@@ -121,110 +122,75 @@ public class SampleController implements Initializable {
     private Button btn21;
 
     @FXML
-    private Button btnSortear;
-    
-    @FXML
-    private TextField txfC1;
+    private TableView<ApostaConcurso> tvApostas;
 
     @FXML
-    private TextField txfC2;
+    private TableColumn<ApostaConcurso, Integer> tcCodigo;
 
     @FXML
-    private TextField txfC5;
+    private TableColumn<ApostaConcurso, Integer> tcImpar;
 
     @FXML
-    private TextField txfC4;
+    private TableColumn<ApostaConcurso, Integer> tcSoma;
 
     @FXML
-    private TextField txfC3;
-    
-    @FXML
-    private TableView<Aposta> tvApostas;
+    private TableColumn<ApostaConcurso, Button> tcAction;
 
-    @FXML
-    private TableColumn<Aposta, Integer> tcCodigo;
-
-    @FXML
-    private TableColumn<Aposta, Integer> tcImpar;
-
-    @FXML
-    private TableColumn<Aposta, Integer> tcSoma;
-
-    @FXML
-    private TableColumn<Aposta, Button> tcAction;
-    
     @FXML
     private TextField txfQtdApostas;
-    
+
+    @FXML
+    private Button btnSortear;
+
     @FXML
     private Button btnSalvar;
-    
+
     @FXML
-    void salvarApostas(ActionEvent event) {
-    	/*ad = new ApostaDAO();
-    	for(Aposta a: apostas) {
-    		ad.salvarAposta(a);
-    		System.out.println("Aposta " + a.getCodigo() + " salva");
-    	}*/
-    	
-    	//TODO TESTE DE CONEXAO
-    	/*ConcursoDAO cd = new ConcursoDAO();
-    	int max = cd.maxConcurso();
-    	System.out.println(max);*/
-    	
-    	Contagem contagem = new Contagem();
-    	ConcursoDAO cd1 = new ConcursoDAO();
-    	ObservableList<Concurso> concursos = FXCollections.observableArrayList();
-    	ObservableList<Integer> contados = FXCollections.observableArrayList();
-    	concursos = LS.ConcursosRange;
-    	contados = contagem.contagemConcursos(concursos);
-    	System.out.println(contados.toString());
-    	
-    	//MINIMO E MAXIMO SORTEADO POR LINHA
-    	ObservableList<Integer> porLinha = FXCollections.observableArrayList();
-    	porLinha = contagem.mediaDezSorteadasPorLinha(concursos);
-    	System.out.println(porLinha.toString());
-    	
-    	//CONTAGEM DE IMPARES POR FAIXA A,B,C,D,E
-    	ObservableList<Integer> imparPorFaixa = FXCollections.observableArrayList();
-    	imparPorFaixa = contagem.contagemDeImparesPorFaixa(concursos);
-    	System.out.println(imparPorFaixa.toString());
-    	
-    	//MEDIA DA SOMATORIA DOS CONCURSOS GERAL
-    	int media = contagem.somaConcursosMediaGeral(concursos);
-    	System.out.println("Media soma concursos: " + media);
-    	
-    	ObservableList<Integer> somadosPorConcurso = FXCollections.observableArrayList();
-    	somadosPorConcurso = contagem.listSomaConcursos(concursos);
-    	System.out.println(somadosPorConcurso);
-    	
-    	//MEDIA IMPAR MAIOR
-    	int valor = contagem.getMaiorFaixaImpar(imparPorFaixa);
-    	System.out.println(valor);
+    private Button btnEntrar1;
+
+    @FXML
+    private TextField txfRangeConcursos;
+
+    @FXML
+    private TextField txfMediaImpar;
+
+    @FXML
+    private TextField txfArquivoExcel;
+
+    @FXML
+    private Button btnArqExcelArquivos;
+
+    @FXML
+    private Button btnArqExcelArquivosSalvar;
+
+    @FXML
+    void SalvarDBOnline(ActionEvent event) {
+
+    }
+
+    @FXML
+    void carregarArquivoExcelConcursos(ActionEvent event) {
+
     }
 
     @FXML
     void entrar(ActionEvent event) {
-    	Stage primaryStage = new Stage();
-    	try {
-			VBox root = (VBox)FXMLLoader.load(getClass().getResource("Configuracao.fxml"));
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}	
+
+    }
+
+    @FXML
+    void salvarApostas(ActionEvent event) {
+
     }
 
     @FXML
     void sortear(ActionEvent event) {
 
-    	int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
+ 	int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
     	
     	while(qtdApostas > 0) {
     		
-	    	inicializarSorteador();
+	    	//inicializarSorteador();
 	    	
 	    	dezenas = new Integer[15];
 	    	
@@ -249,20 +215,21 @@ public class SampleController implements Initializable {
 	   
 	    	Button btn = new Button("X");
 	    	btn.setOnAction((btnExcluir)->{});
-	    	Integer codigo = apostas.size() + 1;
+	    	Integer codigo = apostaConcursos.size() + 1;
 	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
 	    	
 	    	btn.setOnAction((btnExcluir)->{
 	    		defautButons();
-	    		apostas.remove(aposta);		
+	    		apostaConcursos.remove(aposta);		
 	    	});
 	    	
-	    	apostas.add(aposta);
+	    	apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
     	
 	    	qtdApostas--;
     	}
+    	
     }
-    
+
     @FXML
     void tvApostasONMouseClicked(MouseEvent event) {
     	
@@ -351,14 +318,6 @@ public class SampleController implements Initializable {
     	}
     }
     
-    public void inicializarSorteador() {
-    	sorteador.clear();
-    	for(int i = 0 ; i < 25; i++) {
-    		sorteador.add(i+1);
-    	}
-    	System.out.println("Sorteador: " + sorteador);
-    }
-    
     private void defautButons() {
     	btn01.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
 		btn02.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
@@ -385,16 +344,6 @@ public class SampleController implements Initializable {
 		btn23.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
 		btn24.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
 		btn25.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
-    }
-    
-    public int getSorteador() {
-    	int index = rad.nextInt(sorteador.size());
-    	int valor = sorteador.get(index);
-    	sorteador.remove(index);
-    	System.out.print(sorteador);
-    	System.out.print(" ");
-    	System.out.println("valor: " + valor  + " index: " + index);
-    	return valor;
     }
     
     public Integer[] getSorteador(List<Integer> qtdDezenasPorLinha) {
@@ -481,14 +430,12 @@ public class SampleController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-			tcCodigo.setCellValueFactory(new PropertyValueFactory("codigo"));
-			tcImpar.setCellValueFactory(new PropertyValueFactory("impPar"));
-			tcSoma.setCellValueFactory(new PropertyValueFactory("soma"));
-			tcAction.setCellValueFactory(new PropertyValueFactory("action"));
-			tvApostas.setItems(apostas);
-			
-			LS.ConcursosRange = cd.listaDeConcursos(Integer.getInteger(LS.txfRangeConcursos.getText()));
-			
+		tcCodigo.setCellValueFactory(new PropertyValueFactory("codigo"));
+		tcImpar.setCellValueFactory(new PropertyValueFactory("impPar"));
+		tcSoma.setCellValueFactory(new PropertyValueFactory("soma"));
+		tcAction.setCellValueFactory(new PropertyValueFactory("action"));
+		tvApostas.setItems(apostaConcursos);
+		
 	}
 
 }
