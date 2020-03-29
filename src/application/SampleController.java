@@ -176,7 +176,7 @@ public class SampleController implements Initializable {
     	ConcursoDAO cd1 = new ConcursoDAO();
     	ObservableList<Concurso> concursos = FXCollections.observableArrayList();
     	ObservableList<Integer> contados = FXCollections.observableArrayList();
-    	concursos = LS.ConcursosRange;
+    	//concursos = LS.ConcursosRange;
     	contados = contagem.contagemConcursos(concursos);
     	System.out.println(contados.toString());
     	
@@ -487,7 +487,7 @@ public class SampleController implements Initializable {
 			tcAction.setCellValueFactory(new PropertyValueFactory("action"));
 			tvApostas.setItems(apostas);
 			
-			LS.ConcursosRange = cd.listaDeConcursos(Integer.getInteger(LS.txfRangeConcursos.getText()));
+		//	LS.ConcursosRange = cd.listaDeConcursos(Integer.getInteger(LS.txfRangeConcursos.getText()));
 			
 	}
 

@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -7,6 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +31,10 @@ public class SampleFullController implements Initializable {
 	private List<Integer> sorteador = new ArrayList<Integer>();
 	
 	private ObservableList<ApostaConcurso> apostaConcursos = FXCollections.observableArrayList();
+	private ObservableList<Aposta> apostas = FXCollections.observableArrayList();
+	
+	private ConcursoDAO cd;
+	private ApostaDAO ad;
 
     @FXML
     private Button btnEntrar;
@@ -165,12 +173,38 @@ public class SampleFullController implements Initializable {
 
     @FXML
     void SalvarDBOnline(ActionEvent event) {
-
+    	//for(Concurso c : concursos) {
+    	for(Concurso c : LS.ConcursosGeral) {
+    		cd = new ConcursoDAO();
+	    	cd.salvarConcurso(c);
+	    	System.out.println("concursos "+c.getConcurso()+" Data_sorteio: "+c.getDataConcurso()+""+c.getDezenas()+" salvo.");
+	    }
     }
 
     @FXML
     void carregarArquivoExcelConcursos(ActionEvent event) {
-
+    	
+    	String URL = "";
+    	
+    	JFrame frame = new JFrame();
+    	JFileChooser jfc = new JFileChooser();
+    	
+    	int userSelection = jfc.showSaveDialog(frame);
+    	 
+    	if (userSelection == JFileChooser.APPROVE_OPTION) {
+    	    File fileToSave = jfc.getSelectedFile();
+    	    URL = fileToSave.getAbsolutePath();
+    	    System.out.println(URL);
+    	    
+    	    //concursos = ExcelReadWrite.lerArquivoExcelConcursos(URL);
+    	    LS.ConcursosGeral = ExcelReadWrite.lerArquivoExcelConcursos(URL);
+    	    
+    	   /* for(Concurso c : concursos) {
+    	    	System.out.println(c.getConcurso() + " "+ c.getDezenas().toString());
+    	    }*/
+    	}
+    	
+    	txfArquivoExcel.setText(URL);
     }
 
     @FXML
@@ -180,10 +214,14 @@ public class SampleFullController implements Initializable {
 
     @FXML
     void salvarApostas(ActionEvent event) {
-
+    	ad = new ApostaDAO();
+    	for(Aposta a: apostas) {
+    		ad.salvarAposta(a);
+    		System.out.println("Aposta " + a.getCodigo() + " salva");
+    	}
     }
 
-    @FXML
+    @FXML //REALIZA O SORTEIO DA APOSTA
     void sortear(ActionEvent event) {
 
  	int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
@@ -215,7 +253,7 @@ public class SampleFullController implements Initializable {
 	   
 	    	Button btn = new Button("X");
 	    	btn.setOnAction((btnExcluir)->{});
-	    	Integer codigo = apostaConcursos.size() + 1;
+	    	Integer codigo = 0 /*ad.getCodigoAposta()+1*/;
 	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
 	    	
 	    	btn.setOnAction((btnExcluir)->{
@@ -223,6 +261,7 @@ public class SampleFullController implements Initializable {
 	    		apostaConcursos.remove(aposta);		
 	    	});
 	    	
+	    	apostas.add(aposta);
 	    	apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
     	
 	    	qtdApostas--;
@@ -346,6 +385,7 @@ public class SampleFullController implements Initializable {
 		btn25.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
     }
     
+    //SORTEIA AS DEZENAS POR LINHA  DE 1 A 5
     public Integer[] getSorteador(List<Integer> qtdDezenasPorLinha) {
     	Integer[] dezenas = new Integer[15];
     	
@@ -430,6 +470,8 @@ public class SampleFullController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		LS.apostas = apostas;
+		
 		tcCodigo.setCellValueFactory(new PropertyValueFactory("codigo"));
 		tcImpar.setCellValueFactory(new PropertyValueFactory("impPar"));
 		tcSoma.setCellValueFactory(new PropertyValueFactory("soma"));

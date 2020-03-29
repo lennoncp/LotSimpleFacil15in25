@@ -65,6 +65,15 @@ public class ApostaConcurso {
 		this.button = button;
 	}
 	
+	public Aposta getAposta() {
+		Integer[] dezenas = new Integer[this.dezenas.size()];
+		for(int i = 0; i < this.dezenas.size(); i++) {
+			dezenas[i]=this.dezenas.get(i);
+		}
+		Aposta aposta = new Aposta(this.getCodigo(), this.Impar, this.soma, dezenas, this.button);
+		return aposta;
+	}
+	
 	public static ApostaConcurso toApostaConcurso(Aposta aposta) {
 		int impar = 0;
 		int soma = 0;

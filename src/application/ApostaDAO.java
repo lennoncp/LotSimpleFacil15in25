@@ -2,6 +2,7 @@ package application;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -12,6 +13,7 @@ public class ApostaDAO {
 	private Connection conn;
 	
 	private PreparedStatement ps;
+	private ResultSet rs;
 	
 	public boolean salvarAposta(Aposta aposta) {
 		boolean salva = false;
@@ -51,4 +53,21 @@ public class ApostaDAO {
 		return salva;
 	}
 
+	public Integer getCodigoAposta() {
+		Integer codigo = 0;
+		conn = DBConfig.getConnection();
+		String select = " SELECT MAX(codigo) as MAX FROM apostas ";
+		try {
+			ps = conn.prepareStatement(select);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				codigo = rs.getInt("MAX");
+			}
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return codigo;
+	}
 }
