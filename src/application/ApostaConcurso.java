@@ -83,8 +83,7 @@ public class ApostaConcurso {
 				impar++;
 			}
 		}
-		Button button = new Button("X");
-		ApostaConcurso ac = new ApostaConcurso(aposta.getCodigo(), impar, soma, FXCollections.observableArrayList(Arrays.asList(aposta.getDezenas())), button);
+		ApostaConcurso ac = new ApostaConcurso(aposta.getCodigo(), impar, soma, FXCollections.observableArrayList(Arrays.asList(aposta.getDezenas())), aposta.getAction());
 		return ac;
 		
 	}
@@ -98,7 +97,7 @@ public class ApostaConcurso {
 				impar++;
 			}
 		}
-		Button button = new Button("X");
+		Button button = new Button("---");
 		ApostaConcurso ac = new ApostaConcurso(concurso.getConcurso(), impar, soma, FXCollections.observableArrayList(concurso.getDezenas()), button);
 		return ac;
 	}

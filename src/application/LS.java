@@ -14,5 +14,8 @@ public class LS {
     public static ObservableList<Concurso> ConcursosGeral = FXCollections.observableArrayList(); 
     public static ObservableList<Concurso> ConcursosRange3M = FXCollections.observableArrayList(); 
     public static ObservableList<Concurso> Concursos13D = FXCollections.observableArrayList(); 
+    
+    public static ObservableList<ApostaConcurso> listaDeApostas = FXCollections.observableArrayList();
+    public static ObservableList<ApostaConcurso> listaDeConcursos = FXCollections.observableArrayList();
 
 }

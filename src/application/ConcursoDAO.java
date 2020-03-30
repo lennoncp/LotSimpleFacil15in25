@@ -91,6 +91,7 @@ public class ConcursoDAO {
 										       rs.getInt("d14"), 
 										       rs.getInt("d15")));
 				Concurso c = new Concurso(rs.getInt("concurso"), rs.getDate("data_sorteio"), dezenas);
+				System.out.println("Do DB Concurso: " + c);
 				concursos.add(c);
 			}
 			

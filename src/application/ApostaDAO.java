@@ -54,14 +54,16 @@ public class ApostaDAO {
 	}
 
 	public Integer getCodigoAposta() {
+		System.out.println("getCodigoAposta");
 		Integer codigo = 0;
 		conn = DBConfig.getConnection();
-		String select = " SELECT MAX(codigo) as MAX FROM apostas ";
+		String select = "SELECT MAX(codigo) as MAXIMO FROM apostas; ";
 		try {
 			ps = conn.prepareStatement(select);
 			rs = ps.executeQuery();
 			while(rs.next()) {
-				codigo = rs.getInt("MAX");
+				codigo = rs.getInt(1);
+				System.out.println("codigo: "+codigo);
 			}
 			conn.close();
 		} catch (SQLException e) {

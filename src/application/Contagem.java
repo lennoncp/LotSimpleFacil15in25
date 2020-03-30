@@ -214,7 +214,7 @@ public class Contagem {
 		return media;
 	}
 	
-	
+	//Lista de Soma dos concursos
 	public ObservableList<Integer> listSomaConcursos(ObservableList<Concurso> concursos) {
 		ObservableList<Integer> concursosSomados = FXCollections.observableArrayList(); 
 		for(Concurso c : concursos) {
@@ -227,4 +227,47 @@ public class Contagem {
 		
 		return concursosSomados;
 	}
+	
+	//CONTANDO A MEDIA DE SOMA DE CONCURSOS
+	public ObservableList<Integer> top5ranqueMediaSomaConcursos(ObservableList<Concurso> concursos) {
+		ObservableList<Integer> top5 = FXCollections.observableArrayList(); 
+		ObservableList<Integer> listaDeConcursosSomados = FXCollections.observableArrayList();
+		Integer mediaDeSoma = somaConcursosMediaGeral(concursos);
+		listaDeConcursosSomados = listSomaConcursos(concursos);
+		
+		Integer mediaMenos10 = mediaDeSoma - 10;
+		Integer mediaMenos5 = mediaDeSoma - 5;
+		Integer media = mediaDeSoma;
+		Integer mediaMais5 = mediaDeSoma + 5;
+		Integer mediaMais10 = mediaDeSoma + 10;
+		
+		Integer contMediaMenos10 = 0;
+		Integer contMediaMenos5 = 0;
+		Integer contMedia = 0;
+		Integer contMediaMais5 = 0;
+		Integer contMediaMais10 = 0;
+		
+		for(Integer s: listaDeConcursosSomados) {
+			if(s <= mediaMenos10)
+				contMediaMenos10++;
+			
+			if(s > mediaMenos10 && s <= mediaMenos5)
+				contMediaMenos5++;
+			
+			if(s > mediaMenos5 && s < mediaMais5)
+				contMedia++;
+			
+			if(s >= mediaMais5 && s < mediaMais10)
+				contMediaMais5++;
+			
+			if(s >= mediaMais10)
+				contMediaMais10++;
+		}
+		
+		top5.addAll(Arrays.asList(mediaMenos10,contMediaMenos10,mediaMenos5,contMediaMenos5,media,contMedia,mediaMais5,contMediaMais5,mediaMais10,contMediaMais10));
+		
+		return top5;
+	}
+	
+	
 }
