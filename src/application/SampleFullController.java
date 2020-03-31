@@ -173,7 +173,10 @@ public class SampleFullController implements Initializable {
     private Button btnArqExcelArquivosSalvar;
     
     @FXML
-    private Button btnConcursoAposta;
+    private Button btnConcursoApostaChange;
+    
+    @FXML
+    private Button btnApostasSalvas;
 
     @FXML
     void SalvarDBOnline(ActionEvent event) {
@@ -218,11 +221,14 @@ public class SampleFullController implements Initializable {
 
     @FXML
     void salvarApostas(ActionEvent event) {
+    	
     	ad = new ApostaDAO();
-    	for(Aposta a: apostas) {
+    	for(Aposta a: LS.apostas) {
     		ad.salvarAposta(a);
     		System.out.println("Aposta " + a.getCodigo() + " salva");
     	}
+    	ad = new ApostaDAO();
+    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
     }
 
     @FXML //REALIZA O SORTEIO DA APOSTA
@@ -256,25 +262,48 @@ public class SampleFullController implements Initializable {
 	    	}
 	   
 	    	Button btn = new Button("X");
-	    	btn.setOnAction((btnExcluir)->{System.out.println("Vazio");});
-	    	ad = new ApostaDAO();
-	    	Integer CodigoMaximoAtual = ad.getCodigoAposta();
-	    	Integer codigo = CodigoMaximoAtual + 1;
+	    	//btn.setOnAction((btnExcluir)->{System.out.println("Vazio");});
+	    	//ad = new ApostaDAO();
+	    	//Integer CodigoMaximoAtual = LS.codigoAtualApostas /*ad.getCodigoAposta()*/;
+	    	Integer codigo = LS.codigoAtualApostas++;
 	    	
-	    	btn.setOnAction((btnExcluir)->{
-	    		System.out.println("Excluir");
-	    		defautButons();
-	    		apostaConcursos.remove(apostaConcursos.get(apostaConcursos.size()-1));		
-	    	});
 	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
+	    	aposta.getAction().setOnAction((btnExcluir)->{
+	    		int id = aposta.getCodigo();
+	    		System.out.println("Excluir Aposta: "+ id);
+	    		defautButons();
+	    		//apostaConcursos.remove(apostaConcursos.get(apostaConcursos.size()-1));
+	    		LS.apostas.remove(aposta);
+	    		//LS.codigoAtualApostas--;
+	    		for(ApostaConcurso ac : LS.listaDeApostas) {
+	    			Aposta a = ac.getAposta();
+	    			if(a.getCodigo() == id) {
+	    				LS.listaDeApostas.remove(ac);
+	    			}
+	    		}
+	    	});
 	    	
-	    	apostas.add(aposta);
-	    	apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+	    	Contagem c = new Contagem();
+	    	int mediaImpar = c.contagemDeImparesGeral(LS.ConcursosGeral);
+	    	System.out.println("Meia Impares: " + mediaImpar);
+	    	if(impPar >= mediaImpar-1 && impPar <= mediaImpar+1) {
+	    		
+	    		LS.apostas.add(aposta);
+		    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+		    	
+				LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+				
+				System.out.println(LS.apostas);
 	    	
-			LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-			
-    	
-	    	qtdApostas--;
+		    	qtdApostas--;
+	    		
+	    	}else {
+	    		System.out.println("Media impar fora!");
+	    		LS.codigoAtualApostas++;
+	    	}
+	    	
+	    	
+	    	
     	}
     	
     }
@@ -375,12 +404,21 @@ public class SampleFullController implements Initializable {
     		System.out.println("mostrar Concursos");
     		tvApostas.setItems(LS.listaDeApostas);
     		tvApostas.refresh();
+    		btnConcursoApostaChange.setText("C");
     	}else {
     		System.out.println("mostrar apostas");
     		tvApostas.setItems(LS.listaDeConcursos);
     		tvApostas.refresh();
+    		btnConcursoApostaChange.setText("A");
     	}
     	
+    }
+    
+    @FXML
+    void changeApostasSalvas(ActionEvent event) {
+    	System.out.println("Realizando a leitura das apostas: "+ LS.listaDBApostas.size());
+    	tvApostas.setItems(LS.listaDBApostas);
+    	tvApostas.refresh();
     }
     
     private void defautButons() {
@@ -498,6 +536,11 @@ public class SampleFullController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		LS.apostas = apostas;
 		
+		ad = new ApostaDAO();
+    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
+    	ad = new ApostaDAO();
+    	LS.listaDBApostas= ad.getListaDeApostasSalvas();
+		
 		cd = new ConcursoDAO();
 		LS.ConcursosGeral = cd.listaDeConcursos(1943);
 		cd = new ConcursoDAO();
@@ -514,7 +557,7 @@ public class SampleFullController implements Initializable {
 		tcImpar.setCellValueFactory(new PropertyValueFactory("Impar"));
 		tcSoma.setCellValueFactory(new PropertyValueFactory("soma"));
 		tcAction.setCellValueFactory(new PropertyValueFactory("button"));
-		tvApostas.setItems(apostaConcursos);
+		tvApostas.setItems(LS.listaDeApostas);
 		
 		//FAZ A VERIFICAÇÃO DE DEZENAS SORTEADAS ATRAVEZ DAS TECLAS DE UP E DOWN
 		tvApostas.setOnKeyPressed((keyPressed)->{
@@ -527,7 +570,7 @@ public class SampleFullController implements Initializable {
 		});
 		
 		Contagem cont = new Contagem();
-		ObservableList<Integer> contagem = cont.top5ranqueMediaSomaConcursos(LS.ConcursosRange3M);
+		ObservableList<Integer> contagem = cont.top5ranqueMediaSomaConcursos(LS.Concursos13D);
 		System.out.println(contagem);
 	}
 

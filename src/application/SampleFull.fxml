@@ -310,10 +310,15 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="btnConcursoAposta" alignment="CENTER" mnemonicParsing="false" onAction="#changeApostaConcurso" prefHeight="35.0" prefWidth="35.0" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-color: #f3d9fa; -fx-background-radius: 7;" text="C" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                        <Button fx:id="btnConcursoApostaChange" alignment="CENTER" mnemonicParsing="false" onAction="#changeApostaConcurso" prefHeight="35.0" prefWidth="35.0" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-color: #f3d9fa; -fx-background-radius: 7;" text="C" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Tahoma Bold" size="12.0" />
                            </font></Button>
+                        <Button fx:id="btnApostasSalvas" alignment="CENTER" mnemonicParsing="false" onAction="#changeApostasSalvas" prefHeight="40.0" prefWidth="40.0" style="-fx-border-color: #ae3ec9; -fx-border-radius: 7; -fx-border-width: 2; -fx-background-color: #f3d9fa; -fx-background-radius: 7;" text="HA" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Tahoma Bold" size="12.0" />
+                           </font>
+                        </Button>
                      </children>
                   </GridPane>
                </children>

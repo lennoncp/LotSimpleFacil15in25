@@ -112,7 +112,7 @@ public class Contagem {
 		return linhas;
 	}
 
-	//REALIZA A CONTAGEM DE TODOS OS IMPARES DA LISTA DE CONCURSOS
+	//REALIZA A CONTAGEM DE TODOS OS IMPARES DA LISTA DE CONCURSOS e tira a media
 	public int contagemDeImparesGeral(ObservableList<Concurso> concursos) {
 		int impar = 0;
 		for(Concurso c : concursos) {
@@ -235,20 +235,27 @@ public class Contagem {
 		Integer mediaDeSoma = somaConcursosMediaGeral(concursos);
 		listaDeConcursosSomados = listSomaConcursos(concursos);
 		
-		Integer mediaMenos10 = mediaDeSoma - 10;
-		Integer mediaMenos5 = mediaDeSoma - 5;
+		Integer mediaMenos15 = mediaDeSoma - 13;
+		Integer mediaMenos10 = mediaDeSoma - 8;
+		Integer mediaMenos5 = mediaDeSoma - 3;
 		Integer media = mediaDeSoma;
-		Integer mediaMais5 = mediaDeSoma + 5;
-		Integer mediaMais10 = mediaDeSoma + 10;
+		Integer mediaMais5 = mediaDeSoma + 3;
+		Integer mediaMais10 = mediaDeSoma + 8;
+		Integer mediaMais15 = mediaDeSoma + 13;
 		
+		Integer contMediaMenos15 = 0;
 		Integer contMediaMenos10 = 0;
 		Integer contMediaMenos5 = 0;
 		Integer contMedia = 0;
 		Integer contMediaMais5 = 0;
 		Integer contMediaMais10 = 0;
+		Integer contMediaMais15 = 0;
 		
 		for(Integer s: listaDeConcursosSomados) {
-			if(s <= mediaMenos10)
+			if(s <= mediaMenos15)
+				contMediaMenos15++;
+			
+			if(s > mediaMenos15 && s <= mediaMenos10)
 				contMediaMenos10++;
 			
 			if(s > mediaMenos10 && s <= mediaMenos5)
@@ -260,11 +267,14 @@ public class Contagem {
 			if(s >= mediaMais5 && s < mediaMais10)
 				contMediaMais5++;
 			
-			if(s >= mediaMais10)
+			if(s >= mediaMais10 && s < mediaMais15)
 				contMediaMais10++;
+			
+			if(s >= mediaMais15)
+				contMediaMais15++;
 		}
 		
-		top5.addAll(Arrays.asList(mediaMenos10,contMediaMenos10,mediaMenos5,contMediaMenos5,media,contMedia,mediaMais5,contMediaMais5,mediaMais10,contMediaMais10));
+		top5.addAll(Arrays.asList(mediaMenos15,contMediaMenos15,mediaMenos10,contMediaMenos10,mediaMenos5,contMediaMenos5,media,contMedia,mediaMais5,contMediaMais5,mediaMais10,contMediaMais10,mediaMais15,contMediaMais15));
 		
 		return top5;
 	}
