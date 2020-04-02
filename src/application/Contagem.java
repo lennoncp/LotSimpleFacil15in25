@@ -111,6 +111,119 @@ public class Contagem {
 		
 		return linhas;
 	}
+	
+	//CONTAGEM DE MINIMO E MAXIMO DE DEZENAS SORTEADAS POR LINHA (OBS MELHOR COM OS ULTIMOS 13 SORTEIOS)
+		public ObservableList<Integer> quantidadeDezenasSorteadasPorLinhaDe0a5(ObservableList<Concurso> concursos){
+			ObservableList<Integer> linhas = FXCollections.observableArrayList();
+			//linhas.addAll(Arrays.asList(0,0,0,0,0));
+			
+			int contLinha1_1 = 0;
+			int contLinha1_2 = 0;
+			int contLinha1_3 = 0;
+			int contLinha1_4 = 0;
+			int contLinha1_5 = 0;
+			
+			for(int k = concursos.size()-1; k >=0; k--) {
+				int contLinha1 = 0;
+				int contLinha2 = 0;
+				int contLinha3 = 0;
+				int contLinha4 = 0;
+				int contLinha5 = 0;
+		
+				for(int j = 0; j < 15; j++) {
+					
+					int valor = concursos.get(k).getDezenas().get(j);
+				
+					if(valor < 6) {
+						contLinha1++;
+						
+						switch (valor) {
+						case 1:
+							contLinha1_1++;
+						break;
+						case 2:
+							contLinha1_2++;
+						break;
+						case 3:
+							contLinha1_3++;
+						break;
+						case 4:
+							contLinha1_4++;
+						break;
+						case 5:
+							contLinha1_5++;
+						break;
+						default:
+							break;
+						}
+					}
+					
+					if(valor >= 6 && valor < 11) {
+						contLinha2++;
+					}
+					
+					if(valor >= 11 && valor < 16) {
+						contLinha3++;
+					}
+					
+					if(valor >= 16 && valor < 21) {
+						contLinha4++;
+					}
+					
+					if(valor >=21 ) {
+						contLinha5++;
+					}
+				}
+				/*
+				//VERIFICANDO CONTAGEM DA LINHA 1
+				if(linhas.get(0) > contLinha1) {
+					linhas.set(0, contLinha1);
+				}
+				
+				if(linhas.get(1) < contLinha1) {
+					linhas.set(1, contLinha1);
+				}
+				
+				//VERIFICANDO CONTAGEM DA LINHA 2
+				if(linhas.get(2) > contLinha2) {
+					linhas.set(2, contLinha2);
+				}
+				
+				if(linhas.get(3) < contLinha2) {
+					linhas.set(3, contLinha2);
+				}
+				
+				//VERIFICANDO CONTAGEM DA LINHA 3
+				if(linhas.get(4) > contLinha3) {
+					linhas.set(4, contLinha3);
+				}
+				
+				if(linhas.get(5) < contLinha3) {
+					linhas.set(5, contLinha3);
+				}
+				
+				//VERIFICANDO CONTAGEM DA LINHA 4
+				if(linhas.get(6) > contLinha4) {
+					linhas.set(6, contLinha4);
+				}
+				
+				if(linhas.get(7) < contLinha4) {
+					linhas.set(7, contLinha4);
+				}
+				
+				//VERIFICANDO CONTAGEM DA LINHA 5
+				if(linhas.get(8) > contLinha5) {
+					linhas.set(8, contLinha5);
+				}
+				
+				if(linhas.get(9) < contLinha5) {
+					linhas.set(9, contLinha5);
+				}
+				*/
+			}
+			linhas.addAll(Arrays.asList(contLinha1_1, contLinha1_2, contLinha1_3, contLinha1_4, contLinha1_5));
+			return linhas;
+		}
 
 	//REALIZA A CONTAGEM DE TODOS OS IMPARES DA LISTA DE CONCURSOS e tira a media
 	public int contagemDeImparesGeral(ObservableList<Concurso> concursos) {

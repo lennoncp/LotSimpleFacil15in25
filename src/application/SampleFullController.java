@@ -531,6 +531,23 @@ public class SampleFullController implements Initializable {
     	
     	return dezenas;
     }
+    
+    public List<Integer> sortearQuantidadeDezenasPorLinha() {
+    	
+    	int soma = 0;
+    	List<Integer> qtdLinha = new ArrayList<Integer>();
+    	while(soma == 15) {
+    		for(int i = 0; i < 5;i++) {
+    			qtdLinha.add(rad.nextInt(5));
+    		}
+    		
+    		for(int i = 0 ; i < 5; i++) {
+    			soma+= rad.nextInt(5);
+    		}
+    	}
+    	
+    	return qtdLinha;
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -572,6 +589,12 @@ public class SampleFullController implements Initializable {
 		Contagem cont = new Contagem();
 		ObservableList<Integer> contagem = cont.top5ranqueMediaSomaConcursos(LS.Concursos13D);
 		System.out.println(contagem);
+		
+		//CONTAGEM DE SORTEADOS POR LINHA
+		System.out.println(cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.Concursos13D));
+		
+		List<Integer> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
+		System.out.println(qtdLinhas);
 	}
 
 }
