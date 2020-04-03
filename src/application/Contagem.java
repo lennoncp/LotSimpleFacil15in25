@@ -1,10 +1,13 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.print.Collation;
 
 public class Contagem {
 	
@@ -113,15 +116,50 @@ public class Contagem {
 	}
 	
 	//CONTAGEM DE MINIMO E MAXIMO DE DEZENAS SORTEADAS POR LINHA (OBS MELHOR COM OS ULTIMOS 13 SORTEIOS)
-		public ObservableList<Integer> quantidadeDezenasSorteadasPorLinhaDe0a5(ObservableList<Concurso> concursos){
-			ObservableList<Integer> linhas = FXCollections.observableArrayList();
+		public ObservableList<ObservableList<Integer>> quantidadeDezenasSorteadasPorLinhaDe0a5(ObservableList<Concurso> concursos){
+			ObservableList<ObservableList<Integer>> linhas = FXCollections.observableArrayList();
+			
+			ObservableList<Integer> linha1 = FXCollections.observableArrayList();
+			ObservableList<Integer> linha2 = FXCollections.observableArrayList();
+			ObservableList<Integer> linha3 = FXCollections.observableArrayList();
+			ObservableList<Integer> linha4 = FXCollections.observableArrayList();
+			ObservableList<Integer> linha5 = FXCollections.observableArrayList();
 			//linhas.addAll(Arrays.asList(0,0,0,0,0));
 			
+			int contLinha1_0 = 0;
 			int contLinha1_1 = 0;
 			int contLinha1_2 = 0;
 			int contLinha1_3 = 0;
 			int contLinha1_4 = 0;
 			int contLinha1_5 = 0;
+			
+			int contLinha2_0 = 0;
+			int contLinha2_1 = 0;
+			int contLinha2_2 = 0;
+			int contLinha2_3 = 0;
+			int contLinha2_4 = 0;
+			int contLinha2_5 = 0;
+			
+			int contLinha3_0 = 0;
+			int contLinha3_1 = 0;
+			int contLinha3_2 = 0;
+			int contLinha3_3 = 0;
+			int contLinha3_4 = 0;
+			int contLinha3_5 = 0;
+			
+			int contLinha4_0 = 0;
+			int contLinha4_1 = 0;
+			int contLinha4_2 = 0;
+			int contLinha4_3 = 0;
+			int contLinha4_4 = 0;
+			int contLinha4_5 = 0;
+			
+			int contLinha5_0 = 0;
+			int contLinha5_1 = 0;
+			int contLinha5_2 = 0;
+			int contLinha5_3 = 0;
+			int contLinha5_4 = 0;
+			int contLinha5_5 = 0;
 			
 			for(int k = concursos.size()-1; k >=0; k--) {
 				int contLinha1 = 0;
@@ -136,26 +174,6 @@ public class Contagem {
 				
 					if(valor < 6) {
 						contLinha1++;
-						
-						switch (valor) {
-						case 1:
-							contLinha1_1++;
-						break;
-						case 2:
-							contLinha1_2++;
-						break;
-						case 3:
-							contLinha1_3++;
-						break;
-						case 4:
-							contLinha1_4++;
-						break;
-						case 5:
-							contLinha1_5++;
-						break;
-						default:
-							break;
-						}
 					}
 					
 					if(valor >= 6 && valor < 11) {
@@ -174,55 +192,178 @@ public class Contagem {
 						contLinha5++;
 					}
 				}
-				/*
-				//VERIFICANDO CONTAGEM DA LINHA 1
-				if(linhas.get(0) > contLinha1) {
-					linhas.set(0, contLinha1);
+				
+				//contagem da linha 1
+				switch (contLinha1) {
+					case 0:
+						contLinha1_0++;
+					break;
+					case 1:
+						contLinha1_1++;
+					break;
+					case 2:
+						contLinha1_2++;
+					break;
+					case 3:
+						contLinha1_3++;
+					break;
+					case 4:
+						contLinha1_4++;
+					break;
+					case 5:
+						contLinha1_5++;
+					break;
+					default:
+						break;
 				}
 				
-				if(linhas.get(1) < contLinha1) {
-					linhas.set(1, contLinha1);
+				//contagem da linha 1
+				switch (contLinha1) {
+					case 0:
+						contLinha1_0++;
+					break;
+					case 1:
+						contLinha1_1++;
+					break;
+					case 2:
+						contLinha1_2++;
+					break;
+					case 3:
+						contLinha1_3++;
+					break;
+					case 4:
+						contLinha1_4++;
+					break;
+					case 5:
+						contLinha1_5++;
+					break;
+					default:
+						break;
 				}
 				
-				//VERIFICANDO CONTAGEM DA LINHA 2
-				if(linhas.get(2) > contLinha2) {
-					linhas.set(2, contLinha2);
+				//contagem da linha 2
+				switch (contLinha2) {
+					case 0:
+						contLinha2_0++;
+					break;
+					case 1:
+						contLinha2_1++;
+					break;
+					case 2:
+						contLinha2_2++;
+					break;
+					case 3:
+						contLinha2_3++;
+					break;
+					case 4:
+						contLinha2_4++;
+					break;
+					case 5:
+						contLinha2_5++;
+					break;
+					default:
+						break;
 				}
 				
-				if(linhas.get(3) < contLinha2) {
-					linhas.set(3, contLinha2);
+				//contagem da linha 3
+				switch (contLinha3) {
+					case 0:
+						contLinha3_0++;
+					break;
+					case 1:
+						contLinha3_1++;
+					break;
+					case 2:
+						contLinha3_2++;
+					break;
+					case 3:
+						contLinha3_3++;
+					break;
+					case 4:
+						contLinha3_4++;
+					break;
+					case 5:
+						contLinha3_5++;
+					break;
+					default:
+						break;
 				}
 				
-				//VERIFICANDO CONTAGEM DA LINHA 3
-				if(linhas.get(4) > contLinha3) {
-					linhas.set(4, contLinha3);
+				//contagem da linha 4
+				switch (contLinha4) {
+					case 0:
+						contLinha4_0++;
+					break;
+					case 1:
+						contLinha4_1++;
+					break;
+					case 2:
+						contLinha4_2++;
+					break;
+					case 3:
+						contLinha4_3++;
+					break;
+					case 4:
+						contLinha4_4++;
+					break;
+					case 5:
+						contLinha4_5++;
+					break;
+					default:
+						break;
 				}
 				
-				if(linhas.get(5) < contLinha3) {
-					linhas.set(5, contLinha3);
+				//contagem da linha 5
+				switch (contLinha5) {
+					case 0:
+						contLinha5_0++;
+					break;
+					case 1:
+						contLinha5_1++;
+					break;
+					case 2:
+						contLinha5_2++;
+					break;
+					case 3:
+						contLinha5_3++;
+					break;
+					case 4:
+						contLinha5_4++;
+					break;
+					case 5:
+						contLinha5_5++;
+					break;
+					default:
+						break;
 				}
-				
-				//VERIFICANDO CONTAGEM DA LINHA 4
-				if(linhas.get(6) > contLinha4) {
-					linhas.set(6, contLinha4);
-				}
-				
-				if(linhas.get(7) < contLinha4) {
-					linhas.set(7, contLinha4);
-				}
-				
-				//VERIFICANDO CONTAGEM DA LINHA 5
-				if(linhas.get(8) > contLinha5) {
-					linhas.set(8, contLinha5);
-				}
-				
-				if(linhas.get(9) < contLinha5) {
-					linhas.set(9, contLinha5);
-				}
-				*/
 			}
-			linhas.addAll(Arrays.asList(contLinha1_1, contLinha1_2, contLinha1_3, contLinha1_4, contLinha1_5));
+			linha1.addAll(Arrays.asList(contLinha1_0, contLinha1_1, contLinha1_2, contLinha1_3, contLinha1_4, contLinha1_5));
+			linha2.addAll(Arrays.asList(contLinha2_0, contLinha2_1, contLinha2_2, contLinha2_3, contLinha2_4, contLinha2_5));
+			linha3.addAll(Arrays.asList(contLinha3_0, contLinha3_1, contLinha3_2, contLinha3_3, contLinha3_4, contLinha3_5));
+			linha4.addAll(Arrays.asList(contLinha4_0, contLinha4_1, contLinha4_2, contLinha4_3, contLinha4_4, contLinha4_5));
+			linha5.addAll(Arrays.asList(contLinha5_0, contLinha5_1, contLinha5_2, contLinha5_3, contLinha5_4, contLinha5_5));
+			
+			linhas.addAll(linha1, linha2, linha3, linha4, linha5);
 			return linhas;
+		}
+		
+		//Encontrando a quantidade de dezenas por linha
+		public List<Integer> fatorMediaDezenasPorLinha(List<ObservableList<Integer>> contagem){
+			List<Integer> listaDeContagemPorLinha = new ArrayList<Integer>();
+			
+			for (ObservableList<Integer> l: contagem) {
+				int valorDezena = 0;
+				int indexDoValorDezena = 0;
+				for(int i = 0; i < l.size(); i++) {
+					if(l.get(i) > valorDezena) {
+						valorDezena = l.get(i);
+						indexDoValorDezena = i;
+					}
+				}
+				listaDeContagemPorLinha.add(indexDoValorDezena);
+			}
+			
+			return listaDeContagemPorLinha;
 		}
 
 	//REALIZA A CONTAGEM DE TODOS OS IMPARES DA LISTA DE CONCURSOS e tira a media

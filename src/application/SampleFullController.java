@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -177,6 +178,22 @@ public class SampleFullController implements Initializable {
     
     @FXML
     private Button btnApostasSalvas;
+    
+    @FXML
+    private CheckBox cbGeral;
+    
+    @FXML
+    private TextField txfQTDDezenasPorAbosta;
+    
+    @FXML
+    void chequeGeral(ActionEvent event) {
+    	if(cbGeral.isSelected()) {
+    		cd = new ConcursoDAO();
+        	txfRangeConcursos.setText(cd.maxConcurso()+"");
+    	}else {
+        	txfRangeConcursos.setText(0+"");
+    	}
+    }
 
     @FXML
     void SalvarDBOnline(ActionEvent event) {
@@ -222,18 +239,27 @@ public class SampleFullController implements Initializable {
     @FXML
     void salvarApostas(ActionEvent event) {
     	
-    	ad = new ApostaDAO();
+    	/*ad = new ApostaDAO();
     	for(Aposta a: LS.apostas) {
     		ad.salvarAposta(a);
     		System.out.println("Aposta " + a.getCodigo() + " salva");
     	}
     	ad = new ApostaDAO();
-    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
+    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;*/
+    	
+    	Contagem cont = new Contagem();
+    	List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
+    	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
+		System.out.println(qtdLinhas);
+		System.out.println(dezenasPorLinha);
+    	
     }
 
     @FXML //REALIZA O SORTEIO DA APOSTA
     void sortear(ActionEvent event) {
 
+    	setQTDDezenasPorLinha();
+    	
  	int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
     	
     	while(qtdApostas > 0) {
@@ -548,6 +574,37 @@ public class SampleFullController implements Initializable {
     	
     	return qtdLinha;
     }
+    
+    public void setQTDDezenasPorLinha() {
+    	Contagem cont = new Contagem();
+    	List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText())));
+    	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
+    	
+    	int soma = somaInteiros(dezenasPorLinha);
+    	while (soma < 15) {
+    		int index = rad.nextInt(5);
+    		if(dezenasPorLinha.get(index) < 5) {
+    			dezenasPorLinha.set(index, dezenasPorLinha.get(index) + rad.nextInt(2));
+        		soma = somaInteiros(dezenasPorLinha);
+    		}
+    		/*dezenasPorLinha.set(index, dezenasPorLinha.get(index) + rad.nextInt(2));
+    		soma = somaInteiros(dezenasPorLinha);*/
+		}
+    	   	
+		txfC1.setText(dezenasPorLinha.get(0)+"");
+		txfC2.setText(dezenasPorLinha.get(1)+"");
+		txfC3.setText(dezenasPorLinha.get(2)+"");
+		txfC4.setText(dezenasPorLinha.get(3)+"");
+		txfC5.setText(dezenasPorLinha.get(4)+"");
+    }
+    
+    public int somaInteiros(List<Integer> inteiros) {
+    	int soma = 0;
+    	for(int i : inteiros) {
+    		soma += i;
+    	}
+    	return soma;
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -593,8 +650,8 @@ public class SampleFullController implements Initializable {
 		//CONTAGEM DE SORTEADOS POR LINHA
 		System.out.println(cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.Concursos13D));
 		
-		List<Integer> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
-		System.out.println(qtdLinhas);
+		//List<Integer> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
+		//System.out.println(qtdLinhas);
 	}
 
 }
