@@ -248,10 +248,30 @@ public class SampleFullController implements Initializable {
     	LS.codigoAtualApostas = ad.getCodigoAposta()+1;*/
     	
     	Contagem cont = new Contagem();
-    	List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
+    	/*List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
     	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
 		System.out.println(qtdLinhas);
-		System.out.println(dezenasPorLinha);
+		System.out.println(dezenasPorLinha);*/
+    	
+    	ObservableList<Integer> lista = cont.listSomaConcursos(LS.ConcursosGeral);
+    	System.out.println(lista);
+    	System.out.println("Tamanho: "+lista.size());
+    	cd = new ConcursoDAO();
+    	ObservableList<Integer> frequenciaDeSomas = cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()))));
+    	System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
+    	
+    	int max = 0;
+    	for(int f : frequenciaDeSomas) {
+    		if(f > max) {
+    			max = f;
+    		}
+    	}
+    	
+    	for(int i = 0; i < frequenciaDeSomas.size(); i++) {
+    		int f = frequenciaDeSomas.get(i);
+    		if(f >= (max - 10) && f <= max)
+    			System.out.println("Frequencia maximas: " + f + " index: " + i);
+    	}
     	
     }
 
@@ -295,18 +315,25 @@ public class SampleFullController implements Initializable {
 	    	
 	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
 	    	aposta.getAction().setOnAction((btnExcluir)->{
+	    		defautButons();
 	    		int id = aposta.getCodigo();
 	    		System.out.println("Excluir Aposta: "+ id);
-	    		defautButons();
 	    		//apostaConcursos.remove(apostaConcursos.get(apostaConcursos.size()-1));
-	    		LS.apostas.remove(aposta);
+	    		//LS.apostas.remove(aposta);
 	    		//LS.codigoAtualApostas--;
+	    		int index = 0;
+	    		int indexAC = -1;
 	    		for(ApostaConcurso ac : LS.listaDeApostas) {
 	    			Aposta a = ac.getAposta();
+	    			LS.apostas.remove(a);
 	    			if(a.getCodigo() == id) {
-	    				LS.listaDeApostas.remove(ac);
+	    				indexAC = index;
 	    			}
+	    			index++;
 	    		}
+	    		LS.listaDeApostas.remove(indexAC);
+				tvApostas.refresh();
+				LS.codigoAtualApostas--;
 	    	});
 	    	
 	    	Contagem c = new Contagem();

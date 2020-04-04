@@ -534,4 +534,21 @@ public class Contagem {
 	}
 	
 	
+	public ObservableList<Integer> contagemDeFrequenciaDeSomas(ObservableList<Integer> listaDeSomaDeConcursos){
+		ObservableList<Integer> contagem = FXCollections.observableArrayList();
+		for(int i = 0; i <= 300; i++) {
+			contagem.add(0);
+		}
+		
+		System.out.println("Contagem: " + contagem);
+		
+		for(int c : listaDeSomaDeConcursos) {
+			int valor = contagem.get(c);
+			contagem.set(c, (valor + 1));
+			System.out.println("C: " + c + " Valor: "+ valor);
+		}
+		
+		return contagem;
+	}
+	
 }
