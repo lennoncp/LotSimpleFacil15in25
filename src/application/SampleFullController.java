@@ -258,7 +258,7 @@ public class SampleFullController implements Initializable {
     	System.out.println("Tamanho: "+lista.size());
     	cd = new ConcursoDAO();
     	ObservableList<Integer> frequenciaDeSomas = cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()))));
-    	System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
+    	/*System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
     	
     	int max = 0;
     	for(int f : frequenciaDeSomas) {
@@ -267,12 +267,41 @@ public class SampleFullController implements Initializable {
     		}
     	}
     	
+    	int somaF = 0;
+    	int somaI = 0;
+    	int qtdDeSomas = 0;
     	for(int i = 0; i < frequenciaDeSomas.size(); i++) {
     		int f = frequenciaDeSomas.get(i);
-    		if(f >= (max - 10) && f <= max)
-    			System.out.println("Frequencia maximas: " + f + " index: " + i);
+    		if(f >= (max - max) && f <= max)
+    			if(f != 0) {
+    				System.out.println("Frequencia maximas: " + f + " index: " + i);
+    				somaF += f;
+    				somaI += i;
+    			    qtdDeSomas++;
+    			}
+    			
     	}
     	
+    	System.out.println("Media Qtd por index: " + (somaF/qtdDeSomas) + " Media de Index: "+ (somaI / qtdDeSomas)); */
+    	List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
+    	System.out.println(listaMediaPorSoma);
+    	
+    	int index = 0;
+    	int qtd = 0;
+    	
+    	int i = 0;
+    	int j = 1;
+    	for(List<Integer> li : listaMediaPorSoma) {
+    		index += li.get(i++);
+    		qtd += li.get(j++);
+    		
+    		i++;
+    		j++;
+    	}
+    	
+    	System.out.println("Index: " + (index/(listaMediaPorSoma.size()/2)));
+    	System.out.println("QTD: " + (qtd/(listaMediaPorSoma.size()/2)));
+    	System.out.println("Size Lista: " + listaMediaPorSoma.size());
     }
 
     @FXML //REALIZA O SORTEIO DA APOSTA
@@ -617,6 +646,16 @@ public class SampleFullController implements Initializable {
     		/*dezenasPorLinha.set(index, dezenasPorLinha.get(index) + rad.nextInt(2));
     		soma = somaInteiros(dezenasPorLinha);*/
 		}
+    	
+    	while (soma > 15) {
+    		int index = rad.nextInt(5);
+    		if(dezenasPorLinha.get(index) < 5) {
+    			dezenasPorLinha.set(index, dezenasPorLinha.get(index) - rad.nextInt(2));
+        		soma = somaInteiros(dezenasPorLinha);
+    		}
+    		/*dezenasPorLinha.set(index, dezenasPorLinha.get(index) + rad.nextInt(2));
+    		soma = somaInteiros(dezenasPorLinha);*/
+		}
     	   	
 		txfC1.setText(dezenasPorLinha.get(0)+"");
 		txfC2.setText(dezenasPorLinha.get(1)+"");
@@ -625,6 +664,7 @@ public class SampleFullController implements Initializable {
 		txfC5.setText(dezenasPorLinha.get(4)+"");
     }
     
+    //SOMA AS DEZENAS QUE CADA LINHA
     public int somaInteiros(List<Integer> inteiros) {
     	int soma = 0;
     	for(int i : inteiros) {

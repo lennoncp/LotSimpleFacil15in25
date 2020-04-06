@@ -551,4 +551,40 @@ public class Contagem {
 		return contagem;
 	}
 	
+	//Lista de Ocorrencias por media de soma dos concursos
+	public List<List<Integer>> mediaDeOcorrenciasPorSomaDeConcursos(ObservableList<Integer> frequenciaDeSomas) {
+    	
+		List<List<Integer>> medias = new ArrayList<List<Integer>>();
+		List<Integer> mediaEQuantidades = new ArrayList<Integer>();
+		
+		
+    	int max = 0;
+    	for(int f : frequenciaDeSomas) {
+    		if(f > max) {
+    			max = f;
+    		}
+    	}
+    	
+    	int somaF = 0;
+    	int somaI = 0;
+    	int qtdDeSomas = 0;
+    	for(int i = 0; i < frequenciaDeSomas.size(); i++) {
+    		int f = frequenciaDeSomas.get(i);
+    		if(f >= (max - max) && f <= max)
+    			if(f != 0) {
+    				System.out.println("Frequencia maximas: " + f + " index: " + i);
+    				somaF += f;
+    				somaI += i;
+    			    qtdDeSomas++;
+    			    
+    			    mediaEQuantidades.add((i));
+    	    		mediaEQuantidades.add((f));
+    	    		medias.addAll(Arrays.asList(mediaEQuantidades));
+    			}
+	}
+    	
+    	
+    	return medias;
+  }	
+	
 }
