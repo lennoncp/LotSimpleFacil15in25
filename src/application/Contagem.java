@@ -11,6 +11,7 @@ import javafx.print.Collation;
 
 public class Contagem {
 	
+	//CONTAGEM DE DEZENAS SORTEADAS DE CONCURSOS APARTIR DE UMA LISTAGEM DE CONCURSOS
 	public ObservableList<Integer> contagemConcursos(ObservableList<Concurso> concursos){
 		ObservableList<Integer> dezenas = FXCollections.observableArrayList();
 		

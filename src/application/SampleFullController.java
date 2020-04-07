@@ -185,6 +185,7 @@ public class SampleFullController implements Initializable {
     @FXML
     private TextField txfQTDDezenasPorAbosta;
     
+    //VERIFICA SE O CHEQUEBOX GERAL ESTA SELECIONADO
     @FXML
     void chequeGeral(ActionEvent event) {
     	if(cbGeral.isSelected()) {
@@ -326,6 +327,8 @@ public class SampleFullController implements Initializable {
 	    	int c4 = Integer.valueOf(txfC4.getText());
 	    	int c5 = Integer.valueOf(txfC5.getText());
 	    	
+	    	System.out.println("C1: "+ c1 + " C2: "+ c2 + " C3: "+ c3 + " C4: "+ c4 + " C5: "+ c5);
+	    	
 	    	List<Integer> qtdDezenasPorLinha = Arrays.asList(c1,c2,c3,c4,c5);
 	    	dezenas = getSorteador(qtdDezenasPorLinha);
 	    	
@@ -388,6 +391,17 @@ public class SampleFullController implements Initializable {
 	    	
     	}
     	
+    }
+    
+    //CRIADO PARA SOMAR UM OU DECREMENTAR UM NO SORTEIO DAS DEZENAS POR LINHA
+    public int maisUmOuMenosUm(int valor) {
+    	int retorno = 0;
+    	if(rad.nextInt(2) == 1) {
+    		retorno = valor + 1;
+    	}else {
+    		retorno = valor - 1;
+    	}
+    	return retorno;
     }
 
     @FXML
@@ -531,31 +545,64 @@ public class SampleFullController implements Initializable {
 		btn25.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
     }
     
+    public void removeValorDaLista(List<Integer> lista, int valor){
+    	for(int i = 0; i < lista.size(); i++) {
+    		if(lista.get(i) == valor)
+    			lista.remove(i);
+    	}
+    }
+    
     //SORTEIA AS DEZENAS POR LINHA  DE 1 A 5
     public Integer[] getSorteador(List<Integer> qtdDezenasPorLinha) {
+    	//TODO Quantia de dezenas por sorteio e fixa aqui
     	Integer[] dezenas = new Integer[15];
+    	
+    	ObservableList<Integer> listaGeral = listaTiraMediaDeCorte(LS.contagemConcursosGeral, media(LS.contagemConcursosGeral), 5, 5);
+    	ObservableList<Integer> lista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 5, 5);
+    	ObservableList<Integer> lista13Dias = listaTiraMediaDeCorte(LS.contagemConcursos13D, media(LS.contagemConcursos13D), 5, 5);
+    	
+    	ObservableList<Integer> pesoPorDezenas = indexDeMulplicacaoDeDezenas(listaGeral, lista3Meses, lista13Dias, 2, 3, 5);
+    	
+    	System.out.println("Pesos por Dezenas: " + pesoPorDezenas);
     	
     	//List<Integer> linha1 = Arrays.asList(1,2,3,4,5);
     	List<Integer> linha1 = new ArrayList<Integer>();
-    	linha1.add(1);
+    	/*linha1.add(1);
     	linha1.add(2);
     	linha1.add(3);
     	linha1.add(4);
-    	linha1.add(5);
+    	linha1.add(5);*/
+    	
+    	for(int i = 0; i < 5; i++) {
+    		int p = pesoPorDezenas.get(i);
+    		for(int j = 0; j < p; j++  ) {
+    			linha1.add(i+1);
+    		}
+    	}
+    	System.out.println("LINHA 1: " + linha1);
     	
     	List<Integer> linha2 = new ArrayList<Integer>();
-    	linha2.add(6);
+    	/*linha2.add(6);
     	linha2.add(7);
     	linha2.add(8);
     	linha2.add(9);
-    	linha2.add(10);
+    	linha2.add(10);*/
+    	
+    	for(int i = 5; i < 11; i++) {
+    		int p = pesoPorDezenas.get(i);
+    		for(int j = 0; j < p; j++  ) {
+    			linha2.add(i+1);
+    		}
+    	}
+    	System.out.println("LINHA 2: " + linha2);
     	
     	List<Integer> linha3 = new ArrayList<Integer>();
-    	linha3.add(11);
+    	/*linha3.add(11);
     	linha3.add(12);
     	linha3.add(13);
     	linha3.add(14);
-    	linha3.add(15);
+    	linha3.add(15);*/
+    	continuar aqui
     	
     	List<Integer> linha4 = new ArrayList<Integer>();
     	linha4.add(16);
@@ -579,14 +626,20 @@ public class SampleFullController implements Initializable {
     			switch (linha) {
     			case 1:
     				index = rad.nextInt(linha1.size()); //TODO INDEX COM PROBLEMAS
-    				dezenas[indexDezenas++] = linha1.get(index);
+    				//dezenas[indexDezenas++] = linha1.get(index);
+    				int valor = linha1.get(index);
+    				dezenas[indexDezenas++] = valor;
     				System.out.println("Index: "+index+ " LInha1: "+linha1.toString());
-    				linha1.remove(index);
+    				removeValorDaLista(linha1, valor);
+    				//linha1.remove(index);
     			break;
     			case 2:
     				index = rad.nextInt(linha2.size());
-    				dezenas[indexDezenas++] = linha2.get(index);
-    				linha2.remove(index);
+    				valor = linha2.get(index);
+    				dezenas[indexDezenas++] = valor;
+    				//dezenas[indexDezenas++] = linha2.get(index);
+    				removeValorDaLista(linha2, valor);
+    				//linha2.remove(index);
     			break;
     			case 3:
     				index = rad.nextInt(linha3.size());
@@ -631,10 +684,21 @@ public class SampleFullController implements Initializable {
     	return qtdLinha;
     }
     
+    //ESPECIFICA A QUANTIDADE DE DEZENAS SORTEADAS POR LINHA
     public void setQTDDezenasPorLinha() {
     	Contagem cont = new Contagem();
     	List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText())));
     	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
+    	
+    	for(int i = 0 ; i < dezenasPorLinha.size(); i++) {
+    		if(dezenasPorLinha.get(i) != 0) {
+    			if(rad.nextInt(2) == 1) {
+    				dezenasPorLinha.set(i, dezenasPorLinha.get(i) + 1);
+    			}else {
+    				dezenasPorLinha.set(i, dezenasPorLinha.get(i) - 1);
+    			}
+    		}
+    	}
     	
     	int soma = somaInteiros(dezenasPorLinha);
     	while (soma < 15) {
@@ -672,10 +736,76 @@ public class SampleFullController implements Initializable {
     	}
     	return soma;
     }
+    
+    //TIRA O VALOR MEDIA DE UMA LISTA DE INTEIROS
+    /**
+     * 
+     * @param listaDeInteiros
+     * @return
+     */
+    public int media(ObservableList<Integer> listaDeInteiros) {
+    	int media = 0;
+    		for(int i : listaDeInteiros) {
+    			media += i;
+    		}
+    	return media/listaDeInteiros.size();
+    }
+    
+    //FAZ O CORTE DOS INDEX FORA DA MEDIA
+    /**
+     * 
+     * @param lista
+     * @param media
+     * @param positivo
+     * @param negativo
+     * @return
+     */
+    public ObservableList<Integer> listaTiraMediaDeCorte(ObservableList<Integer> lista, int media, int positivo, int negativo){
+    	ObservableList<Integer> listaTiraMediaDeCorte = FXCollections.observableArrayList();
+    	for(int i = 0; i < lista.size(); i++) {
+    		if(lista.get(i) >= (media - negativo) && lista.get(i) <= (media + positivo)) {
+    			listaTiraMediaDeCorte.add(i+1);
+    		}
+    	}
+    	return listaTiraMediaDeCorte;
+    }
+    
+    //FAZ A LISTAGEM DOS INDEX COM OS RESPACTIVOS VALORES DE MULTIPLICAÇÃO
+    /**
+     * <h1>LISTA DE DEZENAS E SUA MULTIPLICACAO</h1>
+     * @param listaGeral
+     * @param lista3Meses
+     * @param lista13Dias
+     * @param peso1
+     * @param peso2
+     * @param peso3
+     * @return
+     */
+    public ObservableList<Integer> indexDeMulplicacaoDeDezenas(ObservableList<Integer> listaGeral, ObservableList<Integer> lista3Meses, ObservableList<Integer> lista13Dias, int peso1, int peso2, int peso3){
+    	ObservableList<Integer> listaIndexEvalorAmultiplicar = FXCollections.observableArrayList();
+    	listaIndexEvalorAmultiplicar.addAll(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+    	for(int g : listaGeral) {
+    		g = g - 1;
+    		listaIndexEvalorAmultiplicar.set(g, listaIndexEvalorAmultiplicar.get(g) + peso1);
+    	}
+    	
+    	for(int m3 : lista3Meses) {
+    		m3 = m3 - 1;
+    		listaIndexEvalorAmultiplicar.set(m3, listaIndexEvalorAmultiplicar.get(m3) + peso2);
+    	}
+    	
+    	for(int d13 : lista13Dias) {
+    		d13 = d13 - 1;
+    		listaIndexEvalorAmultiplicar.set(d13, listaIndexEvalorAmultiplicar.get(d13) + peso3);
+    	}
+    	return listaIndexEvalorAmultiplicar;
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		LS.apostas = apostas;
+		
+		Contagem cont = new Contagem();
 		
 		ad = new ApostaDAO();
     	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
@@ -688,6 +818,11 @@ public class SampleFullController implements Initializable {
 		LS.ConcursosRange3M = cd.listaDeConcursos(39);
 		cd = new ConcursoDAO();
 		LS.Concursos13D = cd.listaDeConcursos(13);
+		
+		
+		LS.contagemConcursosGeral = cont.contagemConcursos(LS.ConcursosGeral);
+		LS.contagemConcursosRange3M = cont.contagemConcursos(LS.ConcursosRange3M);
+		LS.contagemConcursos13D = cont.contagemConcursos(LS.Concursos13D);
 		
 		for(Concurso c: LS.ConcursosGeral) {
 			System.out.println("Iniciando Concurso: " + c);
@@ -710,7 +845,7 @@ public class SampleFullController implements Initializable {
 			}
 		});
 		
-		Contagem cont = new Contagem();
+		//Contagem cont = new Contagem();
 		ObservableList<Integer> contagem = cont.top5ranqueMediaSomaConcursos(LS.Concursos13D);
 		System.out.println(contagem);
 		
