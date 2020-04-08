@@ -300,19 +300,19 @@ public class SampleFullController implements Initializable {
     		j++;
     	}
     	
-    	System.out.println("Index: " + (index/(listaMediaPorSoma.size()/2)));
-    	System.out.println("QTD: " + (qtd/(listaMediaPorSoma.size()/2)));
+    	System.out.println("Index: " + (index/listaMediaPorSoma.size()));
+    	System.out.println("QTD: " + (qtd/listaMediaPorSoma.size()));
     	System.out.println("Size Lista: " + listaMediaPorSoma.size());
     }
 
     @FXML //REALIZA O SORTEIO DA APOSTA
     void sortear(ActionEvent event) {
 
-    	setQTDDezenasPorLinha();
-    	
  	int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
     	
     	while(qtdApostas > 0) {
+    		
+    		setQTDDezenasPorLinha();
     		
 	    	//inicializarSorteador();
 	    	
@@ -546,10 +546,23 @@ public class SampleFullController implements Initializable {
     }
     
     public void removeValorDaLista(List<Integer> lista, int valor){
-    	for(int i = 0; i < lista.size(); i++) {
-    		if(lista.get(i) == valor)
+    	/*for(int i = 0; i < lista.size(); i++) {
+    		if(lista.get(i) == valor) {
+    			System.out.println("Lista.get(i): " + lista.get(i) + " Valor: " + valor);
     			lista.remove(i);
+    		}
+    	}*/
+    	
+    	while(lista.contains(valor)) {
+    		for(int i = 0; i < lista.size(); i++) {
+        		if(lista.get(i) == valor) {
+        			System.out.println("Lista.get(i): " + lista.get(i) + " Valor: " + valor);
+        			lista.remove(i);
+        		}
+        	}
     	}
+    	
+    	System.out.println("Valor Removido: " + valor + " Lista: " + lista);
     }
     
     //SORTEIA AS DEZENAS POR LINHA  DE 1 A 5
@@ -588,7 +601,7 @@ public class SampleFullController implements Initializable {
     	linha2.add(9);
     	linha2.add(10);*/
     	
-    	for(int i = 5; i < 11; i++) {
+    	for(int i = 5; i < 10; i++) {
     		int p = pesoPorDezenas.get(i);
     		for(int j = 0; j < p; j++  ) {
     			linha2.add(i+1);
@@ -602,21 +615,44 @@ public class SampleFullController implements Initializable {
     	linha3.add(13);
     	linha3.add(14);
     	linha3.add(15);*/
-    	continuar aqui
+    	for(int i = 10; i < 15; i++) {
+    		int p = pesoPorDezenas.get(i);
+    		for(int j = 0; j < p; j++  ) {
+    			linha3.add(i+1);
+    		}
+    	}
     	
     	List<Integer> linha4 = new ArrayList<Integer>();
-    	linha4.add(16);
+    	/*linha4.add(16);
     	linha4.add(17);
     	linha4.add(18);
     	linha4.add(19);
-    	linha4.add(20);
+    	linha4.add(20);*/
+    	for(int i = 15; i < 20; i++) {
+    		int p = pesoPorDezenas.get(i);
+    		for(int j = 0; j < p; j++  ) {
+    			linha4.add(i+1);
+    		}
+    	}
     	
     	List<Integer> linha5 = new ArrayList<Integer>();
-    	linha5.add(21);
+    	/*linha5.add(21);
     	linha5.add(22);
     	linha5.add(23);
     	linha5.add(24);
-    	linha5.add(25);
+    	linha5.add(25);*/
+    	for(int i = 20; i < 25; i++) {
+    		int p = pesoPorDezenas.get(i);
+    		for(int j = 0; j < p; j++  ) {
+    			linha5.add(i+1);
+    		}
+    	}
+    	
+    	System.out.println("LISTA 1: " + linha1);
+    	System.out.println("LISTA 2: " + linha2);
+    	System.out.println("LISTA 3: " + linha3);
+    	System.out.println("LISTA 4: " + linha4);
+    	System.out.println("LISTA 5: " + linha5);
     	
     	int linha = 1;
     	int indexDezenas = 0;
@@ -643,18 +679,27 @@ public class SampleFullController implements Initializable {
     			break;
     			case 3:
     				index = rad.nextInt(linha3.size());
-    				dezenas[indexDezenas++] = linha3.get(index);
-    				linha3.remove(index);
+    				//dezenas[indexDezenas++] = linha3.get(index);
+    				valor = linha3.get(index);
+    				dezenas[indexDezenas++] = valor;
+    				removeValorDaLista(linha3, valor);
+    				//linha3.remove(index);
     			break;
     			case 4:
     				index = rad.nextInt(linha4.size());
-    				dezenas[indexDezenas++] = linha4.get(index);
-    				linha4.remove(index);
+    				//dezenas[indexDezenas++] = linha4.get(index);
+    				//linha4.remove(index);
+    				valor = linha4.get(index);
+    				dezenas[indexDezenas++] = valor;
+    				removeValorDaLista(linha4, valor);
     			break;
     			case 5:
     				index = rad.nextInt(linha5.size());
-    				dezenas[indexDezenas++] = linha5.get(index);
-    				linha5.remove(index);
+    				//dezenas[indexDezenas++] = linha5.get(index);
+    				//linha5.remove(index);
+    				valor = linha5.get(index);
+    				dezenas[indexDezenas++] = valor;
+    				removeValorDaLista(linha5, valor);
     			break;
     			default:
     				break;
