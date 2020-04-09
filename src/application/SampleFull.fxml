@@ -494,7 +494,7 @@
                               <Font name="Tahoma Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txfQTDDezenasPorAbosta" alignment="CENTER" prefHeight="30.0" style="-fx-border-color: #862e9c; -fx-border-radius: 3;" text="15" GridPane.columnIndex="1">
+                        <TextField fx:id="txfQTDDezenasPorAposta" alignment="CENTER" prefHeight="30.0" style="-fx-border-color: #862e9c; -fx-border-radius: 3;" text="15" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                            </GridPane.margin>
@@ -502,6 +502,85 @@
                               <Font name="Tahoma Bold" size="14.0" />
                            </font>
                         </TextField>
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" layoutX="16.0" layoutY="411.0" prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #ae3ec9; -fx-border-width: 2; -fx-border-radius: 7;">
+               <children>
+                  <GridPane alignment="CENTER_RIGHT" prefHeight="87.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="120.0" prefWidth="120.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="136.0" minWidth="120.0" prefWidth="120.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="106.0" minWidth="120.0" prefWidth="120.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="40.0" text="Peso 1" GridPane.halignment="CENTER">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txfPeso1" alignment="CENTER" prefHeight="35.0" prefWidth="40.0" text="2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="13.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </GridPane>
+                        <GridPane layoutX="24.0" layoutY="10.0" GridPane.columnIndex="1">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="40.0" text="Peso 2" GridPane.halignment="CENTER">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txfPeso2" alignment="CENTER" prefHeight="35.0" prefWidth="40.0" text="2" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="13.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </GridPane>
+                        <GridPane layoutX="164.0" layoutY="10.0" GridPane.columnIndex="2">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label prefHeight="35.0" prefWidth="40.0" text="Peso 3" GridPane.halignment="CENTER">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txfPeso3" alignment="CENTER" prefHeight="35.0" prefWidth="40.0" text="6" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="13.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </GridPane>
                      </children>
                   </GridPane>
                </children>

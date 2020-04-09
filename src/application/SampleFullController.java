@@ -183,7 +183,16 @@ public class SampleFullController implements Initializable {
     private CheckBox cbGeral;
     
     @FXML
-    private TextField txfQTDDezenasPorAbosta;
+    private TextField txfQTDDezenasPorAposta;
+    
+    @FXML
+    private TextField txfPeso1;
+
+    @FXML
+    private TextField txfPeso2;
+
+    @FXML
+    private TextField txfPeso3;
     
     //VERIFICA SE O CHEQUEBOX GERAL ESTA SELECIONADO
     @FXML
@@ -567,12 +576,18 @@ public class SampleFullController implements Initializable {
     
     //SORTEIA AS DEZENAS POR LINHA  DE 1 A 5
     public Integer[] getSorteador(List<Integer> qtdDezenasPorLinha) {
+    	
+    	int dezenasPorAposta = Integer.valueOf(txfQTDDezenasPorAposta.getText());
     	//TODO Quantia de dezenas por sorteio e fixa aqui
-    	Integer[] dezenas = new Integer[15];
+    	Integer[] dezenas = new Integer[dezenasPorAposta];
     	
     	ObservableList<Integer> listaGeral = listaTiraMediaDeCorte(LS.contagemConcursosGeral, media(LS.contagemConcursosGeral), 5, 5);
-    	ObservableList<Integer> lista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 5, 5);
-    	ObservableList<Integer> lista13Dias = listaTiraMediaDeCorte(LS.contagemConcursos13D, media(LS.contagemConcursos13D), 5, 5);
+    	ObservableList<Integer> lista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
+    	ObservableList<Integer> lista13Dias = listaTiraMediaDeCorte(LS.contagemConcursos13D, media(LS.contagemConcursos13D), 1, 1);
+    	
+    	System.out.println(" ListaGeral: " + listaGeral );
+    	System.out.println(" Lista3Meses: " + lista3Meses );
+    	System.out.println(" Lista13Dias: " + lista13Dias);
     	
     	ObservableList<Integer> pesoPorDezenas = indexDeMulplicacaoDeDezenas(listaGeral, lista3Meses, lista13Dias, 2, 3, 5);
     	
@@ -716,7 +731,8 @@ public class SampleFullController implements Initializable {
     	
     	int soma = 0;
     	List<Integer> qtdLinha = new ArrayList<Integer>();
-    	while(soma == 15) {
+    	int dezenasPorAposta = Integer.valueOf(txfQTDDezenasPorAposta.getText());
+    	while(soma == dezenasPorAposta) {
     		for(int i = 0; i < 5;i++) {
     			qtdLinha.add(rad.nextInt(5));
     		}
@@ -746,7 +762,10 @@ public class SampleFullController implements Initializable {
     	}
     	
     	int soma = somaInteiros(dezenasPorLinha);
-    	while (soma < 15) {
+    	
+    	int dezenasPorAposta = Integer.valueOf(txfQTDDezenasPorAposta.getText());
+    	
+    	while (soma < dezenasPorAposta) {
     		int index = rad.nextInt(5);
     		if(dezenasPorLinha.get(index) < 5) {
     			dezenasPorLinha.set(index, dezenasPorLinha.get(index) + rad.nextInt(2));
@@ -756,7 +775,7 @@ public class SampleFullController implements Initializable {
     		soma = somaInteiros(dezenasPorLinha);*/
 		}
     	
-    	while (soma > 15) {
+    	while (soma > dezenasPorAposta) {
     		int index = rad.nextInt(5);
     		if(dezenasPorLinha.get(index) < 5) {
     			dezenasPorLinha.set(index, dezenasPorLinha.get(index) - rad.nextInt(2));
