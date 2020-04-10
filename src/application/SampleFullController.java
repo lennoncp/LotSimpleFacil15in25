@@ -249,26 +249,26 @@ public class SampleFullController implements Initializable {
     @FXML
     void salvarApostas(ActionEvent event) {
     	
-    	/*ad = new ApostaDAO();
+    	ad = new ApostaDAO();
     	for(Aposta a: LS.apostas) {
     		ad.salvarAposta(a);
     		System.out.println("Aposta " + a.getCodigo() + " salva");
     	}
     	ad = new ApostaDAO();
-    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;*/
+    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
     	
-    	Contagem cont = new Contagem();
-    	/*List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
+    	/*Contagem cont = new Contagem();
+    	List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
     	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
 		System.out.println(qtdLinhas);
 		System.out.println(dezenasPorLinha);*/
     	
-    	ObservableList<Integer> lista = cont.listSomaConcursos(LS.ConcursosGeral);
+    	/*ObservableList<Integer> lista = cont.listSomaConcursos(LS.ConcursosGeral);
     	System.out.println(lista);
     	System.out.println("Tamanho: "+lista.size());
     	cd = new ConcursoDAO();
     	ObservableList<Integer> frequenciaDeSomas = cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()))));
-    	/*System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
+    	System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
     	
     	int max = 0;
     	for(int f : frequenciaDeSomas) {
@@ -293,7 +293,7 @@ public class SampleFullController implements Initializable {
     	}
     	
     	System.out.println("Media Qtd por index: " + (somaF/qtdDeSomas) + " Media de Index: "+ (somaI / qtdDeSomas)); */
-    	List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
+    	/*List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
     	System.out.println(listaMediaPorSoma);
     	
     	int index = 0;
@@ -311,7 +311,15 @@ public class SampleFullController implements Initializable {
     	
     	System.out.println("Index: " + (index/listaMediaPorSoma.size()));
     	System.out.println("QTD: " + (qtd/listaMediaPorSoma.size()));
-    	System.out.println("Size Lista: " + listaMediaPorSoma.size());
+    	System.out.println("Size Lista: " + listaMediaPorSoma.size());*/
+    	
+    	/*Comparador comparador = new Comparador();
+    	boolean ca = comparador.comparaApostas(LS.apostas.get(0), LS.apostas);
+    	boolean cc = comparador.comparaApostaComConcursos(LS.apostas.get(0), LS.ConcursosGeral);
+    	
+    	System.out.println("Comparando Apostas " + ca + " Comparando Concursos " + cc);*/
+    	
+    	
     }
 
     @FXML //REALIZA O SORTEIO DA APOSTA
@@ -380,22 +388,42 @@ public class SampleFullController implements Initializable {
 	    	Contagem c = new Contagem();
 	    	int mediaImpar = c.contagemDeImparesGeral(LS.ConcursosGeral);
 	    	System.out.println("Meia Impares: " + mediaImpar);
+	    	
 	    	if(impPar >= mediaImpar-1 && impPar <= mediaImpar+1) {
 	    		
-	    		LS.apostas.add(aposta);
+	    		/*LS.apostas.add(aposta);
 		    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
 		    	
 				LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
 				
-				System.out.println(LS.apostas);
+				for(Aposta a : LS.apostas) {
+					System.out.println(a);
+				}
 	    	
-		    	qtdApostas--;
+		    	qtdApostas--;*/
+		    	
+	    		Comparador comp = new Comparador();
+	    		
+		    	if(!comp.comparaApostas(aposta, LS.apostas) && !comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral)) {
+		    		
+		    		LS.apostas.add(aposta);
+			    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+			    	
+					LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+					
+					for(Aposta a : LS.apostas) {
+						System.out.println(a);
+					}
+		    	
+			    	qtdApostas--;
+		    	}else {
+		    		System.out.println("Apostas iguais... Aposta: " + aposta.getDezenas());
+		    	}
 	    		
 	    	}else {
 	    		System.out.println("Media impar fora!");
 	    		LS.codigoAtualApostas++;
 	    	}
-	    	
 	    	
 	    	
     	}
