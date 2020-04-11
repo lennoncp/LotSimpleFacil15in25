@@ -50,7 +50,7 @@ public class ConcursoDAO {
 			ps.setInt(17, concurso.getDezenas().get(14));
 			
 			salva = ps.execute();
-			System.out.println("Concurso: "+concurso.getConcurso()+" "+concurso.getDezenas());
+		//TODO	System.out.println("Concurso: "+concurso.getConcurso()+" "+concurso.getDezenas());
 			
 			conn.close();
 		} catch (SQLException e) {
@@ -91,7 +91,7 @@ public class ConcursoDAO {
 										       rs.getInt("d14"), 
 										       rs.getInt("d15")));
 				Concurso c = new Concurso(rs.getInt("concurso"), rs.getDate("data_sorteio"), dezenas);
-				System.out.println("Do DB Concurso: " + c);
+			//TODO	System.out.println("Do DB Concurso: " + c);
 				concursos.add(c);
 			}
 			

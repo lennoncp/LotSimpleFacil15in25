@@ -249,16 +249,16 @@ public class SampleFullController implements Initializable {
     @FXML
     void salvarApostas(ActionEvent event) {
     	
-    	ad = new ApostaDAO();
+    	/*ad = new ApostaDAO();
     	for(Aposta a: LS.apostas) {
     		ad.salvarAposta(a);
     		System.out.println("Aposta " + a.getCodigo() + " salva");
     	}
     	ad = new ApostaDAO();
-    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
+    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;*/
     	
-    	/*Contagem cont = new Contagem();
-    	List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
+    	Contagem cont = new Contagem();
+    	/*List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
     	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
 		System.out.println(qtdLinhas);
 		System.out.println(dezenasPorLinha);*/
@@ -266,7 +266,7 @@ public class SampleFullController implements Initializable {
     	/*ObservableList<Integer> lista = cont.listSomaConcursos(LS.ConcursosGeral);
     	System.out.println(lista);
     	System.out.println("Tamanho: "+lista.size());
-    	cd = new ConcursoDAO();
+    	cd = new ConcursoDAO();*/
     	ObservableList<Integer> frequenciaDeSomas = cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()))));
     	System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
     	
@@ -292,11 +292,11 @@ public class SampleFullController implements Initializable {
     			
     	}
     	
-    	System.out.println("Media Qtd por index: " + (somaF/qtdDeSomas) + " Media de Index: "+ (somaI / qtdDeSomas)); */
-    	/*List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
+    	System.out.println("Media Qtd por index: " + (somaF/qtdDeSomas) + " Media de Index: "+ (somaI / qtdDeSomas)); 
+    	List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
     	System.out.println(listaMediaPorSoma);
     	
-    	int index = 0;
+    	/*int index = 0;
     	int qtd = 0;
     	
     	int i = 0;
@@ -403,6 +403,8 @@ public class SampleFullController implements Initializable {
 		    	qtdApostas--;*/
 		    	
 	    		Comparador comp = new Comparador();
+	    		
+	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comp.comparaApostas(aposta, LS.apostas)+" CONCURSOS: "+comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral));
 	    		
 		    	if(!comp.comparaApostas(aposta, LS.apostas) && !comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral)) {
 		    		
@@ -593,7 +595,7 @@ public class SampleFullController implements Initializable {
     	while(lista.contains(valor)) {
     		for(int i = 0; i < lista.size(); i++) {
         		if(lista.get(i) == valor) {
-        			System.out.println("Lista.get(i): " + lista.get(i) + " Valor: " + valor);
+        			//TODO System.out.println("Lista.get(i): " + lista.get(i) + " Valor: " + valor);
         			lista.remove(i);
         		}
         	}
@@ -609,15 +611,16 @@ public class SampleFullController implements Initializable {
     	//TODO Quantia de dezenas por sorteio e fixa aqui
     	Integer[] dezenas = new Integer[dezenasPorAposta];
     	
-    	ObservableList<Integer> listaGeral = listaTiraMediaDeCorte(LS.contagemConcursosGeral, media(LS.contagemConcursosGeral), 5, 5);
+    	//TODO RELAÇÃO DE MEDIA DE CORTE
+    	/*ObservableList<Integer> listaGeral = listaTiraMediaDeCorte(LS.contagemConcursosGeral, media(LS.contagemConcursosGeral), 5, 5);
     	ObservableList<Integer> lista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
     	ObservableList<Integer> lista13Dias = listaTiraMediaDeCorte(LS.contagemConcursos13D, media(LS.contagemConcursos13D), 1, 1);
     	
     	System.out.println(" ListaGeral: " + listaGeral );
     	System.out.println(" Lista3Meses: " + lista3Meses );
-    	System.out.println(" Lista13Dias: " + lista13Dias);
+    	System.out.println(" Lista13Dias: " + lista13Dias);*/
     	
-    	ObservableList<Integer> pesoPorDezenas = indexDeMulplicacaoDeDezenas(listaGeral, lista3Meses, lista13Dias, 2, 3, 5);
+    	ObservableList<Integer> pesoPorDezenas = indexDeMulplicacaoDeDezenas(LS.mediaCorteListaGeral, LS.mediaCorteLista3Meses, LS.mediaCorteLista3Meses, 2, 3, 5);
     	
     	System.out.println("Pesos por Dezenas: " + pesoPorDezenas);
     	
@@ -635,7 +638,6 @@ public class SampleFullController implements Initializable {
     			linha1.add(i+1);
     		}
     	}
-    	System.out.println("LINHA 1: " + linha1);
     	
     	List<Integer> linha2 = new ArrayList<Integer>();
     	/*linha2.add(6);
@@ -650,7 +652,6 @@ public class SampleFullController implements Initializable {
     			linha2.add(i+1);
     		}
     	}
-    	System.out.println("LINHA 2: " + linha2);
     	
     	List<Integer> linha3 = new ArrayList<Integer>();
     	/*linha3.add(11);
@@ -708,7 +709,7 @@ public class SampleFullController implements Initializable {
     				//dezenas[indexDezenas++] = linha1.get(index);
     				int valor = linha1.get(index);
     				dezenas[indexDezenas++] = valor;
-    				System.out.println("Index: "+index+ " LInha1: "+linha1.toString());
+    				//TODO System.out.println("Index: "+index+ " LInha1: "+linha1.toString());
     				removeValorDaLista(linha1, valor);
     				//linha1.remove(index);
     			break;
@@ -770,6 +771,8 @@ public class SampleFullController implements Initializable {
     		}
     	}
     	
+    	//TODO QUANTIDADE DE DEZENAS POR LINHA
+    	System.out.println("QUANTIDADE DE DEZENAS POR LINHA: " + qtdLinha);
     	return qtdLinha;
     }
     
@@ -903,23 +906,29 @@ public class SampleFullController implements Initializable {
     	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
     	ad = new ApostaDAO();
     	LS.listaDBApostas= ad.getListaDeApostasSalvas();
+    	
+    	//TODO quantidade de apostas salvas
+    	System.out.println("ULTIMA APOSTA SALVA: " + LS.listaDBApostas.get(LS.listaDBApostas.size() - 1));
 		
 		cd = new ConcursoDAO();
-		LS.ConcursosGeral = cd.listaDeConcursos(1943);
+		LS.ConcursosGeral = cd.listaDeConcursos(cd.maxConcurso());
 		cd = new ConcursoDAO();
 		LS.ConcursosRange3M = cd.listaDeConcursos(39);
 		cd = new ConcursoDAO();
 		LS.Concursos13D = cd.listaDeConcursos(13);
 		
+		//TODO ULTIMO CONCURSO REALIZADO SALVO NO BANCO
+		System.out.println("ULTIMO CONCURSO SALVO: " + LS.ConcursosGeral.get(LS.ConcursosGeral.size()-1));
 		
 		LS.contagemConcursosGeral = cont.contagemConcursos(LS.ConcursosGeral);
 		LS.contagemConcursosRange3M = cont.contagemConcursos(LS.ConcursosRange3M);
 		LS.contagemConcursos13D = cont.contagemConcursos(LS.Concursos13D);
 		
-		for(Concurso c: LS.ConcursosGeral) {
+		//TODO LISTAGEM DE CONCURSOS GERAL
+		/*for(Concurso c: LS.ConcursosGeral) {
 			System.out.println("Iniciando Concurso: " + c);
 			LS.listaDeConcursos.add(ApostaConcurso.toApostaConcurso(c));
-		}
+		}*/
 		
 		tcCodigo.setCellValueFactory(new PropertyValueFactory("codigo"));
 		tcImpar.setCellValueFactory(new PropertyValueFactory("Impar"));
@@ -937,12 +946,20 @@ public class SampleFullController implements Initializable {
 			}
 		});
 		
+		LS.mediaCorteListaGeral = listaTiraMediaDeCorte(LS.contagemConcursosGeral, media(LS.contagemConcursosGeral), 5, 5);
+    	LS.mediaCorteLista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
+    	LS.mediaCorteLista13Dias = listaTiraMediaDeCorte(LS.contagemConcursos13D, media(LS.contagemConcursos13D), 1, 1);
+    	
+    	System.out.println(" ListaGeral: " + LS.mediaCorteListaGeral );
+    	System.out.println(" Lista3Meses: " + LS.mediaCorteLista3Meses );
+    	System.out.println(" Lista13Dias: " + LS.mediaCorteLista13Dias);
+		
 		//Contagem cont = new Contagem();
 		ObservableList<Integer> contagem = cont.top5ranqueMediaSomaConcursos(LS.Concursos13D);
-		System.out.println(contagem);
+		System.out.println("top5ranqueMediaSomaConcursos: " + contagem);
 		
 		//CONTAGEM DE SORTEADOS POR LINHA
-		System.out.println(cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.Concursos13D));
+		System.out.println("CONTAGEM DE SORTEADOS POR LINHA: " +cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.Concursos13D));
 		
 		//List<Integer> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
 		//System.out.println(qtdLinhas);

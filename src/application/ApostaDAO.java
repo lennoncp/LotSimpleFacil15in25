@@ -61,7 +61,6 @@ public class ApostaDAO {
 	}
 
 	public Integer getCodigoAposta() {
-		System.out.println("getCodigoAposta");
 		Integer codigo = 0;
 		conn = DBConfig.getConnection();
 		String select = "SELECT MAX(codigo) as MAXIMO FROM apostas; ";
@@ -70,7 +69,7 @@ public class ApostaDAO {
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				codigo = rs.getInt(1);
-				System.out.println("codigo: "+codigo);
+				//TODO SELECT MAX(codigo) as MAXIMO FROM apostas System.out.println("codigo: "+codigo);
 			}
 			conn.close();
 		} catch (SQLException e) {
@@ -126,7 +125,7 @@ public class ApostaDAO {
 				});
 				aposta.getAction().setDisable(true);
 				
-				System.out.println("Apostas DB aposta: " + aposta);
+				//TODO System.out.println("Apostas DB aposta: " + aposta);
 				
 				apostas.add(ApostaConcurso.toApostaConcurso(aposta));
 			}

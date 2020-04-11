@@ -102,4 +102,14 @@ public class ApostaConcurso {
 		return ac;
 	}
 
+
+
+	@Override
+	public String toString() {
+		return "ApostaConcurso [codigo=" + codigo + ", Impar=" + Impar + ", soma=" + soma + ", dezenas=" + dezenas
+				+ ", button=" + button + "]";
+	}
+	
+	
+
 }

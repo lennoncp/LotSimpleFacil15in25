@@ -24,5 +24,9 @@ public class LS {
     public static ObservableList<ApostaConcurso> listaDBApostas = FXCollections.observableArrayList();
     public static ObservableList<ApostaConcurso> listaDeApostas = FXCollections.observableArrayList();
     public static ObservableList<ApostaConcurso> listaDeConcursos = FXCollections.observableArrayList();
+    
+    public static ObservableList<Integer> mediaCorteListaGeral = FXCollections.observableArrayList();
+    public static ObservableList<Integer> mediaCorteLista3Meses = FXCollections.observableArrayList();
+    public static ObservableList<Integer> mediaCorteLista13Dias = FXCollections.observableArrayList();
 
 }
