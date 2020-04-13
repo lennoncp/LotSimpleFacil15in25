@@ -404,9 +404,12 @@ public class SampleFullController implements Initializable {
 		    	
 	    		Comparador comp = new Comparador();
 	    		
-	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comp.comparaApostas(aposta, LS.apostas)+" CONCURSOS: "+comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral));
+	    		boolean comparadorApostas = comp.comparaApostas(aposta, LS.apostas);
+	    		boolean comparadorConcursos = comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral);
 	    		
-		    	if(!comp.comparaApostas(aposta, LS.apostas) && !comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral)) {
+	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comparadorApostas+" CONCURSOS: "+comparadorConcursos);
+	    		
+		    	if(!comparadorApostas && !comparadorConcursos) {
 		    		
 		    		LS.apostas.add(aposta);
 			    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));

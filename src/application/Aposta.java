@@ -1,6 +1,9 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import javafx.scene.control.Button;
 
@@ -17,7 +20,8 @@ public class Aposta {
 		this.codigo = codigo;
 		this.impPar = impPar;
 		this.soma = soma;
-		this.dezenas = dezenas;
+		//this.dezenas = dezenas;
+		this.dezenas = setDezenasSort(dezenas);
 		this.action = action;
 	}
 
@@ -50,7 +54,31 @@ public class Aposta {
 	}
 
 	public void setDezenas(Integer[] dezenas) {
-		this.dezenas = dezenas;
+		List<Integer> dezenasList = new ArrayList<Integer>();
+		Integer[] dezenasNovas = new Integer[dezenas.length];
+		for(int i: dezenas) {
+			dezenasList.add(i);
+		}
+		Collections.sort(dezenasList);
+		for(int i = 0; i < dezenasList.size(); i++) {
+			dezenasNovas[i] = dezenasList.get(i);
+		}
+		this.dezenas = dezenasNovas;
+		
+	}
+	
+	public Integer[] setDezenasSort(Integer[] dezenas) {
+		List<Integer> dezenasList = new ArrayList<Integer>();
+		Integer[] dezenasNovas = new Integer[dezenas.length];
+		for(int i: dezenas) {
+			dezenasList.add(i);
+		}
+		Collections.sort(dezenasList);
+		for(int i = 0; i < dezenasList.size(); i++) {
+			dezenasNovas[i] = dezenasList.get(i);
+		}
+		return dezenasNovas;
+		
 	}
 
 	public Button getAction() {
