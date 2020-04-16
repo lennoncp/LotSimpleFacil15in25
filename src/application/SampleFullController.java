@@ -194,6 +194,12 @@ public class SampleFullController implements Initializable {
     @FXML
     private TextField txfPeso3;
     
+    @FXML
+    private TextField txfMediaSomaMinima;
+
+    @FXML
+    private TextField txfMediaSomaMaxima;
+    
     //VERIFICA SE O CHEQUEBOX GERAL ESTA SELECIONADO
     @FXML
     void chequeGeral(ActionEvent event) {
@@ -294,7 +300,7 @@ public class SampleFullController implements Initializable {
     	
     	System.out.println("Media Qtd por index: " + (somaF/qtdDeSomas) + " Media de Index: "+ (somaI / qtdDeSomas)); 
     	List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
-    	System.out.println(listaMediaPorSoma);
+    	//System.out.println(listaMediaPorSoma);
     	
     	/*int index = 0;
     	int qtd = 0;
@@ -318,7 +324,8 @@ public class SampleFullController implements Initializable {
     	boolean cc = comparador.comparaApostaComConcursos(LS.apostas.get(0), LS.ConcursosGeral);
     	
     	System.out.println("Comparando Apostas " + ca + " Comparando Concursos " + cc);*/
-    	
+    	List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText())))));
+    	System.out.println("Media Minima e Maxima da Frequencia de Soma dos concursos: " + minimoEMaximo.get(0) + " & "+ minimoEMaximo.get(1));
     	
     }
 
@@ -410,7 +417,7 @@ public class SampleFullController implements Initializable {
 	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comparadorApostas+" CONCURSOS: "+comparadorConcursos);
 	    		
 		    	if(!comparadorApostas && !comparadorConcursos) {
-		    		
+		    		/*		    		
 		    		LS.apostas.add(aposta);
 			    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
 			    	
@@ -420,7 +427,32 @@ public class SampleFullController implements Initializable {
 						System.out.println(a);
 					}
 		    	
-			    	qtdApostas--;
+			    	qtdApostas--;*/
+			    	
+			    	Contagem cont = new Contagem();
+		    		List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(LS.ConcursosGeral)));
+		    		//txfMediaSomaMinima.setText(minimoEMaximo.get(0)+"");
+		    		//txfMediaSomaMaxima.setText(minimoEMaximo.get(1)+"");
+		    		
+		    		int somaAposta = cont.somaDezenasAposta(aposta);
+		    		
+		    		System.out.println("minimoEMaximo.get(0): "+minimoEMaximo.get(0)+"<= somaAposta: "+somaAposta+" && somaAposta: "+somaAposta+" <= minimoEMaximo.get(1): "+minimoEMaximo.get(1));
+		    		if((minimoEMaximo.get(0) <= somaAposta) && (somaAposta <=  minimoEMaximo.get(1)) ) {
+		    			LS.apostas.add(aposta);
+				    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+				    	
+						LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+						
+						for(Aposta a : LS.apostas) {
+							System.out.println(a);
+						}
+			    	
+				    	qtdApostas--;
+		    		}else {
+		    			System.out.println("Soma Aposta inadeguado...");
+		    		}
+			    	
+			    	
 		    	}else {
 		    		System.out.println("Apostas iguais... Aposta: " + aposta.getDezenas());
 		    	}
@@ -901,6 +933,7 @@ public class SampleFullController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		LS.apostas = apostas;
 		
 		Contagem cont = new Contagem();
@@ -932,6 +965,7 @@ public class SampleFullController implements Initializable {
 			System.out.println("Iniciando Concurso: " + c);
 			LS.listaDeConcursos.add(ApostaConcurso.toApostaConcurso(c));
 		}*/
+    	
 		
 		tcCodigo.setCellValueFactory(new PropertyValueFactory("codigo"));
 		tcImpar.setCellValueFactory(new PropertyValueFactory("Impar"));
@@ -966,6 +1000,13 @@ public class SampleFullController implements Initializable {
 		
 		//List<Integer> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
 		//System.out.println(qtdLinhas);
+		
+		//MEDIA DE SOMAS DOS CONCURSOS
+		List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(LS.ConcursosGeral)));
+		txfMediaSomaMinima.setText(minimoEMaximo.get(0)+"");
+		txfMediaSomaMaxima.setText(minimoEMaximo.get(1)+"");
+		System.out.println("minimoEMaximo: " + minimoEMaximo);
+	
 	}
 
 }

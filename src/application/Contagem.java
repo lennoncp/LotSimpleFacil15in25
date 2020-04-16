@@ -588,4 +588,68 @@ public class Contagem {
     	return medias;
   }	
 	
+  //	
+  public List<Integer> minimoEmaximoDeQTDDeSomasDeConcurso(ObservableList<Integer> frequenciaDeSomas) {
+	  
+	  List<Integer> minimoEMaximoSomaConcurso = new ArrayList<Integer>();
+	  
+	  int max = 0;
+  	for(int f : frequenciaDeSomas) {
+  		if(f > max) {
+  			max = f;
+  		}
+  	}
+  	
+  	int somaF = 0;
+  	int somaI = 0;
+  	int qtdDeSomas = 0;
+  	for(int i = 0; i < frequenciaDeSomas.size(); i++) {
+  		int f = frequenciaDeSomas.get(i);
+  		if(f >= (max - max) && f <= max)
+  			if(f != 0) {
+  				System.out.println("Frequencia maximas: " + f + " index: " + i);
+  				somaF += f;
+  				somaI += i;
+  			    qtdDeSomas++;
+  			}
+  			
+  	}
+	  
+  	int media = (somaF/qtdDeSomas);
+  	
+  	somaF = 0;
+  	somaI = 0;
+  	qtdDeSomas = 0;
+  	int minimo = 150;
+  	int maximo = 0;
+  	for(int i = 0; i < frequenciaDeSomas.size(); i++) {
+  		int f = frequenciaDeSomas.get(i);
+  		if(f >= media) {
+  			int aux = i + 1;
+  			if(aux < minimo) {
+  				minimo = i + 1;
+  			}
+  			
+  			if(aux > maximo) {
+  				maximo = i + 1;
+  			}
+  		}
+  			
+  	} 
+  	
+  	minimoEMaximoSomaConcurso.add(minimo);
+  	minimoEMaximoSomaConcurso.add(maximo);
+	return minimoEMaximoSomaConcurso;
+  }
+  
+  public int somaDezenasAposta(Aposta aposta) {
+	  int soma = 0;
+	  
+	  for(int i : aposta.getDezenas()) {
+		  soma += i;
+	  }
+	  
+	  return soma;
+  }
+	
 }
