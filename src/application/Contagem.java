@@ -541,12 +541,12 @@ public class Contagem {
 			contagem.add(0);
 		}
 		
-		System.out.println("Contagem: " + contagem);
+		//System.out.println("Contagem: " + contagem);
 		
 		for(int c : listaDeSomaDeConcursos) {
 			int valor = contagem.get(c);
 			contagem.set(c, (valor + 1));
-			System.out.println("C: " + c + " Valor: "+ valor);
+			//System.out.println("C: " + c + " Valor: "+ valor);
 		}
 		
 		return contagem;
@@ -590,7 +590,7 @@ public class Contagem {
 	
   //	
   public List<Integer> minimoEmaximoDeQTDDeSomasDeConcurso(ObservableList<Integer> frequenciaDeSomas) {
-	  
+	  System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
 	  List<Integer> minimoEMaximoSomaConcurso = new ArrayList<Integer>();
 	  
 	  int max = 0;
@@ -607,7 +607,7 @@ public class Contagem {
   		int f = frequenciaDeSomas.get(i);
   		if(f >= (max - max) && f <= max)
   			if(f != 0) {
-  				System.out.println("Frequencia maximas: " + f + " index: " + i);
+  				//System.out.println("Frequencia maximas: " + f + " index: " + i);
   				somaF += f;
   				somaI += i;
   			    qtdDeSomas++;
@@ -616,6 +616,7 @@ public class Contagem {
   	}
 	  
   	int media = (somaF/qtdDeSomas);
+  	System.out.println("Media de Frequencia de Soma: " + media);
   	
   	somaF = 0;
   	somaI = 0;

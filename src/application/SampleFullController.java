@@ -255,13 +255,13 @@ public class SampleFullController implements Initializable {
     @FXML
     void salvarApostas(ActionEvent event) {
     	
-    	/*ad = new ApostaDAO();
+    	ad = new ApostaDAO();
     	for(Aposta a: LS.apostas) {
     		ad.salvarAposta(a);
     		System.out.println("Aposta " + a.getCodigo() + " salva");
     	}
     	ad = new ApostaDAO();
-    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;*/
+    	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
     	
     	Contagem cont = new Contagem();
     	/*List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
@@ -273,6 +273,7 @@ public class SampleFullController implements Initializable {
     	System.out.println(lista);
     	System.out.println("Tamanho: "+lista.size());
     	cd = new ConcursoDAO();*/
+    	/*
     	ObservableList<Integer> frequenciaDeSomas = cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()))));
     	System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
     	
@@ -300,6 +301,7 @@ public class SampleFullController implements Initializable {
     	
     	System.out.println("Media Qtd por index: " + (somaF/qtdDeSomas) + " Media de Index: "+ (somaI / qtdDeSomas)); 
     	List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
+    	*/
     	//System.out.println(listaMediaPorSoma);
     	
     	/*int index = 0;
@@ -324,8 +326,8 @@ public class SampleFullController implements Initializable {
     	boolean cc = comparador.comparaApostaComConcursos(LS.apostas.get(0), LS.ConcursosGeral);
     	
     	System.out.println("Comparando Apostas " + ca + " Comparando Concursos " + cc);*/
-    	List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText())))));
-    	System.out.println("Media Minima e Maxima da Frequencia de Soma dos concursos: " + minimoEMaximo.get(0) + " & "+ minimoEMaximo.get(1));
+    	//List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText())))));
+    	//System.out.println("Media Minima e Maxima da Frequencia de Soma dos concursos: " + minimoEMaximo.get(0) + " & "+ minimoEMaximo.get(1));
     	
     }
 
@@ -571,12 +573,10 @@ public class SampleFullController implements Initializable {
     	System.out.println("Realizar mudança");
     	defautButons();
     	if(tvApostas.getItems().size() > 1000) {
-    		System.out.println("mostrar Concursos");
     		tvApostas.setItems(LS.listaDeApostas);
     		tvApostas.refresh();
     		btnConcursoApostaChange.setText("C");
     	}else {
-    		System.out.println("mostrar apostas");
     		tvApostas.setItems(LS.listaDeConcursos);
     		tvApostas.refresh();
     		btnConcursoApostaChange.setText("A");
@@ -587,6 +587,7 @@ public class SampleFullController implements Initializable {
     @FXML
     void changeApostasSalvas(ActionEvent event) {
     	System.out.println("Realizando a leitura das apostas: "+ LS.listaDBApostas.size());
+    	LS.listaDBApostas = ad.getListaDeApostasSalvas();
     	tvApostas.setItems(LS.listaDBApostas);
     	tvApostas.refresh();
     }
@@ -961,10 +962,10 @@ public class SampleFullController implements Initializable {
 		LS.contagemConcursos13D = cont.contagemConcursos(LS.Concursos13D);
 		
 		//TODO LISTAGEM DE CONCURSOS GERAL
-		/*for(Concurso c: LS.ConcursosGeral) {
-			System.out.println("Iniciando Concurso: " + c);
+		for(Concurso c: LS.ConcursosGeral) {
+			//System.out.println("Iniciando Concurso: " + c);
 			LS.listaDeConcursos.add(ApostaConcurso.toApostaConcurso(c));
-		}*/
+		}
     	
 		
 		tcCodigo.setCellValueFactory(new PropertyValueFactory("codigo"));
