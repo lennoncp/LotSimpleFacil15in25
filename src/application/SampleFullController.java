@@ -369,7 +369,7 @@ public class SampleFullController implements Initializable {
 	    	//btn.setOnAction((btnExcluir)->{System.out.println("Vazio");});
 	    	//ad = new ApostaDAO();
 	    	//Integer CodigoMaximoAtual = LS.codigoAtualApostas /*ad.getCodigoAposta()*/;
-	    	Integer codigo = LS.codigoAtualApostas++;
+	    	Integer codigo = LS.codigoAtualApostas;
 	    	
 	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
 	    	aposta.getAction().setOnAction((btnExcluir)->{
@@ -383,15 +383,16 @@ public class SampleFullController implements Initializable {
 	    		int indexAC = -1;
 	    		for(ApostaConcurso ac : LS.listaDeApostas) {
 	    			Aposta a = ac.getAposta();
-	    			LS.apostas.remove(a);
 	    			if(a.getCodigo() == id) {
 	    				indexAC = index;
 	    			}
 	    			index++;
 	    		}
+	    		LS.apostas.remove(indexAC);
 	    		LS.listaDeApostas.remove(indexAC);
+	    		refatoraCodigoApostas();//TODO refatoraCodigoApostas
 				tvApostas.refresh();
-				LS.codigoAtualApostas--;
+				//LS.codigoAtualApostas--;
 	    	});
 	    	
 	    	Contagem c = new Contagem();
@@ -444,11 +445,12 @@ public class SampleFullController implements Initializable {
 				    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
 				    	
 						LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+						tvApostas.refresh();
 						
 						for(Aposta a : LS.apostas) {
 							System.out.println(a);
 						}
-			    	
+						LS.codigoAtualApostas++;
 				    	qtdApostas--;
 		    		}else {
 		    			System.out.println("Soma Aposta inadeguado...");
@@ -461,12 +463,27 @@ public class SampleFullController implements Initializable {
 	    		
 	    	}else {
 	    		System.out.println("Media impar fora!");
-	    		LS.codigoAtualApostas++;
+	    		//LS.codigoAtualApostas++;
 	    	}
 	    	
 	    	
     	}
     	
+    }
+    
+    //REFATORA TODOS OS CODIGOS DA LISTA DE APOSTAS
+    public void refatoraCodigoApostas() {
+    	int codigo = LS.codigoUltimaApostaSalvaBD+1;
+    	int cod = 0;
+    	for(int i = 0; i < LS.apostas.size(); i++) {
+    		cod = codigo++;
+    		LS.apostas.get(i).setCodigo(cod);
+    		LS.listaDeApostas.get(i).setCodigo(cod);
+    		System.out.println("COD in: " + cod);
+    	}
+    	LS.codigoAtualApostas = cod+1;
+    	System.out.println("COD: " + cod + " LS.codigoAtualApostas " + LS.codigoAtualApostas);
+    	tvApostas.refresh();
     }
     
     //CRIADO PARA SOMAR UM OU DECREMENTAR UM NO SORTEIO DAS DEZENAS POR LINHA
@@ -946,6 +963,7 @@ public class SampleFullController implements Initializable {
     	
     	//TODO quantidade de apostas salvas
     	System.out.println("ULTIMA APOSTA SALVA: " + LS.listaDBApostas.get(LS.listaDBApostas.size() - 1));
+    	LS.codigoUltimaApostaSalvaBD = LS.listaDBApostas.get(LS.listaDBApostas.size() - 1).getCodigo();
 		
 		cd = new ConcursoDAO();
 		LS.ConcursosGeral = cd.listaDeConcursos(cd.maxConcurso());

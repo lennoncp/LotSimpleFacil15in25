@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 
 public class LS {
 	
+	public static Integer codigoUltimaApostaSalvaBD = new Integer(0);
 	public static Integer codigoAtualApostas = new Integer(0);
 	
 	public static TextField txfMediaImpar = new TextField();
