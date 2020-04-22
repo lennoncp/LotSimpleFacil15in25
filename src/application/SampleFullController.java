@@ -28,7 +28,8 @@ import javafx.scene.input.MouseEvent;
 
 public class SampleFullController implements Initializable {
 	
-	private Random rad = new Random(LocalTime.now().toNanoOfDay());
+	Runtime runtime = Runtime.getRuntime();
+	private Random rad = new Random(LocalTime.now().toNanoOfDay() + (LocalTime.now().toSecondOfDay() ^2) + runtime.freeMemory());
 	private Integer[] dezenas;
 	private List<Integer> sorteador = new ArrayList<Integer>();
 	
@@ -335,7 +336,14 @@ public class SampleFullController implements Initializable {
     void sortear(ActionEvent event) {
 
  	int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
-    	
+ 	
+ 	//RE-CALCULANDO VALORES DO RANGE
+ 	cd = new ConcursoDAO();
+	LS.ConcursosRange3M = cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()));
+	Contagem contAux = new Contagem();
+	LS.contagemConcursosRange3M = contAux.contagemConcursos(LS.ConcursosRange3M);
+	LS.mediaCorteLista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
+	
     	while(qtdApostas > 0) {
     		
     		setQTDDezenasPorLinha();
@@ -637,24 +645,18 @@ public class SampleFullController implements Initializable {
 		btn25.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
     }
     
+    //REMOVE O VALOR REPETIDO DAS LISTA DO SORTEADOR
     public void removeValorDaLista(List<Integer> lista, int valor){
-    	/*for(int i = 0; i < lista.size(); i++) {
-    		if(lista.get(i) == valor) {
-    			System.out.println("Lista.get(i): " + lista.get(i) + " Valor: " + valor);
-    			lista.remove(i);
-    		}
-    	}*/
     	
     	while(lista.contains(valor)) {
     		for(int i = 0; i < lista.size(); i++) {
         		if(lista.get(i) == valor) {
-        			//TODO System.out.println("Lista.get(i): " + lista.get(i) + " Valor: " + valor);
         			lista.remove(i);
         		}
         	}
     	}
     	
-    	System.out.println("Valor Removido: " + valor + " Lista: " + lista);
+    	//TODO System.out.println("Valor Removido: " + valor + " Lista: " + lista);
     }
     
     //SORTEIA AS DEZENAS POR LINHA  DE 1 A 5
@@ -673,7 +675,8 @@ public class SampleFullController implements Initializable {
     	System.out.println(" Lista3Meses: " + lista3Meses );
     	System.out.println(" Lista13Dias: " + lista13Dias);*/
     	
-    	ObservableList<Integer> pesoPorDezenas = indexDeMulplicacaoDeDezenas(LS.mediaCorteListaGeral, LS.mediaCorteLista3Meses, LS.mediaCorteLista3Meses, 2, 3, 5);
+    	ObservableList<Integer> pesoPorDezenas = indexDeMulplicacaoDeDezenas(LS.mediaCorteListaGeral, LS.mediaCorteLista3Meses, LS.mediaCorteLista13Dias, 
+    			                                                              Integer.valueOf(txfPeso1.getText()), Integer.valueOf(txfPeso2.getText()), Integer.valueOf(txfPeso3.getText()));
     	
     	System.out.println("Pesos por Dezenas: " + pesoPorDezenas);
     	
@@ -761,7 +764,7 @@ public class SampleFullController implements Initializable {
     				index = rad.nextInt(linha1.size()); //TODO INDEX COM PROBLEMAS
     				//dezenas[indexDezenas++] = linha1.get(index);
     				int valor = linha1.get(index);
-    				dezenas[indexDezenas++] = valor;
+    				dezenas[indexDezenas] = valor;
     				//TODO System.out.println("Index: "+index+ " LInha1: "+linha1.toString());
     				removeValorDaLista(linha1, valor);
     				//linha1.remove(index);
@@ -769,7 +772,7 @@ public class SampleFullController implements Initializable {
     			case 2:
     				index = rad.nextInt(linha2.size());
     				valor = linha2.get(index);
-    				dezenas[indexDezenas++] = valor;
+    				dezenas[indexDezenas] = valor;
     				//dezenas[indexDezenas++] = linha2.get(index);
     				removeValorDaLista(linha2, valor);
     				//linha2.remove(index);
@@ -778,7 +781,7 @@ public class SampleFullController implements Initializable {
     				index = rad.nextInt(linha3.size());
     				//dezenas[indexDezenas++] = linha3.get(index);
     				valor = linha3.get(index);
-    				dezenas[indexDezenas++] = valor;
+    				dezenas[indexDezenas] = valor;
     				removeValorDaLista(linha3, valor);
     				//linha3.remove(index);
     			break;
@@ -787,7 +790,7 @@ public class SampleFullController implements Initializable {
     				//dezenas[indexDezenas++] = linha4.get(index);
     				//linha4.remove(index);
     				valor = linha4.get(index);
-    				dezenas[indexDezenas++] = valor;
+    				dezenas[indexDezenas] = valor;
     				removeValorDaLista(linha4, valor);
     			break;
     			case 5:
@@ -795,12 +798,18 @@ public class SampleFullController implements Initializable {
     				//dezenas[indexDezenas++] = linha5.get(index);
     				//linha5.remove(index);
     				valor = linha5.get(index);
-    				dezenas[indexDezenas++] = valor;
+    				
+    				//TODO ERRO INDEX OF SIZE
+    				System.out.println("DEZENAS LENGTH: "+ dezenas.length);
+    				System.out.println("indexDezenas++: "+ indexDezenas);
+    				System.out.println("valor: "+ valor);
+    				dezenas[indexDezenas] = valor;
     				removeValorDaLista(linha5, valor);
     			break;
     			default:
     				break;
     			}
+    			indexDezenas++;
     		}
     		
     		linha++;
@@ -968,7 +977,7 @@ public class SampleFullController implements Initializable {
 		cd = new ConcursoDAO();
 		LS.ConcursosGeral = cd.listaDeConcursos(cd.maxConcurso());
 		cd = new ConcursoDAO();
-		LS.ConcursosRange3M = cd.listaDeConcursos(39);
+		LS.ConcursosRange3M = cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()));
 		cd = new ConcursoDAO();
 		LS.Concursos13D = cd.listaDeConcursos(13);
 		
