@@ -1,7 +1,11 @@
 package application;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Concurso {
 	
@@ -49,6 +53,14 @@ public class Concurso {
 		return "Concurso [concurso=" + concurso + ", dataConcurso=" + dataConcurso + ", dezenas=" + dezenas + "]";
 	}
 	
+	public static ObservableList<Concurso> toConcursos(ObservableList<Aposta> apostas) {
+		ObservableList<Concurso> concursos = FXCollections.observableArrayList();
+		for(Aposta a : apostas) {
+			Concurso concurso = new Concurso(a.getCodigo(), new Date(), Arrays.asList(a.getDezenas()));
+			concursos.add(concurso);
+		}
+		return concursos;
+	}
 	
 
 }

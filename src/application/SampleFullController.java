@@ -477,6 +477,15 @@ public class SampleFullController implements Initializable {
 	    	
     	}
     	
+    	ObservableList<Concurso> auxConcursos = FXCollections.observableArrayList();
+    	ObservableList<Integer> contagemDeDezenasApostas = FXCollections.observableArrayList();
+    	auxConcursos = Concurso.toConcursos(LS.apostas);
+    	Contagem auxCont = new Contagem();
+    	contagemDeDezenasApostas = auxCont.contagemConcursos(auxConcursos);
+    	for(int i = 0; i < contagemDeDezenasApostas.size(); i++) {
+    		System.out.println(" Dezena " + (i+1) + ": " +contagemDeDezenasApostas.get(i));
+    	}
+    	
     }
     
     //REFATORA TODOS OS CODIGOS DA LISTA DE APOSTAS
@@ -602,6 +611,16 @@ public class SampleFullController implements Initializable {
     		tvApostas.refresh();
     		btnConcursoApostaChange.setText("C");
     	}else {
+    		
+    		cd = new ConcursoDAO();
+    		LS.ConcursosGeral = cd.listaDeConcursos(cd.maxConcurso());
+    		
+    		//TODO LISTAGEM DE CONCURSOS GERAL
+    		for(Concurso c: LS.ConcursosGeral) {
+    			//System.out.println("Iniciando Concurso: " + c);
+    			LS.listaDeConcursos.add(ApostaConcurso.toApostaConcurso(c));
+    		}
+    		
     		tvApostas.setItems(LS.listaDeConcursos);
     		tvApostas.refresh();
     		btnConcursoApostaChange.setText("A");
@@ -759,6 +778,9 @@ public class SampleFullController implements Initializable {
     	for(int d : qtdDezenasPorLinha) {
     		int index = 0;
     		for(int i = d; i > 0; i--) {
+    			if(indexDezenas > 14) {
+    				break;
+    			}
     			switch (linha) {
     			case 1:
     				index = rad.nextInt(linha1.size()); //TODO INDEX COM PROBLEMAS

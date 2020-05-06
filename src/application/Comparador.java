@@ -10,11 +10,12 @@ public class Comparador {
 	
 	public boolean comparaApostas(Aposta aposta, ObservableList<Aposta> apostas) {
 		boolean retorno = false;
+		
 		Concurso concursoAuxAposta = new Concurso(0, new Date(), Arrays.asList(aposta.getDezenas()));
 		for(Aposta a : apostas) {
 			Concurso concursoAuxA = new Concurso(0, new Date(), Arrays.asList(a.getDezenas()));
 			
-			//System.out.println("APOSTAS CONTADOR: " + contadorDeDezenasIguais(concursoAuxAposta, concursoAuxA));
+			System.out.println("APOSTAS CONTADOR: " + contadorDeDezenasIguais(concursoAuxAposta, concursoAuxA));
 			
 			if(concursoAuxA.getDezenas().equals(concursoAuxAposta.getDezenas())) {
 				System.out.println("APOSTA IGUAL APOSTAs APOSTA: "+Arrays.toString(aposta.getDezenas())+" APOSTAS: "+Arrays.toString(a.getDezenas()));		
@@ -36,10 +37,17 @@ public class Comparador {
 	
 	public boolean comparaApostaComConcursos(Aposta aposta, ObservableList<Concurso> concursos) {
 		boolean retorno = false;
+			
+		int contado = 0;
+		int media = 0;
+		
 		Concurso concursoAuxAposta = new Concurso(0, new Date(), Arrays.asList(aposta.getDezenas()));
 		for(Concurso c : concursos) {	
 			
-			//System.out.println("CONCURSOS CONTADOR: " + contadorDeDezenasIguais(concursoAuxAposta, c));
+			contado = contadorDeDezenasIguais(concursoAuxAposta, c);
+			//System.out.println("CONCURSOS CONTADOR: " + contado);
+			
+			media += contado;
 		
 			if(c.getDezenas().equals(concursoAuxAposta.getDezenas())) {
 				System.out.println("APOSTA IGUAL CONCUROS APOSTA IGUAL CONCUROS APOSTA: "+Arrays.toString(aposta.getDezenas())+" CONCURSO: "+c.getDezenas());
@@ -50,7 +58,10 @@ public class Comparador {
 			}
 		}		
 		
+		media = media / concursos.size();
+		
 		System.out.println("CONCURSOS CONTADOR MAX: " + contadorDeDezenasIguaisMAX(concursoAuxAposta, concursos));
+		System.out.println("CONCURSOS CONTADOR MEDIA: " + media);
 		
 		return retorno;
 	}
