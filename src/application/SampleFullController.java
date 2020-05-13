@@ -30,6 +30,15 @@ public class SampleFullController implements Initializable {
 	
 	Runtime runtime = Runtime.getRuntime();
 	private Random rad = new Random(LocalTime.now().toNanoOfDay() + (LocalTime.now().toSecondOfDay() ^2) + runtime.freeMemory());
+	
+	//TODO Random para a primeira linha
+	private Random rad2 = new Random(LocalTime.now().toNanoOfDay() + (LocalTime.now().toSecondOfDay() ^2) + runtime.freeMemory()+(rad.nextInt() ^rad.nextInt()));
+	private Random rad3 = new Random(rad2.nextInt(999999999));
+	private Random rad4 = new Random(rad.nextInt(999999999));
+	private Random rad5 = new Random(rad3.nextInt(999999999) + rad.nextInt(999999999));
+	private List<Random> randons = Arrays.asList(rad, rad2, rad3, rad4, rad5);
+	private Random radIn5 = new Random(rad.nextLong() + rad2.nextLong() + rad3.nextLong() + rad4.nextLong() + rad5.nextLong());
+	
 	private Integer[] dezenas;
 	private List<Integer> sorteador = new ArrayList<Integer>();
 	
@@ -197,6 +206,9 @@ public class SampleFullController implements Initializable {
     
     @FXML
     private TextField txfMediaSomaMinima;
+    
+    @FXML
+    private TextField txfMediaCompAposta;
 
     @FXML
     private TextField txfMediaSomaMaxima;
@@ -449,7 +461,7 @@ public class SampleFullController implements Initializable {
 		    		
 		    		System.out.println("minimoEMaximo.get(0): "+minimoEMaximo.get(0)+"<= somaAposta: "+somaAposta+" && somaAposta: "+somaAposta+" <= minimoEMaximo.get(1): "+minimoEMaximo.get(1));
 		    		if((minimoEMaximo.get(0) <= somaAposta) && (somaAposta <=  minimoEMaximo.get(1)) ) {
-		    			LS.apostas.add(aposta);
+		    			/*LS.apostas.add(aposta);
 				    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
 				    	
 						LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
@@ -459,7 +471,56 @@ public class SampleFullController implements Initializable {
 							System.out.println(a);
 						}
 						LS.codigoAtualApostas++;
-				    	qtdApostas--;
+				    	qtdApostas--;*/
+		    			
+		    			for(Aposta a: LS.auxConcursoPAposta3D) {
+		    				LS.listApostasComparacao.add(a);
+		    			}
+		    			
+		    			for(Aposta a: LS.apostas) {
+		    				LS.listApostasComparacao.add(a);
+		    			}
+		    			
+		    			
+		    			
+		    			Comparador comp2 = new Comparador();
+		    			int mediaDeComparacao = Integer.valueOf(txfMediaCompAposta.getText());
+		    			
+		    			//if(!LS.apostas.isEmpty()) {
+		    			if(!LS.listApostasComparacao.isEmpty()) {
+		    				int retornoMediaComparacao = (int) comp2.mediaApostaComparacaoListApostas(aposta, LS.listApostasComparacao);
+			    			if(/*(int) comp2.mediaApostaComparacaoListApostas(aposta, LS.apostas)*/ retornoMediaComparacao >= mediaDeComparacao) {
+			    				System.out.println("MEDIA DE COMPARACAO: " + mediaDeComparacao);
+			    				LS.apostas.add(aposta);
+						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+						    	
+								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+								tvApostas.refresh();
+								
+								for(Aposta a : LS.apostas) {
+									System.out.println(a);
+								}
+								LS.codigoAtualApostas++;
+						    	qtdApostas--;
+			    			}else {
+			    				System.out.println("Media de Comparacao com as Apostas inadequado: " + retornoMediaComparacao);
+			    			}
+			    			
+		    			}else {
+		    				
+		    				LS.apostas.add(aposta);
+					    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+					    	
+							LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+							tvApostas.refresh();
+							
+							for(Aposta a : LS.apostas) {
+								System.out.println(a);
+							}
+							LS.codigoAtualApostas++;
+					    	qtdApostas--;
+		    			}
+		    			
 		    		}else {
 		    			System.out.println("Soma Aposta inadeguado...");
 		    		}
@@ -678,6 +739,22 @@ public class SampleFullController implements Initializable {
     	//TODO System.out.println("Valor Removido: " + valor + " Lista: " + lista);
     }
     
+  //REMOVE O VALOR PARA LISTA DE LINHA
+    public void removeValorDaListaDeLinhas(List<Integer> lista, int valor){
+    	
+    	while(lista.contains(valor)) {
+    		for(int i = 0; i < lista.size(); i++) {
+        		if(lista.get(i) == valor) {
+        			
+        			System.out.println("lista.get(i): " + lista.get(i) + " Valor: " + valor + " Lista: " + lista + " i: " + i);
+        			
+        			lista.remove(i);
+        		}
+        	}
+    	}
+    	
+    }
+    
     //SORTEIA AS DEZENAS POR LINHA  DE 1 A 5
     public Integer[] getSorteador(List<Integer> qtdDezenasPorLinha) {
     	
@@ -773,7 +850,15 @@ public class SampleFullController implements Initializable {
     	System.out.println("LISTA 4: " + linha4);
     	System.out.println("LISTA 5: " + linha5);
     	
-    	int linha = 1;
+    	//int linha = 1;
+    	List<Integer> linhaOrdem = new ArrayList<Integer>();
+    	linhaOrdem.add(1);
+    	linhaOrdem.add(2);
+    	linhaOrdem.add(3);
+    	linhaOrdem.add(4);
+    	linhaOrdem.add(5);
+    	int linha = linhaOrdem.get(radIn5.nextInt(linhaOrdem.size()));
+    	
     	int indexDezenas = 0;
     	for(int d : qtdDezenasPorLinha) {
     		int index = 0;
@@ -781,9 +866,13 @@ public class SampleFullController implements Initializable {
     			if(indexDezenas > 14) {
     				break;
     			}
+    			
+    			
     			switch (linha) {
     			case 1:
-    				index = rad.nextInt(linha1.size()); //TODO INDEX COM PROBLEMAS
+    				//index = rad3.nextInt(linha1.size()); //TODO INDEX COM PROBLEMAS
+    				index = randons.get(radIn5.nextInt(5)).nextInt(linha1.size());
+    				
     				//dezenas[indexDezenas++] = linha1.get(index);
     				int valor = linha1.get(index);
     				dezenas[indexDezenas] = valor;
@@ -834,7 +923,12 @@ public class SampleFullController implements Initializable {
     			indexDezenas++;
     		}
     		
-    		linha++;
+    		//linha++;
+    		removeValorDaListaDeLinhas(linhaOrdem, linha);
+    		int ordem = linhaOrdem.size();
+    		System.out.println("order: " + ordem);
+    		if(ordem == 0) break;
+    		linha = linhaOrdem.get(radIn5.nextInt(ordem));
     	}
     	
     	return dezenas;
@@ -1002,6 +1096,15 @@ public class SampleFullController implements Initializable {
 		LS.ConcursosRange3M = cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()));
 		cd = new ConcursoDAO();
 		LS.Concursos13D = cd.listaDeConcursos(13);
+		
+		cd = new ConcursoDAO();
+		LS.Concursos3D = cd.listaDeConcursos(2);
+		System.out.println("LS.Concursos3D SIZE: " + LS.Concursos3D.size());
+		
+		//CONVERTENDO OS 13 UTIMOS CONCURSOS PARA APOSTA
+		for(Concurso c: LS.Concursos3D) {
+			LS.auxConcursoPAposta3D.add(c.toAposta());
+		}
 		
 		//TODO ULTIMO CONCURSO REALIZADO SALVO NO BANCO
 		System.out.println("ULTIMO CONCURSO SALVO: " + LS.ConcursosGeral.get(LS.ConcursosGeral.size()-1));

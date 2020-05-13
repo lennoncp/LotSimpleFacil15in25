@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -101,5 +102,22 @@ public class Comparador {
 		return MAX;
 	}
 	
-
+	public Integer mediaApostaComparacaoListApostas(Aposta aposta, ObservableList<Aposta> apostas) {
+		Integer media = 0;
+		Concurso auxAposta = new Concurso(aposta.getCodigo(), new Date(), Arrays.asList(aposta.getDezenas()));
+		for(Aposta a : apostas) {
+			Concurso auxA = new Concurso(a.getCodigo(), new Date(), Arrays.asList(a.getDezenas()));
+			media += contadorDeDezenasIguais(auxAposta, auxA);
+		}
+		
+		int qtdApostas = 0;
+		if(apostas.isEmpty()) {
+			qtdApostas = 1;
+		}else {
+			qtdApostas = apostas.size();
+		}
+		
+		
+		return media = (media/qtdApostas);
+	}
 }

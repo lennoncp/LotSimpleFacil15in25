@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,82 +19,43 @@ public class MainText {
 
 	public static void main(String[] args) {
 		
-		ObservableList<Aposta> apostas = FXCollections.observableArrayList();
-		ObservableList<Concurso> concursos = FXCollections.observableArrayList();
+		Random rad = new Random(LocalTime.now().toNanoOfDay());
 		
-		Integer[] dezenas = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-		Aposta aposta = new Aposta(0, 7, 200, dezenas, null);
-		apostas.add(aposta);
+		int n1 = 0;
+		int n2 = 0;
+		int n3 = 0;
+		int n4 = 0;
+		int n5 = 0;
+		int zero = 0;
 		
-		Integer[] dezenas2 = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,18};
-		Aposta aposta2 = new Aposta(0, 7, 200, dezenas2, null);
-		apostas.add(aposta);
-		
-		List<Integer> dezenasC = new ArrayList<Integer>();
-		dezenasC.addAll(Arrays.asList(dezenas));
-		
-		List<Integer> dezenasC2 = new ArrayList<Integer>();
-		dezenasC2.addAll(Arrays.asList(dezenas2));
-		
-		Concurso concurso = new Concurso(1256, new Date(), dezenasC); 
-		Concurso concurso2 = new Concurso(1256, new Date(), dezenasC2);
-		List<Integer> dezenasC3 = new ArrayList<Integer>();
-		dezenasC3.add(1);
-		dezenasC3.add(2);
-		dezenasC3.add(3);
-		dezenasC3.add(4);
-		dezenasC3.add(5);
-		dezenasC3.add(6);
-		dezenasC3.add(7);
-		dezenasC3.add(8);
-		dezenasC3.add(9);
-		dezenasC3.add(10);
-		dezenasC3.add(11);
-		dezenasC3.add(12);
-		dezenasC3.add(13);
-		dezenasC3.add(14);
-		dezenasC3.add(18);
-		Concurso concurso3 = new Concurso(1256, new Date(), dezenasC3);
-		
-		concursos.add(concurso);
-		concursos.add(concurso2);
-		concursos.add(concurso3);
-		
-		Concurso concursoAuxApostaComparador = new Concurso(0, new Date(), Arrays.asList(aposta.getDezenas()));
-		Concurso concursoAuxApostaComparado = new Concurso(0, new Date(), Arrays.asList(aposta2.getDezenas()));
-		
-		System.out.println("Apostas: " + apostas.get(0).getDezenas().equals(aposta.getDezenas()));
-		System.out.println("Aposta: " + aposta.getDezenas().equals(aposta2.getDezenas()));
-		System.out.println("Concurso: " + concurso.getDezenas().equals(aposta.getDezenas()));
-		System.out.println("Concurso -> concurso: " + concurso.getDezenas().equals(concurso2.getDezenas()));
-		System.out.println("Comparando Concurso -> concurso: " + concursoAuxApostaComparador.getDezenas().equals(concursoAuxApostaComparado.getDezenas()));
-		
-		Comparador comparador = new Comparador();
-		System.out.println("Aposta em Apostas: " + comparador.comparaApostas(aposta2, apostas));
-		System.out.println("Aposta em Concursos: " + comparador.comparaApostaComConcursos(aposta, concursos));
-		
-		
-		System.out.println(aposta);
-		System.out.println(concurso);
-		
-		
-		
-		/*List<Integer> lList = new ArrayList<Integer>();
-        lList.add(4);
+		for(int i =0; i < 100; i++) {
+			int r = rad.nextInt(5);
+			
+			switch (r) {
+			case 1:
+				n1++; 
+				break;
+			case 2:
+				n2++; 
+				break;
+			case 3:
+				n3++; 
+				break;
+			case 4:
+				n4++; 
+				break;
+			case 5:
+				n5++; 
+				break;
 
-        lList.add(1);
-        lList.add(7);
-        lList.add(2);
-        lList.add(9);
-        lList.add(1);
-        lList.add(5);
+			default:
+				zero++;
+				break;
+			}
+			
+		}
 
-        Collections.sort(lList);
-        for(int i=0; i<lList.size();i++ )
-        {
-            System.out.println(lList);
-        }*/
-
+		System.out.println("Zero: " + zero + " N1: " + n1 + "" + " N2: " + n2 + ""+ " N3: " + n3 + ""+ " N4: " + n4 + ""+ " N5: " + n5);
 	}
 
 }

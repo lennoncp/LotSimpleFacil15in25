@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 
 public class Concurso {
 	
@@ -60,6 +61,15 @@ public class Concurso {
 			concursos.add(concurso);
 		}
 		return concursos;
+	}
+	
+	public Aposta toAposta() {
+		int codigo = getConcurso();
+		Integer[] dezenas = new Integer[getDezenas().size()];
+		for(int i = 0 ; i < dezenas.length; i++) {
+			dezenas[i] = getDezenas().get(i);
+		}
+		return new Aposta(codigo, 0, 0, dezenas, new Button());
 	}
 	
 

@@ -17,6 +17,8 @@ public class LS {
     public static ObservableList<Concurso> ConcursosGeral = FXCollections.observableArrayList(); 
     public static ObservableList<Concurso> ConcursosRange3M = FXCollections.observableArrayList(); 
     public static ObservableList<Concurso> Concursos13D = FXCollections.observableArrayList(); 
+    //PARA COMPARACAO
+    public static ObservableList<Concurso> Concursos3D = FXCollections.observableArrayList(); 
     
     public static ObservableList<Integer> contagemConcursosGeral = FXCollections.observableArrayList(); 
     public static ObservableList<Integer> contagemConcursosRange3M = FXCollections.observableArrayList(); 
@@ -29,5 +31,9 @@ public class LS {
     public static ObservableList<Integer> mediaCorteListaGeral = FXCollections.observableArrayList();
     public static ObservableList<Integer> mediaCorteLista3Meses = FXCollections.observableArrayList();
     public static ObservableList<Integer> mediaCorteLista13Dias = FXCollections.observableArrayList();
+    
+    //LISTA PARA MEDIA DE COMPARACAO
+    public static ObservableList<Aposta> auxConcursoPAposta3D = FXCollections.observableArrayList(); 
+  	public static ObservableList<Aposta> listApostasComparacao = FXCollections.observableArrayList();
 
 }
