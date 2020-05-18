@@ -489,9 +489,52 @@ public class SampleFullController implements Initializable {
 		    			//if(!LS.apostas.isEmpty()) {
 		    			if(!LS.listApostasComparacao.isEmpty()) {
 		    				int retornoMediaComparacao = (int) comp2.mediaApostaComparacaoListApostas(aposta, LS.listApostasComparacao);
-			    			if(/*(int) comp2.mediaApostaComparacaoListApostas(aposta, LS.apostas)*/ retornoMediaComparacao >= mediaDeComparacao) {
+			    			if(retornoMediaComparacao >= mediaDeComparacao) {
 			    				System.out.println("MEDIA DE COMPARACAO: " + mediaDeComparacao);
-			    				LS.apostas.add(aposta);
+			    				
+			    				
+			    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+			    				//TODO tornar controle de sequencia editavel
+			    				if(seq <= 7) {
+			    					
+			    					LS.apostas.add(aposta);
+							    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+							    	
+									LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+									tvApostas.refresh();
+									
+									for(Aposta a : LS.apostas) {
+										System.out.println(a);
+									}
+									LS.codigoAtualApostas++;
+							    	qtdApostas--;
+			    					
+			    				}else {
+			    					System.out.println("QTD Sequencia indesejavel: " + seq);
+			    				}
+			    				
+			    				/*LS.apostas.add(aposta);
+						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+						    	
+								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+								tvApostas.refresh();
+								
+								for(Aposta a : LS.apostas) {
+									System.out.println(a);
+								}
+								LS.codigoAtualApostas++;
+						    	qtdApostas--;*/
+			    			}else {
+			    				System.out.println("Media de Comparacao com as Apostas inadequado: " + retornoMediaComparacao);
+			    			}
+			    			
+		    			}else {
+		    				
+		    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+		    				//TODO tornar controle de sequencia editavel
+		    				if(seq <= 7) {
+		    					
+		    					LS.apostas.add(aposta);
 						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
 						    	
 								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
@@ -502,13 +545,12 @@ public class SampleFullController implements Initializable {
 								}
 								LS.codigoAtualApostas++;
 						    	qtdApostas--;
-			    			}else {
-			    				System.out.println("Media de Comparacao com as Apostas inadequado: " + retornoMediaComparacao);
-			    			}
-			    			
-		    			}else {
+		    					
+		    				}else {
+		    					System.out.println("QTD Sequencia indesejavel: " + seq);
+		    				}
 		    				
-		    				LS.apostas.add(aposta);
+		    				/*LS.apostas.add(aposta);
 					    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
 					    	
 							LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
@@ -518,7 +560,7 @@ public class SampleFullController implements Initializable {
 								System.out.println(a);
 							}
 							LS.codigoAtualApostas++;
-					    	qtdApostas--;
+					    	qtdApostas--;*/
 		    			}
 		    			
 		    		}else {
@@ -881,7 +923,8 @@ public class SampleFullController implements Initializable {
     				//linha1.remove(index);
     			break;
     			case 2:
-    				index = rad.nextInt(linha2.size());
+    				//index = rad.nextInt(linha2.size());
+    				index = randons.get(radIn5.nextInt(5)).nextInt(linha2.size());
     				valor = linha2.get(index);
     				dezenas[indexDezenas] = valor;
     				//dezenas[indexDezenas++] = linha2.get(index);
@@ -889,7 +932,8 @@ public class SampleFullController implements Initializable {
     				//linha2.remove(index);
     			break;
     			case 3:
-    				index = rad.nextInt(linha3.size());
+    				//index = rad.nextInt(linha3.size());
+    				index = randons.get(radIn5.nextInt(5)).nextInt(linha3.size());
     				//dezenas[indexDezenas++] = linha3.get(index);
     				valor = linha3.get(index);
     				dezenas[indexDezenas] = valor;
@@ -897,7 +941,8 @@ public class SampleFullController implements Initializable {
     				//linha3.remove(index);
     			break;
     			case 4:
-    				index = rad.nextInt(linha4.size());
+    				//index = rad.nextInt(linha4.size());
+    				index = randons.get(radIn5.nextInt(5)).nextInt(linha4.size());
     				//dezenas[indexDezenas++] = linha4.get(index);
     				//linha4.remove(index);
     				valor = linha4.get(index);
@@ -905,7 +950,8 @@ public class SampleFullController implements Initializable {
     				removeValorDaLista(linha4, valor);
     			break;
     			case 5:
-    				index = rad.nextInt(linha5.size());
+    				//index = rad.nextInt(linha5.size());
+    				index = randons.get(radIn5.nextInt(5)).nextInt(linha5.size());
     				//dezenas[indexDezenas++] = linha5.get(index);
     				//linha5.remove(index);
     				valor = linha5.get(index);
@@ -1159,6 +1205,22 @@ public class SampleFullController implements Initializable {
 		txfMediaSomaMinima.setText(minimoEMaximo.get(0)+"");
 		txfMediaSomaMaxima.setText(minimoEMaximo.get(1)+"");
 		System.out.println("minimoEMaximo: " + minimoEMaximo);
+		
+		int somaSeq = 0;
+		int contSeq = 0;
+		Integer[] seqSequencias = new Integer[15];
+		
+		for(int i = 0; i < seqSequencias.length; i++) seqSequencias[i]=0;
+			
+		for(Concurso c: LS.ConcursosGeral) {
+			int seq = Sequencia.contDezenasEmSequencia(c);
+			seqSequencias[seq-1]++;
+			somaSeq += seq;
+			contSeq++;
+			System.out.print("Concurso: " + c.getConcurso() +" Sequencia: " + seq + " Media: " + (somaSeq/contSeq) + " SeqSequencia[]: ");
+			for(int i = 0 ; i < seqSequencias.length; i++) System.out.print(" [" + seqSequencias[i] + "] ");
+			System.out.println(" ");
+		}
 	
 	}
 

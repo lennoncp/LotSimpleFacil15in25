@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javafx.scene.control.Button;
@@ -95,5 +96,13 @@ public class Aposta {
 				+ Arrays.toString(dezenas) + ", action=" + action + "]";
 	}
 
+	public Concurso toConcurso() {
+		List<Integer> dezenas = new ArrayList<Integer>();
+		
+		for(int i: getDezenas())
+			dezenas.add(i);
+			
+		return new Concurso(getCodigo(), new Date(), dezenas);
+	}
 
 }
