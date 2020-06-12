@@ -97,6 +97,8 @@ public class ConcursoDAO {
 			}
 			
 			conn.close();
+			ps.close();
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,6 +118,8 @@ public class ConcursoDAO {
 				max = rs.getInt("MAX");
 			}
 			maxConn.close();
+			ps.close();
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

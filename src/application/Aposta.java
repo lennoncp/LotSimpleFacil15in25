@@ -16,6 +16,10 @@ public class Aposta {
 	private Integer[] dezenas;
 	private Button action;
 	
+	public Aposta() {
+		super();
+	}
+
 	public Aposta(Integer codigo, Integer impPar, Integer soma, Integer[] dezenas, Button action) {
 		super();
 		this.codigo = codigo;
@@ -81,6 +85,10 @@ public class Aposta {
 		return dezenasNovas;
 		
 	}
+	
+	public void setDezenaEmDezenas(int index, int dezena) {
+		this.dezenas[index] = dezena;
+	}
 
 	public Button getAction() {
 		return action;
@@ -103,6 +111,18 @@ public class Aposta {
 			dezenas.add(i);
 			
 		return new Concurso(getCodigo(), new Date(), dezenas);
+	}
+	
+	public List<Integer> DezNaoSorteadas(){
+		List<Integer> returnDezenas = new ArrayList<Integer>();
+		returnDezenas.addAll(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25));
+		System.out.println(returnDezenas);
+		
+		for(Integer i : getDezenas()) {
+			LS.removeValorDaListaDeLinhas(returnDezenas, i);
+		}
+		
+		return returnDezenas;
 	}
 
 }

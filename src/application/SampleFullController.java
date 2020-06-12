@@ -12,6 +12,9 @@ import java.util.ResourceBundle;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
+import application.model.Operacao;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +22,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -27,6 +33,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
 public class SampleFullController implements Initializable {
+	
+	private SimpleBooleanProperty encerrarProcesso = new SimpleBooleanProperty(false);
+	private Thread tarefa = null;
 	
 	Runtime runtime = Runtime.getRuntime();
 	private Random rad = new Random(LocalTime.now().toNanoOfDay() + (LocalTime.now().toSecondOfDay() ^2) + runtime.freeMemory());
@@ -173,6 +182,15 @@ public class SampleFullController implements Initializable {
 
     @FXML
     private TextField txfMediaImpar;
+    
+    @FXML
+    private TextField txfDerivadasQTD;
+    
+    @FXML
+    private TextField txfDerivadasDerivacao;
+
+    @FXML
+    private Button btnDerivadasSortear;
 
     @FXML
     private TextField txfArquivoExcel;
@@ -212,6 +230,34 @@ public class SampleFullController implements Initializable {
 
     @FXML
     private TextField txfMediaSomaMaxima;
+    
+    @FXML
+    private TextField txfSequenciaMaxima;
+    
+    @FXML
+    private ComboBox<Concurso> cbSelecionarConcurso;
+    
+    @FXML
+    private Button btnCompConcurso;
+    
+    @FXML
+    private ListView<String> lvComparacaoConcurso;
+    
+    @FXML
+    private ComboBox<Operacao> cbSelecionarDezenas11a15;
+    
+    @FXML
+    private Label lblContagemDeDezenas;
+    
+    @FXML
+    private ListView<String> lvConsole;
+    
+    @FXML
+    void limparTodasAsApostas(ActionEvent event) {
+    	LS.apostas.clear();
+    	LS.listaDeApostas.clear();
+    	tvApostas.refresh();
+    }
     
     //VERIFICA SE O CHEQUEBOX GERAL ESTA SELECIONADO
     @FXML
@@ -277,70 +323,6 @@ public class SampleFullController implements Initializable {
     	LS.codigoAtualApostas = ad.getCodigoAposta()+1;
     	
     	Contagem cont = new Contagem();
-    	/*List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(LS.ConcursosGeral);
-    	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
-		System.out.println(qtdLinhas);
-		System.out.println(dezenasPorLinha);*/
-    	
-    	/*ObservableList<Integer> lista = cont.listSomaConcursos(LS.ConcursosGeral);
-    	System.out.println(lista);
-    	System.out.println("Tamanho: "+lista.size());
-    	cd = new ConcursoDAO();*/
-    	/*
-    	ObservableList<Integer> frequenciaDeSomas = cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()))));
-    	System.out.println("Frequencia de Soma: " + frequenciaDeSomas);
-    	
-    	int max = 0;
-    	for(int f : frequenciaDeSomas) {
-    		if(f > max) {
-    			max = f;
-    		}
-    	}
-    	
-    	int somaF = 0;
-    	int somaI = 0;
-    	int qtdDeSomas = 0;
-    	for(int i = 0; i < frequenciaDeSomas.size(); i++) {
-    		int f = frequenciaDeSomas.get(i);
-    		if(f >= (max - max) && f <= max)
-    			if(f != 0) {
-    				System.out.println("Frequencia maximas: " + f + " index: " + i);
-    				somaF += f;
-    				somaI += i;
-    			    qtdDeSomas++;
-    			}
-    			
-    	}
-    	
-    	System.out.println("Media Qtd por index: " + (somaF/qtdDeSomas) + " Media de Index: "+ (somaI / qtdDeSomas)); 
-    	List<List<Integer>> listaMediaPorSoma = cont.mediaDeOcorrenciasPorSomaDeConcursos(frequenciaDeSomas);
-    	*/
-    	//System.out.println(listaMediaPorSoma);
-    	
-    	/*int index = 0;
-    	int qtd = 0;
-    	
-    	int i = 0;
-    	int j = 1;
-    	for(List<Integer> li : listaMediaPorSoma) {
-    		index += li.get(i++);
-    		qtd += li.get(j++);
-    		
-    		i++;
-    		j++;
-    	}
-    	
-    	System.out.println("Index: " + (index/listaMediaPorSoma.size()));
-    	System.out.println("QTD: " + (qtd/listaMediaPorSoma.size()));
-    	System.out.println("Size Lista: " + listaMediaPorSoma.size());*/
-    	
-    	/*Comparador comparador = new Comparador();
-    	boolean ca = comparador.comparaApostas(LS.apostas.get(0), LS.apostas);
-    	boolean cc = comparador.comparaApostaComConcursos(LS.apostas.get(0), LS.ConcursosGeral);
-    	
-    	System.out.println("Comparando Apostas " + ca + " Comparando Concursos " + cc);*/
-    	//List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText())))));
-    	//System.out.println("Media Minima e Maxima da Frequencia de Soma dos concursos: " + minimoEMaximo.get(0) + " & "+ minimoEMaximo.get(1));
     	
     }
 
@@ -348,245 +330,729 @@ public class SampleFullController implements Initializable {
     void sortear(ActionEvent event) {
 
  	int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
- 	
- 	//RE-CALCULANDO VALORES DO RANGE
- 	cd = new ConcursoDAO();
-	LS.ConcursosRange3M = cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()));
-	Contagem contAux = new Contagem();
-	LS.contagemConcursosRange3M = contAux.contagemConcursos(LS.ConcursosRange3M);
-	LS.mediaCorteLista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
+
+	Thread tarefa = new Thread(new Runnable() {
+		
+		@Override
+		public void run() {
+					auxSorteador(qtdApostas);									
+		}
+	});
+	tarefa.start();
+ 	   	
+    }
+    
+    private void auxSorteador() {
+    	
+    	//int qtdApostas = Integer.valueOf(txfQtdApostas.getText());
+    	int qtdApostas = 1;
+    	
+     	//RE-CALCULANDO VALORES DO RANGE
+     	cd = new ConcursoDAO();
+    	LS.ConcursosRange3M = cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()));
+    	Contagem contAux = new Contagem();
+    	LS.contagemConcursosRange3M = contAux.contagemConcursos(LS.ConcursosRange3M);
+    	LS.mediaCorteLista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
+    	
+        	while(qtdApostas > 0) {
+        		
+        		setQTDDezenasPorLinha();
+        		
+    	    	//inicializarSorteador();
+    	    	
+    	    	dezenas = new Integer[Integer.valueOf(txfQTDDezenasPorAposta.getText())];
+    	    	
+    	    	/*for(int i = 0; i < 15; i++) {
+    	    		dezenas[i] = getSorteador();
+    	    	}*/
+    	    	int c1 = Integer.valueOf(txfC1.getText());
+    	    	int c2 = Integer.valueOf(txfC2.getText());
+    	    	int c3 = Integer.valueOf(txfC3.getText());
+    	    	int c4 = Integer.valueOf(txfC4.getText());
+    	    	int c5 = Integer.valueOf(txfC5.getText());
+    	    	
+    	    	System.out.println("C1: "+ c1 + " C2: "+ c2 + " C3: "+ c3 + " C4: "+ c4 + " C5: "+ c5);
+    	    	
+    	    	List<Integer> qtdDezenasPorLinha = Arrays.asList(c1,c2,c3,c4,c5);
+    	    	dezenas = getSorteador(qtdDezenasPorLinha);
+    	    	
+    	    	System.out.print("DEZENAS: getSorteador: ");
+    	    	for(int i : dezenas) {
+    	    		System.out.print(" " + i);
+    	    	}
+    	    	System.out.println("");
+    	    	
+    	    	Integer soma = 0;
+    	    	Integer impPar = 0;
+    	    	for(int i: dezenas) {
+    	    		if(i % 2 != 0) impPar++;
+    	    		soma += i;
+    	    	}
+    	   
+    	    	Button btn = new Button("X");
+    	    	Integer codigo = LS.codigoAtualApostas;
+    	    	
+    	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
+    	    	aposta.getAction().setOnAction((btnExcluir)->{
+    	    		defautButons();
+    	    		int id = aposta.getCodigo();
+    	    		System.out.println("Excluir Aposta: "+ id);
+    	    		int index = 0;
+    	    		int indexAC = -1;
+    	    		for(ApostaConcurso ac : LS.listaDeApostas) {
+    	    			Aposta a = ac.getAposta();
+    	    			if(a.getCodigo() == id) {
+    	    				indexAC = index;
+    	    			}
+    	    			index++;
+    	    		}
+    	    		LS.apostas.remove(indexAC);
+    	    		LS.listaDeApostas.remove(indexAC);
+    	    		refatoraCodigoApostas();//TODO refatoraCodigoApostas
+    				tvApostas.refresh();
+    				//LS.codigoAtualApostas--;
+    	    	});
+    	    	
+    	    	Contagem c = new Contagem();
+    	    	int mediaImpar = c.contagemDeImparesGeral(LS.ConcursosGeral);
+    	    	System.out.println("Meia Impares: " + mediaImpar);
+    	    	
+    	    	//DIFERENÇA DE 15 A 18 DEZENAS
+    	    	int imparDiferencial = mediaImpar;
+    	    	int qtdDezenasPorAposta = Integer.valueOf(txfQTDDezenasPorAposta.getText());
+    	    	if(qtdDezenasPorAposta > 15) {
+    	    		imparDiferencial = mediaImpar + (qtdDezenasPorAposta - 15);
+    	    		System.out.println("imparDiferencial: " + imparDiferencial);
+    	    	}
+    	    	
+    	    	if(impPar >=  imparDiferencial-1 && impPar <=  imparDiferencial+1) {    	    		
+    		    	
+    	    		Comparador comp = new Comparador();
+    	    		
+    	    		boolean comparadorApostas = comp.comparaApostas(aposta, LS.apostas);
+    	    		boolean comparadorConcursos = comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral);
+    	    		
+    	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comparadorApostas+" CONCURSOS: "+comparadorConcursos);
+    	    		
+    		    	if(!comparadorApostas && !comparadorConcursos) {
+    			    	
+    			    	Contagem cont = new Contagem();
+    		    		List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(LS.ConcursosGeral)));
+    		    		
+    		    		int somaAposta = cont.somaDezenasAposta(aposta);
+    		    		
+    		    		System.out.println("minimoEMaximo.get(0): "+minimoEMaximo.get(0)+"<= somaAposta: "+somaAposta+" && somaAposta: "+somaAposta+" <= minimoEMaximo.get(1): "+minimoEMaximo.get(1));
+    		    		if((minimoEMaximo.get(0) <= somaAposta) && (somaAposta <=  minimoEMaximo.get(1)) ) {   		   
+    		    			
+    		    			for(Aposta a: LS.auxConcursoPAposta3D) {
+    		    				LS.listApostasComparacao.add(a);
+    		    			}
+    		    			
+    		    			for(Aposta a: LS.apostas) {
+    		    				LS.listApostasComparacao.add(a);
+    		    			}
 	
-    	while(qtdApostas > 0) {
-    		
-    		setQTDDezenasPorLinha();
-    		
-	    	//inicializarSorteador();
-	    	
-	    	dezenas = new Integer[15];
-	    	
-	    	/*for(int i = 0; i < 15; i++) {
-	    		dezenas[i] = getSorteador();
-	    	}*/
-	    	int c1 = Integer.valueOf(txfC1.getText());
-	    	int c2 = Integer.valueOf(txfC2.getText());
-	    	int c3 = Integer.valueOf(txfC3.getText());
-	    	int c4 = Integer.valueOf(txfC4.getText());
-	    	int c5 = Integer.valueOf(txfC5.getText());
-	    	
-	    	System.out.println("C1: "+ c1 + " C2: "+ c2 + " C3: "+ c3 + " C4: "+ c4 + " C5: "+ c5);
-	    	
-	    	List<Integer> qtdDezenasPorLinha = Arrays.asList(c1,c2,c3,c4,c5);
-	    	dezenas = getSorteador(qtdDezenasPorLinha);
-	    	
-	    	Integer soma = 0;
-	    	Integer impPar = 0;
-	    	for(int i: dezenas) {
-	    		if(i % 2 != 0) impPar++;
-	    		soma += i;
-	    	}
-	   
-	    	Button btn = new Button("X");
-	    	//btn.setOnAction((btnExcluir)->{System.out.println("Vazio");});
-	    	//ad = new ApostaDAO();
-	    	//Integer CodigoMaximoAtual = LS.codigoAtualApostas /*ad.getCodigoAposta()*/;
-	    	Integer codigo = LS.codigoAtualApostas;
-	    	
-	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
-	    	aposta.getAction().setOnAction((btnExcluir)->{
-	    		defautButons();
-	    		int id = aposta.getCodigo();
-	    		System.out.println("Excluir Aposta: "+ id);
-	    		//apostaConcursos.remove(apostaConcursos.get(apostaConcursos.size()-1));
-	    		//LS.apostas.remove(aposta);
-	    		//LS.codigoAtualApostas--;
-	    		int index = 0;
-	    		int indexAC = -1;
-	    		for(ApostaConcurso ac : LS.listaDeApostas) {
-	    			Aposta a = ac.getAposta();
-	    			if(a.getCodigo() == id) {
-	    				indexAC = index;
-	    			}
-	    			index++;
-	    		}
-	    		LS.apostas.remove(indexAC);
-	    		LS.listaDeApostas.remove(indexAC);
-	    		refatoraCodigoApostas();//TODO refatoraCodigoApostas
-				tvApostas.refresh();
-				//LS.codigoAtualApostas--;
-	    	});
-	    	
-	    	Contagem c = new Contagem();
-	    	int mediaImpar = c.contagemDeImparesGeral(LS.ConcursosGeral);
-	    	System.out.println("Meia Impares: " + mediaImpar);
-	    	
-	    	if(impPar >= mediaImpar-1 && impPar <= mediaImpar+1) {
-	    		
-	    		/*LS.apostas.add(aposta);
-		    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
-		    	
-				LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-				
-				for(Aposta a : LS.apostas) {
-					System.out.println(a);
-				}
-	    	
-		    	qtdApostas--;*/
-		    	
-	    		Comparador comp = new Comparador();
-	    		
-	    		boolean comparadorApostas = comp.comparaApostas(aposta, LS.apostas);
-	    		boolean comparadorConcursos = comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral);
-	    		
-	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comparadorApostas+" CONCURSOS: "+comparadorConcursos);
-	    		
-		    	if(!comparadorApostas && !comparadorConcursos) {
-		    		/*		    		
-		    		LS.apostas.add(aposta);
-			    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
-			    	
-					LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-					
-					for(Aposta a : LS.apostas) {
-						System.out.println(a);
-					}
-		    	
-			    	qtdApostas--;*/
-			    	
-			    	Contagem cont = new Contagem();
-		    		List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(LS.ConcursosGeral)));
-		    		//txfMediaSomaMinima.setText(minimoEMaximo.get(0)+"");
-		    		//txfMediaSomaMaxima.setText(minimoEMaximo.get(1)+"");
-		    		
-		    		int somaAposta = cont.somaDezenasAposta(aposta);
-		    		
-		    		System.out.println("minimoEMaximo.get(0): "+minimoEMaximo.get(0)+"<= somaAposta: "+somaAposta+" && somaAposta: "+somaAposta+" <= minimoEMaximo.get(1): "+minimoEMaximo.get(1));
-		    		if((minimoEMaximo.get(0) <= somaAposta) && (somaAposta <=  minimoEMaximo.get(1)) ) {
-		    			/*LS.apostas.add(aposta);
-				    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
-				    	
-						LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-						tvApostas.refresh();
-						
-						for(Aposta a : LS.apostas) {
-							System.out.println(a);
-						}
-						LS.codigoAtualApostas++;
-				    	qtdApostas--;*/
-		    			
-		    			for(Aposta a: LS.auxConcursoPAposta3D) {
-		    				LS.listApostasComparacao.add(a);
-		    			}
-		    			
-		    			for(Aposta a: LS.apostas) {
-		    				LS.listApostasComparacao.add(a);
-		    			}
-		    			
-		    			
-		    			
-		    			Comparador comp2 = new Comparador();
-		    			int mediaDeComparacao = Integer.valueOf(txfMediaCompAposta.getText());
-		    			
-		    			//if(!LS.apostas.isEmpty()) {
-		    			if(!LS.listApostasComparacao.isEmpty()) {
-		    				int retornoMediaComparacao = (int) comp2.mediaApostaComparacaoListApostas(aposta, LS.listApostasComparacao);
-			    			if(retornoMediaComparacao >= mediaDeComparacao) {
-			    				System.out.println("MEDIA DE COMPARACAO: " + mediaDeComparacao);
-			    				
-			    				
-			    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
-			    				//TODO tornar controle de sequencia editavel
-			    				if(seq <= 7) {
-			    					
-			    					LS.apostas.add(aposta);
-							    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
-							    	
-									LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-									tvApostas.refresh();
-									
-									for(Aposta a : LS.apostas) {
-										System.out.println(a);
-									}
-									LS.codigoAtualApostas++;
-							    	qtdApostas--;
-			    					
-			    				}else {
-			    					System.out.println("QTD Sequencia indesejavel: " + seq);
-			    				}
-			    				
-			    				/*LS.apostas.add(aposta);
-						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
-						    	
-								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-								tvApostas.refresh();
-								
-								for(Aposta a : LS.apostas) {
-									System.out.println(a);
-								}
-								LS.codigoAtualApostas++;
-						    	qtdApostas--;*/
-			    			}else {
-			    				System.out.println("Media de Comparacao com as Apostas inadequado: " + retornoMediaComparacao);
-			    			}
-			    			
-		    			}else {
-		    				
-		    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
-		    				//TODO tornar controle de sequencia editavel
-		    				if(seq <= 7) {
-		    					
-		    					LS.apostas.add(aposta);
-						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
-						    	
-								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-								tvApostas.refresh();
-								
-								for(Aposta a : LS.apostas) {
-									System.out.println(a);
-								}
-								LS.codigoAtualApostas++;
-						    	qtdApostas--;
-		    					
-		    				}else {
-		    					System.out.println("QTD Sequencia indesejavel: " + seq);
-		    				}
-		    				
-		    				/*LS.apostas.add(aposta);
-					    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
-					    	
-							LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
-							tvApostas.refresh();
-							
-							for(Aposta a : LS.apostas) {
-								System.out.println(a);
-							}
-							LS.codigoAtualApostas++;
-					    	qtdApostas--;*/
-		    			}
-		    			
-		    		}else {
-		    			System.out.println("Soma Aposta inadeguado...");
-		    		}
-			    	
-			    	
-		    	}else {
-		    		System.out.println("Apostas iguais... Aposta: " + aposta.getDezenas());
-		    	}
-	    		
-	    	}else {
-	    		System.out.println("Media impar fora!");
-	    		//LS.codigoAtualApostas++;
-	    	}
-	    	
-	    	
+    		    			Comparador comp2 = new Comparador();
+    		    			int mediaDeComparacao = Integer.valueOf(txfMediaCompAposta.getText());
+    		    			
+    		    			//if(!LS.apostas.isEmpty()) {
+    		    			if(!LS.listApostasComparacao.isEmpty()) {
+    		    				int retornoMediaComparacao = (int) comp2.mediaApostaComparacaoListApostas(aposta, LS.listApostasComparacao);
+    			    			if(retornoMediaComparacao >= mediaDeComparacao) {
+    			    				System.out.println("MEDIA DE COMPARACAO: " + mediaDeComparacao);
+    			    				
+    			    				
+    			    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+    			    				//TODO tornar controle de sequencia editavel
+    			    				if(seq <= 7) {
+    			    					
+    			    					LS.apostas.add(aposta);
+    							    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+    							    	
+    									LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+    									tvApostas.refresh();
+    									
+    									for(Aposta a : LS.apostas) {
+    										System.out.println(a);
+    									}
+    									LS.codigoAtualApostas++;
+    							    	qtdApostas--;
+    			    					
+    			    				}else {
+    			    					System.out.println("QTD Sequencia indesejavel: " + seq);
+    			    				}
+    			    				
+    			    			}else {
+    			    				System.out.println("Media de Comparacao com as Apostas inadequado: " + retornoMediaComparacao);
+    			    			}
+    			    			
+    		    			}else {
+    		    				
+    		    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+    		    				//TODO tornar controle de sequencia editavel
+    		    				if(seq <= 7) {
+    		    					
+    		    					LS.apostas.add(aposta);
+    						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+    						    	
+    								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+    								tvApostas.refresh();
+    								
+    								for(Aposta a : LS.apostas) {
+    									System.out.println(a);
+    								}
+    								LS.codigoAtualApostas++;
+    						    	qtdApostas--;
+    		    					
+    		    				}else {
+    		    					System.out.println("QTD Sequencia indesejavel: " + seq);
+    		    				}
+
+    		    			}
+    		    			
+    		    		}else {
+    		    			System.out.println("Soma Aposta inadeguado...");
+    		    		}
+    			    	
+    			    	
+    		    	}else {
+    		    		System.out.println("Apostas iguais... Aposta: " + aposta.getDezenas());
+    		    	}
+    	    		
+    	    	}else {
+    	    		System.out.println("Media impar fora!");
+    	    		//LS.codigoAtualApostas++;
+    	    	}
+    	    	
+    	    	
+        	}
+        	
+        	ObservableList<Concurso> auxConcursos = FXCollections.observableArrayList();
+        	ObservableList<Integer> contagemDeDezenasApostas = FXCollections.observableArrayList();
+        	auxConcursos = Concurso.toConcursos(LS.apostas);
+        	Contagem auxCont = new Contagem();
+        	contagemDeDezenasApostas = auxCont.contagemConcursos(auxConcursos);
+        	for(int i = 0; i < contagemDeDezenasApostas.size(); i++) {
+        		System.out.println(" Dezena " + (i+1) + ": " +contagemDeDezenasApostas.get(i));
+        	}
+    	
+    }
+    
+    private void auxSorteador(int qtdApostas) {
+    	
+    	for(int j = 0; j < qtdApostas; j++) {
+    	
+     	//RE-CALCULANDO VALORES DO RANGE
+     	cd = new ConcursoDAO();
+    	LS.ConcursosRange3M = cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()));
+    	Contagem contAux = new Contagem();
+    	LS.contagemConcursosRange3M = contAux.contagemConcursos(LS.ConcursosRange3M);
+    	LS.mediaCorteLista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
+    	
+        	while(qtdApostas > 0) {
+        		
+        		setQTDDezenasPorLinha();
+    	    	
+    	    	dezenas = new Integer[Integer.valueOf(txfQTDDezenasPorAposta.getText())];
+
+    	    	int c1 = Integer.valueOf(txfC1.getText());
+    	    	int c2 = Integer.valueOf(txfC2.getText());
+    	    	int c3 = Integer.valueOf(txfC3.getText());
+    	    	int c4 = Integer.valueOf(txfC4.getText());
+    	    	int c5 = Integer.valueOf(txfC5.getText());
+    	    	
+    	    	System.out.println("C1: "+ c1 + " C2: "+ c2 + " C3: "+ c3 + " C4: "+ c4 + " C5: "+ c5);
+    	    	
+    	    	List<Integer> qtdDezenasPorLinha = Arrays.asList(c1,c2,c3,c4,c5);
+    	    	dezenas = getSorteador(qtdDezenasPorLinha);
+    	    	
+    	    	System.out.print("DEZENAS: getSorteador: ");
+    	    	for(int i : dezenas) {
+    	    		System.out.print(" " + i);
+    	    	}
+    	    	System.out.println("");
+    	    	
+    	    	Integer soma = 0;
+    	    	Integer impPar = 0;
+    	    	for(int i: dezenas) {
+    	    		if(i % 2 != 0) impPar++;
+    	    		soma += i;
+    	    	}
+    	   
+    	    	Button btn = new Button("X");
+    	    	Integer codigo = LS.codigoAtualApostas;
+    	    	
+    	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
+    	    	aposta.getAction().setOnAction((btnExcluir)->{
+    	    		defautButons();
+    	    		int id = aposta.getCodigo();
+    	    		System.out.println("Excluir Aposta: "+ id);
+    	    		int index = 0;
+    	    		int indexAC = -1;
+    	    		for(ApostaConcurso ac : LS.listaDeApostas) {
+    	    			Aposta a = ac.getAposta();
+    	    			if(a.getCodigo() == id) {
+    	    				indexAC = index;
+    	    			}
+    	    			index++;
+    	    		}
+    	    		LS.apostas.remove(indexAC);
+    	    		LS.listaDeApostas.remove(indexAC);
+    	    		refatoraCodigoApostas();//TODO refatoraCodigoApostas
+    				tvApostas.refresh();
+    				//LS.codigoAtualApostas--;
+    	    	});
+    	    	
+    	    	Contagem c = new Contagem();
+    	    	int mediaImpar = c.contagemDeImparesGeral(LS.ConcursosGeral);
+    	    	System.out.println("Meia Impares: " + mediaImpar);
+    	    	
+    	    	//DIFERENÇA DE 15 A 18 DEZENAS
+    	    	int imparDiferencial = mediaImpar;
+    	    	int qtdDezenasPorAposta = Integer.valueOf(txfQTDDezenasPorAposta.getText());
+    	    	if(qtdDezenasPorAposta > 15) {
+    	    		imparDiferencial = mediaImpar + (qtdDezenasPorAposta - 15);
+    	    		System.out.println("imparDiferencial: " + imparDiferencial);
+    	    	}
+    	    	
+    	    	if(impPar >=  imparDiferencial-1 && impPar <=  imparDiferencial+1) {    	    		
+    		    	
+    	    		Comparador comp = new Comparador();
+    	    		
+    	    		boolean comparadorApostas = comp.comparaApostas(aposta, LS.apostas);
+    	    		boolean comparadorConcursos = comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral);
+    	    		
+    	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comparadorApostas+" CONCURSOS: "+comparadorConcursos);
+    	    		
+    		    	if(!comparadorApostas && !comparadorConcursos) {
+    			    	
+    			    	Contagem cont = new Contagem();
+    		    		List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(LS.ConcursosGeral)));
+    		    		
+    		    		int somaAposta = cont.somaDezenasAposta(aposta);
+    		    		
+    		    		System.out.println("minimoEMaximo.get(0): "+minimoEMaximo.get(0)+"<= somaAposta: "+somaAposta+" && somaAposta: "+somaAposta+" <= minimoEMaximo.get(1): "+minimoEMaximo.get(1));
+    		    		if((minimoEMaximo.get(0) <= somaAposta) && (somaAposta <=  minimoEMaximo.get(1)) ) {   		   
+    		    			
+    		    			for(Aposta a: LS.auxConcursoPAposta3D) {
+    		    				LS.listApostasComparacao.add(a);
+    		    			}
+    		    			
+    		    			for(Aposta a: LS.apostas) {
+    		    				LS.listApostasComparacao.add(a);
+    		    			}
+	
+    		    			Comparador comp2 = new Comparador();
+    		    			int mediaDeComparacao = Integer.valueOf(txfMediaCompAposta.getText());
+    		    			
+    		    			//if(!LS.apostas.isEmpty()) {
+    		    			if(!LS.listApostasComparacao.isEmpty()) {
+    		    				int retornoMediaComparacao = (int) comp2.mediaApostaComparacaoListApostas(aposta, LS.listApostasComparacao);
+    			    			if(retornoMediaComparacao >= mediaDeComparacao) {
+    			    				System.out.println("MEDIA DE COMPARACAO: " + mediaDeComparacao);
+    			    				
+    			    				
+    			    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+    			    				//TODO tornar controle de sequencia editavel
+    			    				if(seq <= 7) {
+    			    					
+    			    					LS.apostas.add(aposta);
+    							    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+    			    					lvConsole.getItems().add(aposta.toString());
+    							    	
+    									LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+    									tvApostas.refresh();
+    									
+    									for(Aposta a : LS.apostas) {
+    										System.out.println(a);
+    									}
+    									LS.codigoAtualApostas++;
+    							    	qtdApostas--;
+    			    					
+    			    				}else {
+    			    					System.out.println("QTD Sequencia indesejavel: " + seq);
+    			    				}
+    			    				
+    			    			}else {
+    			    				System.out.println("Media de Comparacao com as Apostas inadequado: " + retornoMediaComparacao);
+    			    			}
+    			    			
+    		    			}else {
+    		    				
+    		    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+    		    				//TODO tornar controle de sequencia editavel
+    		    				if(seq <= 7) {
+    		    					
+    		    					LS.apostas.add(aposta);
+    						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+    						    	
+    								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+    								tvApostas.refresh();
+    								
+    								for(Aposta a : LS.apostas) {
+    									System.out.println(a);
+    								}
+    								LS.codigoAtualApostas++;
+    						    	qtdApostas--;
+    		    					
+    		    				}else {
+    		    					System.out.println("QTD Sequencia indesejavel: " + seq);
+    		    				}
+
+    		    			}
+    		    			
+    		    		}else {
+    		    			System.out.println("Soma Aposta inadeguado...");
+    		    		}
+    			    	
+    			    	
+    		    	}else {
+    		    		System.out.println("Apostas iguais... Aposta: " + aposta.getDezenas());
+    		    	}
+    	    		
+    	    	}else {
+    	    		System.out.println("Media impar fora!");
+    	    		//LS.codigoAtualApostas++;
+    	    	}
+    	    	
+    	    	
+        	}
+        	
+        	ObservableList<Concurso> auxConcursos = FXCollections.observableArrayList();
+        	ObservableList<Integer> contagemDeDezenasApostas = FXCollections.observableArrayList();
+        	auxConcursos = Concurso.toConcursos(LS.apostas);
+        	Contagem auxCont = new Contagem();
+        	contagemDeDezenasApostas = auxCont.contagemConcursos(auxConcursos);
+        	for(int i = 0; i < contagemDeDezenasApostas.size(); i++) {
+        		System.out.println(" Dezena " + (i+1) + ": " +contagemDeDezenasApostas.get(i));
+        	}
+        }
+    }
+    
+    private int auxSorteadorComRetorno(int qtdApostas) {
+    	
+    	int indexRetorno = 0;
+    	
+    	for(int j = 0; j < qtdApostas; j++) {
+    	
+     	//RE-CALCULANDO VALORES DO RANGE
+     	cd = new ConcursoDAO();
+    	LS.ConcursosRange3M = cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText()));
+    	Contagem contAux = new Contagem();
+    	LS.contagemConcursosRange3M = contAux.contagemConcursos(LS.ConcursosRange3M);
+    	LS.mediaCorteLista3Meses = listaTiraMediaDeCorte(LS.contagemConcursosRange3M, media(LS.contagemConcursosRange3M), 1, 1);
+    	
+        	while(qtdApostas > 0) {
+        		
+        		setQTDDezenasPorLinha();
+    	    	
+    	    	dezenas = new Integer[Integer.valueOf(txfQTDDezenasPorAposta.getText())];
+
+    	    	int c1 = Integer.valueOf(txfC1.getText());
+    	    	int c2 = Integer.valueOf(txfC2.getText());
+    	    	int c3 = Integer.valueOf(txfC3.getText());
+    	    	int c4 = Integer.valueOf(txfC4.getText());
+    	    	int c5 = Integer.valueOf(txfC5.getText());
+    	    	
+    	    	System.out.println("C1: "+ c1 + " C2: "+ c2 + " C3: "+ c3 + " C4: "+ c4 + " C5: "+ c5);
+    	    	
+    	    	List<Integer> qtdDezenasPorLinha = Arrays.asList(c1,c2,c3,c4,c5);
+    	    	dezenas = getSorteador(qtdDezenasPorLinha);
+    	    	
+    	    	System.out.print("DEZENAS: getSorteador: ");
+    	    	for(int i : dezenas) {
+    	    		System.out.print(" " + i);
+    	    	}
+    	    	System.out.println("");
+    	    	
+    	    	Integer soma = 0;
+    	    	Integer impPar = 0;
+    	    	for(int i: dezenas) {
+    	    		if(i % 2 != 0) impPar++;
+    	    		soma += i;
+    	    	}
+    	   
+    	    	Button btn = new Button("X");
+    	    	Integer codigo = LS.codigoAtualApostas;
+    	    	
+    	    	Aposta aposta = new Aposta(codigo, impPar, soma, dezenas, btn);
+    	    	aposta.getAction().setOnAction((btnExcluir)->{
+    	    		defautButons();
+    	    		int id = aposta.getCodigo();
+    	    		System.out.println("Excluir Aposta: "+ id);
+    	    		int index = 0;
+    	    		int indexAC = -1;
+    	    		for(ApostaConcurso ac : LS.listaDeApostas) {
+    	    			Aposta a = ac.getAposta();
+    	    			if(a.getCodigo() == id) {
+    	    				indexAC = index;
+    	    			}
+    	    			index++;
+    	    		}
+    	    		LS.apostas.remove(indexAC);
+    	    		LS.listaDeApostas.remove(indexAC);
+    	    		refatoraCodigoApostas();//TODO refatoraCodigoApostas
+    				tvApostas.refresh();
+    				//LS.codigoAtualApostas--;
+    	    	});
+    	    	
+    	    	Contagem c = new Contagem();
+    	    	int mediaImpar = c.contagemDeImparesGeral(LS.ConcursosGeral);
+    	    	System.out.println("Meia Impares: " + mediaImpar);
+    	    	
+    	    	//DIFERENÇA DE 15 A 18 DEZENAS
+    	    	int imparDiferencial = mediaImpar;
+    	    	int qtdDezenasPorAposta = Integer.valueOf(txfQTDDezenasPorAposta.getText());
+    	    	if(qtdDezenasPorAposta > 15) {
+    	    		imparDiferencial = mediaImpar + (qtdDezenasPorAposta - 15);
+    	    		System.out.println("imparDiferencial: " + imparDiferencial);
+    	    	}
+    	    	
+    	    	if(impPar >=  imparDiferencial-1 && impPar <=  imparDiferencial+1) {    	    		
+    		    	
+    	    		Comparador comp = new Comparador();
+    	    		
+    	    		boolean comparadorApostas = comp.comparaApostas(aposta, LS.apostas);
+    	    		boolean comparadorConcursos = comp.comparaApostaComConcursos(aposta, LS.ConcursosGeral);
+    	    		
+    	    		System.out.println("RETORNO COMPARADOR: APOSTAS: "+comparadorApostas+" CONCURSOS: "+comparadorConcursos);
+    	    		
+    		    	if(!comparadorApostas && !comparadorConcursos) {
+    			    	
+    			    	Contagem cont = new Contagem();
+    		    		List<Integer> minimoEMaximo =  cont.minimoEmaximoDeQTDDeSomasDeConcurso(cont.contagemDeFrequenciaDeSomas(cont.listSomaConcursos(LS.ConcursosGeral)));
+    		    		
+    		    		int somaAposta = cont.somaDezenasAposta(aposta);
+    		    		
+    		    		System.out.println("minimoEMaximo.get(0): "+minimoEMaximo.get(0)+"<= somaAposta: "+somaAposta+" && somaAposta: "+somaAposta+" <= minimoEMaximo.get(1): "+minimoEMaximo.get(1));
+    		    		if((minimoEMaximo.get(0) <= somaAposta) && (somaAposta <=  minimoEMaximo.get(1)) ) {   		   
+    		    			
+    		    			for(Aposta a: LS.auxConcursoPAposta3D) {
+    		    				LS.listApostasComparacao.add(a);
+    		    			}
+    		    			
+    		    			for(Aposta a: LS.apostas) {
+    		    				LS.listApostasComparacao.add(a);
+    		    			}
+	
+    		    			Comparador comp2 = new Comparador();
+    		    			int mediaDeComparacao = Integer.valueOf(txfMediaCompAposta.getText());
+    		    			
+    		    			//if(!LS.apostas.isEmpty()) {
+    		    			if(!LS.listApostasComparacao.isEmpty()) {
+    		    				int retornoMediaComparacao = (int) comp2.mediaApostaComparacaoListApostas(aposta, LS.listApostasComparacao);
+    			    			if(retornoMediaComparacao >= mediaDeComparacao) {
+    			    				System.out.println("MEDIA DE COMPARACAO: " + mediaDeComparacao);
+    			    				
+    			    				
+    			    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+    			    				//TODO tornar controle de sequencia editavel
+    			    				if(seq <= 7) {
+    			    					
+    			    					LS.apostas.add(aposta);
+    			    					indexRetorno = LS.apostas.size();
+    							    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+    							    	
+    									LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+    									tvApostas.refresh();
+    									
+    									for(Aposta a : LS.apostas) {
+    										System.out.println(a);
+    									}
+    									LS.codigoAtualApostas++;
+    							    	qtdApostas--;
+    			    					
+    			    				}else {
+    			    					System.out.println("QTD Sequencia indesejavel: " + seq);
+    			    				}
+    			    				
+    			    			}else {
+    			    				System.out.println("Media de Comparacao com as Apostas inadequado: " + retornoMediaComparacao);
+    			    			}
+    			    			
+    		    			}else {
+    		    				
+    		    				int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+    		    				//TODO tornar controle de sequencia editavel
+    		    				if(seq <= 7) {
+    		    					
+    		    					LS.apostas.add(aposta);
+    						    	//apostaConcursos.add(ApostaConcurso.toApostaConcurso(aposta));
+    						    	
+    								LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+    								tvApostas.refresh();
+    								
+    								for(Aposta a : LS.apostas) {
+    									System.out.println(a);
+    								}
+    								LS.codigoAtualApostas++;
+    						    	qtdApostas--;
+    		    					
+    		    				}else {
+    		    					System.out.println("QTD Sequencia indesejavel: " + seq);
+    		    				}
+
+    		    			}
+    		    			
+    		    		}else {
+    		    			System.out.println("Soma Aposta inadeguado...");
+    		    		}
+    			    	
+    			    	
+    		    	}else {
+    		    		System.out.println("Apostas iguais... Aposta: " + aposta.getDezenas());
+    		    	}
+    	    		
+    	    	}else {
+    	    		System.out.println("Media impar fora!");
+    	    		//LS.codigoAtualApostas++;
+    	    	}
+    	    	
+    	    	
+        	}
+        	
+        	ObservableList<Concurso> auxConcursos = FXCollections.observableArrayList();
+        	ObservableList<Integer> contagemDeDezenasApostas = FXCollections.observableArrayList();
+        	auxConcursos = Concurso.toConcursos(LS.apostas);
+        	Contagem auxCont = new Contagem();
+        	contagemDeDezenasApostas = auxCont.contagemConcursos(auxConcursos);
+        	for(int i = 0; i < contagemDeDezenasApostas.size(); i++) {
+        		System.out.println(" Dezena " + (i+1) + ": " +contagemDeDezenasApostas.get(i));
+        	}
+        }
+    	return indexRetorno;
+    }
+    
+    //REALIZA O SORTEIO DAS APOSTAS DERIVADAS OU DE SEQUENCIA DE DEZENAS FALTANTES
+    @FXML
+    void sortearDerivadas(ActionEvent event) {
+    	
+    	Aposta apostaSorteada = new Aposta();
+
+    	if(LS.apostas.isEmpty()) {
+    		txfQtdApostas.setText("1");
+    		sortear(new ActionEvent());
+    		apostaSorteada = LS.apostas.get(0);
+    		System.out.println(apostaSorteada);
+    	}else {
+    		System.out.println("Lista de apostas não esta vazia");
+    		apostaSorteada = LS.apostas.get(randons.get(radIn5.nextInt(5)).nextInt(LS.apostas.size()));
+    		System.out.println(apostaSorteada);
     	}
     	
-    	ObservableList<Concurso> auxConcursos = FXCollections.observableArrayList();
-    	ObservableList<Integer> contagemDeDezenasApostas = FXCollections.observableArrayList();
-    	auxConcursos = Concurso.toConcursos(LS.apostas);
-    	Contagem auxCont = new Contagem();
-    	contagemDeDezenasApostas = auxCont.contagemConcursos(auxConcursos);
-    	for(int i = 0; i < contagemDeDezenasApostas.size(); i++) {
-    		System.out.println(" Dezena " + (i+1) + ": " +contagemDeDezenasApostas.get(i));
+    	List<Integer> dezenasEspelho = apostaSorteada.DezNaoSorteadas();
+    	System.out.println(dezenasEspelho);
+    	
+    	int qtdDerivadas = Integer.valueOf(txfDerivadasQTD.getText());
+    	int derivacao = Integer.valueOf(txfDerivadasDerivacao.getText());
+    	int contDerivacao = 0;
+    	
+    	Comparador comparadorDerivado = new Comparador();
+    	ObservableList<Aposta> listaParaComparacao = FXCollections.observableArrayList();
+    	
+    	while(qtdDerivadas > 0) {
+    		while(contDerivacao < derivacao) {
+    			
+    			Aposta aposta = new Aposta(apostaSorteada.getCodigo(), apostaSorteada.getImpPar(), apostaSorteada.getSoma(), apostaSorteada.getDezenas(), apostaSorteada.getAction());
+    			
+    			int indexDeAlteracao = randons.get(radIn5.nextInt(5)).nextInt(aposta.getDezenas().length);
+    			int indexDoEspelho = randons.get(radIn5.nextInt(5)).nextInt(dezenasEspelho.size());
+    			
+    			System.out.println("IndexDeAlteracao: " + indexDeAlteracao + " indexDoEspelho: " + indexDoEspelho);
+    			
+    			aposta.setDezenaEmDezenas(indexDeAlteracao, dezenasEspelho.get(indexDoEspelho));
+    			
+    			if(comparadorDerivado.comparaApostaComApostasEConcuros(aposta, LS.apostas, LS.ConcursosGeral)) {
+    				
+    				listaParaComparacao.clear();
+    				listaParaComparacao.add(aposta);
+    				
+    				int mediaComparacao = comparadorDerivado.contadorDeDezenasIguaisMAX(aposta.toConcurso(), LS.toObsConcursos(LS.apostas));
+    				int valorDaDiferencaComDerivacao = (aposta.getDezenas().length - (contDerivacao+1));
+    				
+    				//COMPARACAO COM O FATOR DE DERIVAÇÃO
+    				if( mediaComparacao == valorDaDiferencaComDerivacao) {
+    					
+    					int impar = Integer.valueOf(txfMediaImpar.getText());
+    					int imparDaAposta = LS.verificaImpar(aposta.getDezenas());
+    					//VERIFICANDO A QUANTIDADE DE IMPAR.
+    					if((imparDaAposta >= impar-1) && (imparDaAposta <= impar+1)) {
+    						
+    						//VERIFICA A SOMA DAS DEZENAS
+    						int menorSoma = Integer.valueOf(txfMediaSomaMinima.getText());
+    						int maiorSoma = Integer.valueOf(txfMediaSomaMaxima.getText());
+    						int soma = LS.somaDezenas(aposta.getDezenas());
+    						
+    						if((menorSoma <= soma) && (soma <= maiorSoma)) {
+    							
+    							//VERIFICA SEQUENCIA DAS DERIVADAS
+    							int sequenciaMaxima = Integer.valueOf(txfSequenciaMaxima.getText());
+    							int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
+    							if(seq <= sequenciaMaxima) {
+    								
+    								
+    								LS.codigoAtualApostas++;
+    					    		
+    					    		Aposta nova = new Aposta(LS.codigoAtualApostas, imparDaAposta, soma, aposta.getDezenas(), new Button("X"));
+    					    		nova.getAction().setOnAction((btnExcluir)->{
+    						    		defautButons();
+    						    		int id = nova.getCodigo();
+    						    		System.out.println("Excluir Aposta: "+ id);
+    						    		//apostaConcursos.remove(apostaConcursos.get(apostaConcursos.size()-1));
+    						    		//LS.apostas.remove(aposta);
+    						    		//LS.codigoAtualApostas--;
+    						    		int index = 0;
+    						    		int indexAC = -1;
+    						    		for(ApostaConcurso ac : LS.listaDeApostas) {
+    						    			Aposta a = ac.getAposta();
+    						    			if(a.getCodigo() == id) {
+    						    				indexAC = index;
+    						    			}
+    						    			index++;
+    						    		}
+    						    		LS.apostas.remove(indexAC);
+    						    		LS.listaDeApostas.remove(indexAC);
+    						    		refatoraCodigoApostas();//TODO refatoraCodigoApostas
+    									tvApostas.refresh();
+    									//LS.codigoAtualApostas--;
+    						    	});
+    					    		
+    					    		LS.apostas.add(nova);
+    					    		LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(nova));
+    					    		tvApostas.refresh();
+    								
+    					    		for(Aposta aposta2: LS.apostas) {
+    					    			System.out.println(aposta2);
+    					    		}
+    					    		
+    					    		contDerivacao++;
+    					    		qtdDerivadas++;
+    								
+    							}else {
+    								System.out.println("Sequencia inadequada seq: " + seq + " Sequencia Maxima: " + sequenciaMaxima);
+    							}
+    							
+    							
+    						}else {
+    							System.out.println("Apostas Derivadas Soma de dezenas inadequada. SOMA: " + soma + " MenorSoma: "+ menorSoma + " MaiorSoma: " + maiorSoma);
+    						}
+    						
+    						
+    					}else {
+    						System.out.println("Aposta derivada qtd de impares forado range: impar: "+ impar + " Impar da Aposta: " + imparDaAposta);
+    					}
+    					
+    				}else {
+    					System.out.println("Comparacao da aposta de referencia inadeguado: media Comparada: " + mediaComparacao + " Valor da Diferenca: " + valorDaDiferencaComDerivacao );
+    				}
+    				
+    			}else {
+    				System.out.println("Dericavas comparador erro apostas iguais.");
+    			}
+    		}
+    		
+    		contDerivacao = 0;
+    		System.out.println("eita estou no loop ainda!");
     	}
     	
     }
@@ -739,6 +1205,142 @@ public class SampleFullController implements Initializable {
     	tvApostas.refresh();
     }
     
+    @FXML
+    void compararApostaComConcursos(ActionEvent event) {
+
+    	lvComparacaoConcurso.getItems().clear();
+    	lblContagemDeDezenas.setText("0");
+    	
+    	Comparador comparadorAC = new Comparador();
+    	
+    	if(!cbSelecionarConcurso.getSelectionModel().isEmpty()) {
+    		Concurso concurso = cbSelecionarConcurso.getSelectionModel().getSelectedItem();
+    		
+    		System.out.println(concurso);
+    		
+    		if(LS.apostas.isEmpty()) {
+    			sortear(new ActionEvent());
+    		}
+    		
+    		//int dez11a15 = cbSelecionarDezenas11a15.getSelectionModel().getSelectedItem();
+    		Operacao op = cbSelecionarDezenas11a15.getSelectionModel().getSelectedItem();
+    		
+    		System.out.println("DEZ11A15 : " + op);
+    		
+    		int cont = 0;
+    		
+    		if(op == Operacao.SEQUENCIA) {
+    			
+    			txfQtdApostas.setText("1");
+    			
+    			LS.apostas.clear();
+				
+    			tarefa = new Thread(new Runnable() {
+    				
+    				@Override
+    				public void run() {
+
+    					int contAux = 0;
+    					
+    					while(true) {
+    						
+    						auxSorteador(1);
+        					
+        					Aposta aposta = LS.apostas.get(LS.apostas.size()-1);
+        					int dez = comparadorAC.contadorDeDezenasIguais(concurso, aposta.toConcurso());
+        					lvComparacaoConcurso.getItems().add("Concurso: " + aposta.getCodigo() + " Dezenas: " + dez);
+        					contAux++;
+        					
+        					if(Thread.currentThread().isInterrupted()) {
+        						Thread.currentThread().interrupt();
+        						break;
+        					}
+        					
+        					lblContagemDeDezenas.setText(contAux+"");
+    					}
+    				}
+    			});
+    			tarefa.setName("THREAD-COMPARADOR");
+    			tarefa.start();
+			}
+    		
+    		if(op == Operacao.COMPCONCURSOS) {
+    			
+    			tarefa = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						int contAux = 0;
+						int [] comparante = new int[15];
+						for(int i = 0; i < LS.ConcursosGeral.size(); i++) {
+							int dez = comparadorAC.contadorDeDezenasIguais(LS.ConcursosGeral.get(i+1), LS.ConcursosGeral.get(i));							
+							comparante[dez]++;
+							String contagem = ""; 
+							for(int j = 0; j < comparante.length; j++) {
+								contagem = contagem + " " + j + ": " + comparante[j];
+							}
+        					lvComparacaoConcurso.getItems().add("Concurso: " + LS.ConcursosGeral.get(i+1).getConcurso() + " Dezenas: " + dez + " " + contagem);
+        					contAux++;
+						}
+						lblContagemDeDezenas.setText(contAux+"");
+					}
+				});
+    			tarefa.start();
+    		}
+    		
+    		for(Aposta apostaConcurso : LS.apostas) {
+    			int dez = comparadorAC.contadorDeDezenasIguais(concurso, apostaConcurso.toConcurso());
+    			
+    			//dez11a15 = cbSelecionarDezenas11a15.getSelectionModel().getSelectedItem();
+    			
+    			if(op == Operacao.SORTEAVEIS) {
+    				lvComparacaoConcurso.getItems().add("Concurso: " + apostaConcurso.getCodigo() + " Dezenas: " + dez);
+					cont++;
+    			}
+    								
+    			
+    				switch (op) {
+    				/*case 0:
+    					lvComparacaoConcurso.getItems().add("Concurso: " + apostaConcurso.getCodigo() + " Dezenas: " + dez);
+    					cont++;
+    					break;*/
+    				case SORTEAVEIS_11:
+    					lvComparacaoConcurso.getItems().add("Concurso: " + apostaConcurso.getCodigo() + " Dezenas: " + dez);
+    					cont++;
+    					break;
+    				case SORTEAVEIS_12:
+    					lvComparacaoConcurso.getItems().add("Concurso: " + apostaConcurso.getCodigo() + " Dezenas: " + dez);
+    					cont++;
+    					break;
+    				case SORTEAVEIS_13:
+    					lvComparacaoConcurso.getItems().add("Concurso: " + apostaConcurso.getCodigo() + " Dezenas: " + dez);
+    					cont++;
+    					break;
+    				case SORTEAVEIS_14:
+    					lvComparacaoConcurso.getItems().add("Concurso: " + apostaConcurso.getCodigo() + " Dezenas: " + dez);
+    					cont++;
+    					break;
+    				case SORTEAVEIS_15:
+    					lvComparacaoConcurso.getItems().add("Concurso: " + apostaConcurso.getCodigo() + " Dezenas: " + dez);
+    					cont++;
+    					break;
+    				default:
+    					break;
+    				}
+    						
+    		}
+    		
+    		lblContagemDeDezenas.setText(cont+"");
+    	}
+    	
+    }
+    
+    @FXML
+    void encerrarProcesso(ActionEvent event) {
+    	tarefa.interrupt();
+
+    }
+    
     private void defautButons() {
     	btn01.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
 		btn02.setStyle("-fx-background-color:  #f3d9fa; -fx-text-fill: #ae3ec9;");
@@ -800,6 +1402,7 @@ public class SampleFullController implements Initializable {
     //SORTEIA AS DEZENAS POR LINHA  DE 1 A 5
     public Integer[] getSorteador(List<Integer> qtdDezenasPorLinha) {
     	
+    	System.out.println(" qtdDezenasPorLinha: " + qtdDezenasPorLinha);
     	int dezenasPorAposta = Integer.valueOf(txfQTDDezenasPorAposta.getText());
     	//TODO Quantia de dezenas por sorteio e fixa aqui
     	Integer[] dezenas = new Integer[dezenasPorAposta];
@@ -905,7 +1508,8 @@ public class SampleFullController implements Initializable {
     	for(int d : qtdDezenasPorLinha) {
     		int index = 0;
     		for(int i = d; i > 0; i--) {
-    			if(indexDezenas > 14) {
+    			//if(indexDezenas > 14) {
+    			if(indexDezenas > (dezenasPorAposta-1)) {
     				break;
     			}
     			
@@ -1002,10 +1606,12 @@ public class SampleFullController implements Initializable {
     
     //ESPECIFICA A QUANTIDADE DE DEZENAS SORTEADAS POR LINHA
     public void setQTDDezenasPorLinha() {
+    	
     	Contagem cont = new Contagem();
     	List<ObservableList<Integer>> qtdLinhas = cont.quantidadeDezenasSorteadasPorLinhaDe0a5(cd.listaDeConcursos(Integer.valueOf(txfRangeConcursos.getText())));
+    	System.out.println("QTDLINHAS: " + qtdLinhas);
     	List<Integer> dezenasPorLinha = cont.fatorMediaDezenasPorLinha(qtdLinhas);
-    	
+    	System.out.println("DEZENASPORLINHA: " + dezenasPorLinha);
     	for(int i = 0 ; i < dezenasPorLinha.size(); i++) {
     		if(dezenasPorLinha.get(i) != 0) {
     			if(rad.nextInt(2) == 1) {
@@ -1218,10 +1824,27 @@ public class SampleFullController implements Initializable {
 			somaSeq += seq;
 			contSeq++;
 			System.out.print("Concurso: " + c.getConcurso() +" Sequencia: " + seq + " Media: " + (somaSeq/contSeq) + " SeqSequencia[]: ");
+			lvConsole.getItems().add(("Concurso: " + c.getConcurso() +" Sequencia: " + seq + " Media: " + (somaSeq/contSeq) + " SeqSequencia[]: "));
 			for(int i = 0 ; i < seqSequencias.length; i++) System.out.print(" [" + seqSequencias[i] + "] ");
+			for(int i = 0 ; i < seqSequencias.length; i++) System.out.print(lvConsole.getItems().add(" [" + seqSequencias[i] + "] "));
 			System.out.println(" ");
 		}
+		
+		cbSelecionarConcurso.setItems(LS.ConcursosGeral);
+		ObservableList<Integer> ob11a15 = FXCollections.observableArrayList();
+		ob11a15.setAll(Arrays.asList(0,11,12,13,14,15,20));
+		cbSelecionarDezenas11a15.setItems(FXCollections.observableArrayList(Operacao.values()));
+		
+		
 	
 	}
 
+}
+
+class Tarefa extends Thread{
+	@Override
+	public void run() {
+		SampleFullController sampleFullController = new SampleFullController();
+		
+	}
 }

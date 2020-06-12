@@ -120,4 +120,13 @@ public class Comparador {
 		
 		return media = (media/qtdApostas);
 	}
+	
+	//COMPARANDO COM A LISTA DE APOSTAS E DE CONCURSOS
+	public boolean comparaApostaComApostasEConcuros(Aposta aposta, ObservableList<Aposta> apostas, ObservableList<Concurso> concursos) {	
+		if(comparaApostas(aposta, apostas) || comparaApostaComConcursos(aposta, concursos)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

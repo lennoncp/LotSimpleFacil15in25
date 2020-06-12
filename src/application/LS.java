@@ -1,5 +1,9 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
@@ -35,5 +39,71 @@ public class LS {
     //LISTA PARA MEDIA DE COMPARACAO
     public static ObservableList<Aposta> auxConcursoPAposta3D = FXCollections.observableArrayList(); 
   	public static ObservableList<Aposta> listApostasComparacao = FXCollections.observableArrayList();
-
+  	
+	public static void removeValorDaListaDeLinhas(List<Integer> lista, int valor){	 	
+	 	while(lista.contains(valor)) {
+	 		for(int i = 0; i < lista.size(); i++) {
+	     		if(lista.get(i) == valor) {	     			
+	     			System.out.println("lista.get(i): " + lista.get(i) + " Valor: " + valor + " Lista: " + lista + " i: " + i);	     			
+	     			lista.remove(i);
+	     		}
+	     	}
+	 	}
+	 	
+	}
+	
+	public static Integer verificaImpar(List<Integer> lista) {
+		int cont = 0;
+		for(int i : lista) {
+			if(i % 2 != 0) {
+				cont++;
+			}
+		}
+		
+		return cont;
+	}
+	
+	public static Integer verificaImpar(Integer[] lista) {
+		int cont = 0;
+		for(int i : lista) {
+			if(i % 2 != 0) {
+				cont++;
+			}
+		}
+		
+		return cont;
+	}
+	
+	public static Integer somaDezenas(List<Integer> lista) {
+		Integer soma = 0;
+		for(int i : lista) {
+			soma += i;
+		}
+		return soma;
+	}
+	
+	public static Integer somaDezenas(Integer[] lista) {
+		Integer soma = 0;
+		for(int i : lista) {
+			soma += i;
+		}
+		return soma;
+	}
+	
+	public static Concurso toConcurso(Aposta aposta) {
+		List<Integer> dezenas = new ArrayList<Integer>();
+		for(int i = 0; i < aposta.getDezenas().length; i++) {
+			dezenas.add(aposta.getDezenas()[i]);
+		}
+		return new Concurso(aposta.getCodigo(), new Date(), dezenas);
+	}
+	
+	public static ObservableList<Concurso> toObsConcursos(ObservableList<Aposta> apostas){
+		ObservableList<Concurso> concursos = FXCollections.observableArrayList();
+		for(Aposta aposta : apostas) {
+			concursos.add(aposta.toConcurso());
+		}
+		return concursos;
+	}
+	
 }
