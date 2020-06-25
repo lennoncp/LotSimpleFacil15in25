@@ -604,6 +604,7 @@ public class SampleFullController implements Initializable {
     	    	});
     	    	
     	    	Contagem c = new Contagem();
+    	    	System.out.println("Lita Geral Size: " + LS.ConcursosGeral.size() );
     	    	int mediaImpar = c.contagemDeImparesGeral(LS.ConcursosGeral);
     	    	System.out.println("Meia Impares: " + mediaImpar);
     	    	
