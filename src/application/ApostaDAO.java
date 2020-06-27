@@ -118,12 +118,23 @@ public class ApostaDAO {
 					dezenas[i] = listaDezenas.get(i);
 				}
 				
-				Button action = new Button("---");
+				Button action = new Button("ADD");
 				Aposta aposta = new Aposta(rs.getInt("codigo"), impPar, soma, dezenas, action);
 				aposta.getAction().setOnAction((evento)->{
-					apostas.remove(aposta);
+					aposta.getAction().setText("X");
+					aposta.getAction().setOnAction((eventoI)->{
+						LS.apostas.remove(aposta);
+						
+						for(Aposta a : LS.apostas) {
+							LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(a));
+						}
+						LS.tvApostas.refresh();
+					});
+					LS.apostas.add(aposta);
+					LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(aposta));
+					LS.tvApostas.refresh();
 				});
-				aposta.getAction().setDisable(true);
+				//aposta.getAction().setDisable(true);
 				
 				//TODO System.out.println("Apostas DB aposta: " + aposta);
 				

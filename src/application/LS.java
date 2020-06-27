@@ -6,9 +6,12 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 public class LS {
+	
+	public static TableView<ApostaConcurso> tvApostas = new TableView<ApostaConcurso>();
 	
 	public static Integer codigoUltimaApostaSalvaBD = new Integer(0);
 	public static Integer codigoAtualApostas = new Integer(0);

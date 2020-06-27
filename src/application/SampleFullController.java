@@ -952,16 +952,16 @@ public class SampleFullController implements Initializable {
     	ObservableList<Aposta> listaParaComparacao = FXCollections.observableArrayList();
     	
     	while(qtdDerivadas > 0) {
-    		while(contDerivacao < derivacao) {
+    		while(contDerivacao < derivacao) { 
     			
     			Aposta aposta = new Aposta(apostaSorteada.getCodigo(), apostaSorteada.getImpPar(), apostaSorteada.getSoma(), apostaSorteada.getDezenas(), apostaSorteada.getAction());
     			
     			int indexDeAlteracao = randons.get(radIn5.nextInt(5)).nextInt(aposta.getDezenas().length);
-    			int indexDoEspelho = randons.get(radIn5.nextInt(5)).nextInt(dezenasEspelho.size());
+    			int indexDoEspelho = randons.get(radIn5.nextInt(5)).nextInt(dezenasEspelho.size());         
     			
     			System.out.println("IndexDeAlteracao: " + indexDeAlteracao + " indexDoEspelho: " + indexDoEspelho);
     			
-    			aposta.setDezenaEmDezenas(indexDeAlteracao, dezenasEspelho.get(indexDoEspelho));
+    			aposta.setDezenaEmDezenas(indexDeAlteracao, dezenasEspelho.get(indexDoEspelho));  /*
     			
     			if(comparadorDerivado.comparaApostaComApostasEConcuros(aposta, LS.apostas, LS.ConcursosGeral)) {
     				
@@ -975,14 +975,14 @@ public class SampleFullController implements Initializable {
     				if( mediaComparacao == valorDaDiferencaComDerivacao) {
     					
     					int impar = Integer.valueOf(txfMediaImpar.getText());
-    					int imparDaAposta = LS.verificaImpar(aposta.getDezenas());
+    				*/	int imparDaAposta = LS.verificaImpar(aposta.getDezenas()); /*
     					//VERIFICANDO A QUANTIDADE DE IMPAR.
     					if((imparDaAposta >= impar-1) && (imparDaAposta <= impar+1)) {
     						
     						//VERIFICA A SOMA DAS DEZENAS
     						int menorSoma = Integer.valueOf(txfMediaSomaMinima.getText());
     						int maiorSoma = Integer.valueOf(txfMediaSomaMaxima.getText());
-    						int soma = LS.somaDezenas(aposta.getDezenas());
+    					*/	int soma = LS.somaDezenas(aposta.getDezenas()); /*
     						
     						if((menorSoma <= soma) && (soma <= maiorSoma)) {
     							
@@ -991,7 +991,7 @@ public class SampleFullController implements Initializable {
     							int seq = Sequencia.contDezenasEmSequencia(aposta.toConcurso());
     							if(seq <= sequenciaMaxima) {
     								
-    								
+    								*/
     								LS.codigoAtualApostas++;
     					    		
     					    		Aposta nova = new Aposta(LS.codigoAtualApostas, imparDaAposta, soma, aposta.getDezenas(), new Button("X"));
@@ -1020,14 +1020,14 @@ public class SampleFullController implements Initializable {
     					    		
     					    		LS.apostas.add(nova);
     					    		LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(nova));
-    					    		tvApostas.refresh();
+    					    		tvApostas.refresh();/*
     								
     					    		for(Aposta aposta2: LS.apostas) {
     					    			System.out.println(aposta2);
     					    		}
     					    		
-    					    		contDerivacao++;
-    					    		qtdDerivadas++;
+    					    	*/	contDerivacao++;
+    					    		qtdDerivadas--; /*
     								
     							}else {
     								System.out.println("Sequencia inadequada seq: " + seq + " Sequencia Maxima: " + sequenciaMaxima);
@@ -1050,10 +1050,12 @@ public class SampleFullController implements Initializable {
     			}else {
     				System.out.println("Dericavas comparador erro apostas iguais.");
     			}
-    		}
+    			
+  */  		System.out.println(" qtdDerivadas: " + qtdDerivadas + " Derivadas: " + derivacao + " ContDerivacao: " + contDerivacao);
+    		} 
     		
     		contDerivacao = 0;
-    		System.out.println("eita estou no loop ainda!");
+    		System.out.println("eita estou no loop ainda! qtdDerivadas: " + qtdDerivadas + " Derivadas: " + derivacao + " ContDerivacao: " + contDerivacao);
     	}
     	
     }
@@ -1089,87 +1091,93 @@ public class SampleFullController implements Initializable {
     	
     	defautButons();
     	
-    	for(int d : tvApostas.getSelectionModel().getSelectedItem().getDezenas()) {
-    		switch (d) {
-			case 1:
-				btn01.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 2:
-				btn02.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 3:
-				btn03.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 4:
-				btn04.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 5:
-				btn05.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 6:
-				btn06.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 7:
-				btn07.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 8:
-				btn08.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 9:
-				btn09.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 10:
-				btn10.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 11:
-				btn11.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 12:
-				btn12.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 13:
-				btn13.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 14:
-				btn14.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 15:
-				btn15.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 16:
-				btn16.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 17:
-				btn17.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 18:
-				btn18.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 19:
-				btn19.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 20:
-				btn20.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 21:
-				btn21.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 22:
-				btn22.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 23:
-				btn23.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 24:
-				btn24.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			case 25:
-				btn25.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
-				break;
-			default:
-				break;
-			}
+    	if(!tvApostas.getItems().isEmpty()) {
+    		
+    		for(int d : tvApostas.getSelectionModel().getSelectedItem().getDezenas()) {
+        		switch (d) {
+    			case 1:
+    				btn01.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 2:
+    				btn02.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 3:
+    				btn03.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 4:
+    				btn04.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 5:
+    				btn05.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 6:
+    				btn06.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 7:
+    				btn07.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 8:
+    				btn08.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 9:
+    				btn09.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 10:
+    				btn10.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 11:
+    				btn11.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 12:
+    				btn12.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 13:
+    				btn13.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 14:
+    				btn14.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 15:
+    				btn15.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 16:
+    				btn16.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 17:
+    				btn17.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 18:
+    				btn18.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 19:
+    				btn19.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 20:
+    				btn20.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 21:
+    				btn21.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 22:
+    				btn22.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 23:
+    				btn23.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 24:
+    				btn24.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			case 25:
+    				btn25.setStyle("-fx-background-color:  #be4bdb; -fx-text-fill: #f8f0fc;");
+    				break;
+    			default:
+    				break;
+    			}
+        	}
+    		
     	}
+    	
+    	
     }
     
     @FXML
@@ -1177,13 +1185,17 @@ public class SampleFullController implements Initializable {
     	System.out.println("Realizar mudança");
     	defautButons();
     	if(tvApostas.getItems().size() > 1000) {
+    		LS.listaDeApostas.clear();
+    		for(Aposta a : LS.apostas) {
+    			LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(a));
+    		}		
     		tvApostas.setItems(LS.listaDeApostas);
     		tvApostas.refresh();
     		btnConcursoApostaChange.setText("C");
     	}else {
     		
-    		cd = new ConcursoDAO();
-    		LS.ConcursosGeral = cd.listaDeConcursos(cd.maxConcurso());
+    		//cd = new ConcursoDAO();
+    		//LS.ConcursosGeral = cd.listaDeConcursos(cd.maxConcurso());
     		
     		//TODO LISTAGEM DE CONCURSOS GERAL
     		for(Concurso c: LS.ConcursosGeral) {
@@ -1538,7 +1550,9 @@ public class SampleFullController implements Initializable {
     			break;
     			case 3:
     				//index = rad.nextInt(linha3.size());
-    				index = randons.get(radIn5.nextInt(5)).nextInt(linha3.size());
+    				int rr = radIn5.nextInt(5);
+    				System.out.println("RR: " + rr);
+    				index = randons.get(rr).nextInt(linha3.size());
     				//dezenas[indexDezenas++] = linha3.get(index);
     				valor = linha3.get(index);
     				dezenas[indexDezenas] = valor;
@@ -1729,6 +1743,8 @@ public class SampleFullController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		LS.tvApostas = tvApostas;
 		
 		LS.apostas = apostas;
 		
