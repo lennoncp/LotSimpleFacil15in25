@@ -1767,7 +1767,7 @@ public class SampleFullController implements Initializable {
 		LS.Concursos13D = cd.listaDeConcursos(13);
 		
 		cd = new ConcursoDAO();
-		LS.Concursos3D = cd.listaDeConcursos(2);
+		LS.Concursos3D = cd.listaDeConcursos(3); //DOS TRES ULTIMOS SORTEIOS PARA OU 13 ULTIMOS
 		System.out.println("LS.Concursos3D SIZE: " + LS.Concursos3D.size());
 		
 		//CONVERTENDO OS 13 UTIMOS CONCURSOS PARA APOSTA

@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 
+import application.*;
+
 public class ApostaConcurso {
 	
 	private Integer codigo;
@@ -97,7 +99,12 @@ public class ApostaConcurso {
 				impar++;
 			}
 		}
-		Button button = new Button("---");
+		Button button = new Button("ADD");
+		button.setOnAction((evento)->{
+			LS.apostas.add(concurso.toAposta());
+			LS.listaDeApostas.add(ApostaConcurso.toApostaConcurso(concurso));
+			LS.tvApostas.refresh();
+		});
 		ApostaConcurso ac = new ApostaConcurso(concurso.getConcurso(), impar, soma, FXCollections.observableArrayList(concurso.getDezenas()), button);
 		return ac;
 	}
