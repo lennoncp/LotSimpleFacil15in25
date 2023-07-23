@@ -25,7 +25,7 @@
     </plugins>
   </build>
 	<properties>
-		<itext.version>RELEASE</itext.version>
+		<itext.version>7.1.18</itext.version>
 	</properties>
 	<dependencies>
 		<!--  add all iText 7 modules  -->
